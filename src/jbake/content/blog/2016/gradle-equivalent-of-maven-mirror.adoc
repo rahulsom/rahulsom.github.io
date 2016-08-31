@@ -1,0 +1,45 @@
+= Gradle Equivalent of Maven Mirror
+Rahul Somasunderam
+2016-08-31
+:jbake-type: post
+:jbake-status: published
+:jbake-tags: fitness, tracker, bodybugg, fitbit, fuelband, basis
+:idprefix:
+:icons: font
+
+Maven has a way to configure mirrors in `settings.xml`. Gradle doesn't have a direct analogue to it, but what it has is really nice. Also it's _underdocumented_.
+
+Let's say you're using gradle at work, and you want to use your company's maven mirror.
+You might want to do this for numerous reasons.
+
+* The connection to the open internet is very slow
+* The connection to the open internet protected by a proxy that prevents access to maven central
+* You want to audit what is being used in projects at work
+
+Let's say your maven mirror's url is `http://repo.internal.example.com/releases`
+
+Just create a file called `init.gradle` under `$USER_HOME/.gradle` with this in it
+
+[source,groovy]
+----
+allprojects { // <1>
+  buildscript { // <2>
+    repositories {
+      mavenLocal() // <3>
+      maven { url "http://repo.internal.example.com/releases" } // <4>
+    }
+  }
+  repositories { // <5>
+    mavenLocal()
+    maven { url "http://repo.internal.example.com/releases" }
+  }
+}
+----
+
+<1> This says we want to apply to all projects on this machine.
+<2> This says you want to modify the build script dependencies too. This will make gradle plugins and build dependencies also use your mirror.
+<3> This says to look in maven local first. That's typically your `$USER_HOME/.m2/repository` directory.
+<4> This says to look at your maven mirror next if the artifact could not be found.
+<5> This says to do the same set of changes for non-build dependencies of your gradle projects.
+
+You can find more information on what else you can do with init scripts https://docs.gradle.org/current/userguide/init_scripts.html[here].
