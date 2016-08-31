@@ -1,0 +1,18 @@
+= About
+Rahul Somasunderam
+2016-08-30
+:jbake-type: page
+:jbake-status: published
+
+{nbsp}
+
+I am a software engineer with lots of experience in JVM langguages.
+I work in Healthcare, and contribute to Open Source as much as I can.
+
+I also talk a lot about cycling.
+
+== Talks
+Gr8ConfUS 2015::
+    Getting Groovy with iOS Development
+SpringOne2GX 2015::
+    Better iOS Development with Groovy - https://www.infoq.com/presentations/groovy-ios[Video]

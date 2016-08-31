@@ -1,0 +1,169 @@
+= NexusMonitor
+Rahul Somasunderam
+2015-03-16
+:jbake-type: post
+:jbake-status: published
+:jbake-tags: fitness, tracker, bodybugg, fitbit, fuelband, basis
+:idprefix:
+
+{nbsp}
+
+At https://twitter.com/CertifyData[@CertifyData], we run a bunch of
+different
+build systems including maven, gradle and grails. All of them produce
+artifacts
+that can be uploaded to a maven repository. In fact we use a maven
+repository
+to deliver content to our end users.
+
+A somewhat boring part of our release process, was waiting for Jenkins
+to finish
+its build and then copy the link from nexus and send it out to our
+deployment team.
+
+Given how long some projects take to build with all their dependencies,
+sometimes
+a developer pushing the release button would forget to send out the
+email. Also
+capturing the link and details for the email was a repetitive process
+prone to
+occasional errors.
+
+So I came up with
+https://github.com/rahulsom/NexusMonitor[NexusMonitor]. It is a
+groovy/gradle app which can monitor a Nexus repository's RSS feed and
+send out emails
+based on a template.
+
+'''''
+
+[[configuring]]
+Configuring
+~~~~~~~~~~~
+
+Let's get to a sample usage. This describes what happens in our
+`NexusMonitorConfig.groovy`. This is the groovy version of a properties
+file.
+
+First you need to configure your email settings. This
+is self explanatory.
+
+[source,groovy]
+----
+nexusmonitor {
+  from {
+    address = 'nexus@example.com'
+    personal = 'Nexus'
+  }
+  mail {
+    host = 'smtp.example.com'
+    port = 587
+    username = 'user@example.com'
+    password = 'password'
+    javaMailProperties = [
+        'mail.smtp.auth' : true,
+        'mail.smtp.starttls.enable' : false
+    ]
+  }
+}
+----
+
+Next step, you need to configure feeds you're interested in monitoring.
+
+[source,groovy]
+----
+nexusmonitor.feeds = [
+    new Repository(
+        name: 'repo1',
+        feedUrl: 'http://domain/nexus/service/local/feeds/',
+        repoUrl: 'http://domain/nexus/content/repositories/public/',
+        recipients: ['a@example.com', 'b@example.com']
+    ),
+    new Repository(
+        name: 'repo2',
+        feedUrl: 'http://otherdomain/nexus/service/local/feeds/',
+        repoUrl: 'http://otherdomain/nexus/content/repositories/public/',
+        recipients: ['c@example.com', 'd@example.com']
+    )
+]
+----
+
+'''''
+
+[[running]]
+Running
+~~~~~~~
+
+Now you can run `java -jar nexus-monitor.jar` after you've downloaded
+the jar file from
+https://oss.sonatype.org/content/repositories/releases/com/github/rahulsom/nexus-monitor/1.0/nexus-monitor-1.0.jar[Central].
+
+Every time this runs, it records the last run of each repo on a json
+called
+`lastrun.json`.
+
+Running this manually can be boring, so I create a CRON job on the
+machine which
+runs this app.
+
+[source,cron]
+----
+ * * * * * java -jar /root/nexus-monitor-1.0.jar >> /root/NexusMonitor.log
+----
+
+It runs every minute and scans the RSS feed of your repository.
+
+'''''
+
+[[how-does-my-team-use-this]]
+How does my team use this?
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We have an engineering team that is responsible for internally releasing
+applications,
+that will then be tested by our business analysts. You can think of that
+as a UAT phase.
+Once that is done, they want to make it available to our ops team which
+is responsible
+for installing these apps on customer machines.
+
+When Engineering decides it's time to do a release, we use git flow to
+get a new release onto the master branch, and Jenkins starts turning
+code into artifacts and putting them in the right repository.
+
+Once a new artifact is available in these scanned repositories, the feed
+is automatically
+updated by Nexus. Now NexusMonitor kicks in and sees the new artifact
+and sends out an
+email to the business analysts and engineers confirming the availability
+of the new
+release and instructions to download the build.
+
+We have some scripts prepared for them to run when they are happy with
+the build, and that downloads the artifacts from one repository and
+uploads them to another repository. This second repository is also
+scanned by NexusMonitor, and this sends out an email to the ops team
+notifying them what they can do with the build.
+
+'''''
+
+[[how-do-we-send-custom-instructions]]
+How do we send custom instructions?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default, there is a template embedded in the app called `basic.html`
+which gets used
+for emails. However there is an attribute in our definition of
+repositories called `name`.
+You could create a file called `repo1.html` and that would get picked up
+if your repository
+name in the config was `repo1`.
+
+This is a good starting point for your email templates -
+https://github.com/rahulsom/NexusMonitor/blob/master/src/main/resources/basic.html[`basic.html`]
+.
+
+'''''
+
+Updates: Removed reference to snapshot in favor of running released
+code.

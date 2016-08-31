@@ -1,0 +1,47 @@
+buildscript {
+  repositories {
+    jcenter()
+    maven { url "https://jitpack.io" }
+  }
+  dependencies {
+    classpath 'com.github.jbake-org:jbake-gradle-plugin:1c20c305cb'
+  }
+}
+
+plugins {
+  id "org.ajoberstar.github-pages" version "1.5.1"
+}
+
+apply plugin: 'me.champeau.jbake'
+apply plugin: 'groovy'
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+  compile 'org.codehaus.groovy:groovy-all:+'
+  compile 'org.apache.commons:commons-lang3:+'
+  testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+}
+
+jbake {
+  clearCache = true
+}
+
+githubPages {
+  repoUri = 'git@github.com:rahulsom/rahulsom.github.io.git'
+  targetBranch = 'master'
+  pages {
+    from(file('build/jbake')) {
+      into '.'
+    }
+  }
+
+}
+
+publishGhPages.dependsOn bake
+bake.dependsOn 'test'
+
+task publish(dependsOn: publishGhPages, group: 'render',
+    description: "Publishes buildDir to Github Pages on 'master' branch")

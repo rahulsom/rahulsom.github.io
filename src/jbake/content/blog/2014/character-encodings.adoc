@@ -1,0 +1,69 @@
+= Character Encodings
+Rahul Somasunderam
+2014-01-15
+:jbake-type: post
+:jbake-status: published
+:jbake-tags: utf
+:idprefix:
+
+
+I wrote this a while back in an office blog, and then realized that a lot of people run into this problem, and would
+benefit from reading this.
+
+'''
+
+Character Encoding is what decides how Strings which are first class citizens in most modern programming languages, get converted into byte arrays. Byte arrays are what get sent over the wire, or get written to disk. In the reverse direction, they decide how a byte array must be converted to a String.
+
+This program takes a string in 3 different languages and shows how each language is affected by different charsets.
+
+[source,groovy]
+----
+include::../../../../main/groovy/CharEncoding.groovy[]
+----
+
+Let's look at the output before we dig into the explanation
+
+[listing]
+....
+include::../../../../../build/CharEncoding.txt[]
+....
+
+As you can see, all the encodings we use do a great job with plain English text. That's because all encodings have support for the characters in the English alphabet. As we start making the alphabet more and more complex, we start seeing the difference between the Universal Encodings and the regional Encodings.
+
+ASCII and windows-1521 have very limited support for anything other than English.
+
+ISO-8859-1 improves support for Spanish, but Japanese is still broken.
+
+All the UTF encodings are great for all languages.
+
+Among the UTF charsets, UTF-32 takes 32 bits per character. UTF-16 takes a minimum of 16 bits. UTF-8 takes a minimum of 8 bits, but adds more bits to expand the character set.
+
+#### What if we change charsets after encoding?
+This is precisely what happens when one system encodes a message in one charset and another tries to parse it using a different charset.
+
+[source,groovy]
+----
+include::../../../../main/groovy/WrongEncoding.groovy[]
+----
+
+This is the result
+
+[listing]
+....
+include::../../../../../build/WrongEncoding.txt[]
+....
+
+As you can see, there will be problems in parsing the string into UTF-8. This is what happens when another system uses a different encoding and we parse it using UTF-8.
+
+#### Why UTF-8
+
+You might already have guessed why we use UTF. It's because UTF can support all major characters we are likely to run into. But why UTF-8 in specific?
+
+Because UTF-8 is the most compressed for the typical inputs we receive.
+
+Other Charsets supported by the Java Runtime
+
+[listing]
+....
+include::../../../../../build/AllCharsets.txt[]
+....
