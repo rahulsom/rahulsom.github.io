@@ -1,0 +1,31 @@
+= @rahulsom's github pages
+
+Source repo for https://rahulsom.github.io/[]
+
+* The `source` branch contains the source files
+* The `master` branch contains the result of baking.
+
+== Building
+
+This will run gradle in continuous mode and keep building the site in the `build/jbake` directory.
+
+[source,bash]
+----
+./gradlew -t bake
+----
+
+In order to publish, run
+
+[source,bash]
+----
+./gradlew publish
+----
+
+In order to create a new post, run
+
+[source,bash]
+----
+./gradlew createPost -Pfilename=some-file-name
+----
+
+That will create an asciidoctor file under the `src/jbake/content/<year>` directory with some content to start it up.
