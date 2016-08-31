@@ -60,20 +60,20 @@ The choices
 
 I saw my trainer at the gym wearing one of those
 http://www.bodybugg.com/[Bodybuggs]
-http://amzn.to/TkthyG[image:http://www.amazon.com/favicon.ico[image,18,18]].
+http://amzn.to/TkthyG[image:https://www.amazon.com/favicon.ico[image,18,18]].
 That seemed like a good idea.
 Except that you require a subscription to get the best out of it. So
 I've started looking at other alternatives
 
 * http://www.fitbit.com/product[Fitbit]
-http://amzn.to/WYwUOY[image:http://www.amazon.com/favicon.ico[image,18,18]]
+http://amzn.to/WYwUOY[image:https://www.amazon.com/favicon.ico[image,18,18]]
 seems to do away with the subscription, but it's just a 3D
 accelerometer;
 __that's like a fancy pedometer__. It's great in that it has an
 http://dev.fitbit.com/[API], and apparently a
 thriving ecosystem.
 * Then there's Nike's http://www.nike.com/fuelband/[Fuelband]
-http://amzn.to/VXo1XY[image:http://www.amazon.com/favicon.ico[image,18,18]]
+http://amzn.to/VXo1XY[image:https://www.amazon.com/favicon.ico[image,18,18]]
 which looks great, but then doesn't give any meaningful
 metrics other than it's own fake currency.
 * The third contender is https://mybasis.com/[Basis] which so far seems
