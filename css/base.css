@@ -387,3 +387,17 @@ h1 {
 .post {
   padding-bottom: 80px;
 }
+.post:after {
+  background-image: url("../images/Chapter-Separator.png");
+  background-size: 120px 80px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: inline-block;
+
+  width: 100%;
+  height: 40px;
+
+  content:"";
+
+}
