@@ -37,7 +37,6 @@ githubPages {
       into '.'
     }
   }
-
 }
 
 publishGhPages.dependsOn bake
@@ -45,3 +44,25 @@ bake.dependsOn 'test'
 
 task publish(dependsOn: publishGhPages, group: 'render',
     description: "Publishes buildDir to Github Pages on 'master' branch")
+
+task createPost << {
+    def dir = "src/jbake/content/blog/${new Date().format('yyyy')}"
+    if (!new File(dir).exists()) {
+        new File(dir).mkdirs()
+    }
+    def path = "${dir}/${filename}.adoc"
+    new File(path).text = """\
+    = $filename
+    Rahul Somasunderam
+    ${new Date().format('yyyy-MM-dd')}
+    :jbake-type: post
+    :jbake-status: published
+    :jbake-tags: fitness, tracker, bodybugg, fitbit, fuelband, basis
+    :idprefix:
+
+    subtitle
+
+    body
+    """.stripIndent()
+    println filename
+}

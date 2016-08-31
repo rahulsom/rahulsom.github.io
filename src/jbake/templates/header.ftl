@@ -26,7 +26,34 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
     <link rel="shortcut icon" href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>favicon.ico">
+
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for petefreitag.com" href="/feed.xml" />
   </head>
   <body onload="prettyPrint()">
     <div id="wrap">
-   
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <header>
+                      <a class="brand" href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>/index.html">
+                        <h1>Rahul Somasunderam</h1>
+                      </a>
+
+                      <p>Programmer, Cyclist, Trivia Junkie.</p>
+
+                      <i class="icon-github" aria-hidden="true"></i>
+                      <a href="http://github.com/rahulsom">rahulsom</a>
+
+                      <i class="icon-twitter" aria-hidden="true"></i>
+                      <a href="http://twitter.com/rahulsom">@rahulsom</a><br>
+                      <p></p>
+
+                      <ul class="pages">
+                        <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>about.html">About</a></li>
+                        <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>${config.feed_file}">Subscribe</a></li>
+                        <!-- <li><a href="/resume.html">Resume</a></li> -->
+                        <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>${config.archive_file}">Archive</a></li>
+                      </ul>
+                    </header>
+                </div>
+                <div class="col-md-9">
