@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>NexusMonitor « R4S11</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/asciidoctor.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/prettify.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="../../favicon.ico">
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+	
+	<!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../">R4S11</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="../../index.html">Home</a></li>
+            <li><a href="../../about.html">About</a></li>
+            <li><a href="../../feed.xml">Subscribe</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    <div class="container">
+	
+	<div class="page-header">
+		<h1>NexusMonitor</h1>
+	</div>
+
+	<p><em>16 March 2015</em></p>
+
+	<p><div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>&#160;</p>
+</div>
+<div class="paragraph">
+<p>At <a href="https://twitter.com/CertifyData">@CertifyData</a>, we run a bunch of
+different
+build systems including maven, gradle and grails. All of them produce
+artifacts
+that can be uploaded to a maven repository. In fact we use a maven
+repository
+to deliver content to our end users.</p>
+</div>
+<div class="paragraph">
+<p>A somewhat boring part of our release process, was waiting for Jenkins
+to finish
+its build and then copy the link from nexus and send it out to our
+deployment team.</p>
+</div>
+<div class="paragraph">
+<p>Given how long some projects take to build with all their dependencies,
+sometimes
+a developer pushing the release button would forget to send out the
+email. Also
+capturing the link and details for the email was a repetitive process
+prone to
+occasional errors.</p>
+</div>
+<div class="paragraph">
+<p>So I came up with
+<a href="https://github.com/rahulsom/NexusMonitor">NexusMonitor</a>. It is a
+groovy/gradle app which can monitor a Nexus repository&#8217;s RSS feed and
+send out emails
+based on a template.</p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="configuring">Configuring</h3>
+<div class="paragraph">
+<p>Let&#8217;s get to a sample usage. This describes what happens in our
+<code>NexusMonitorConfig.groovy</code>. This is the groovy version of a properties
+file.</p>
+</div>
+<div class="paragraph">
+<p>First you need to configure your email settings. This
+is self explanatory.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">nexusmonitor {
+  from {
+    address = 'nexus@example.com'
+    personal = 'Nexus'
+  }
+  mail {
+    host = 'smtp.example.com'
+    port = 587
+    username = 'user@example.com'
+    password = 'password'
+    javaMailProperties = [
+        'mail.smtp.auth' : true,
+        'mail.smtp.starttls.enable' : false
+    ]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Next step, you need to configure feeds you&#8217;re interested in monitoring.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">nexusmonitor.feeds = [
+    new Repository(
+        name: 'repo1',
+        feedUrl: 'http://domain/nexus/service/local/feeds/',
+        repoUrl: 'http://domain/nexus/content/repositories/public/',
+        recipients: ['a@example.com', 'b@example.com']
+    ),
+    new Repository(
+        name: 'repo2',
+        feedUrl: 'http://otherdomain/nexus/service/local/feeds/',
+        repoUrl: 'http://otherdomain/nexus/content/repositories/public/',
+        recipients: ['c@example.com', 'd@example.com']
+    )
+]</code></pre>
+</div>
+</div>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="running">Running</h3>
+<div class="paragraph">
+<p>Now you can run <code>java -jar nexus-monitor.jar</code> after you&#8217;ve downloaded
+the jar file from
+<a href="https://oss.sonatype.org/content/repositories/releases/com/github/rahulsom/nexus-monitor/1.0/nexus-monitor-1.0.jar">Central</a>.</p>
+</div>
+<div class="paragraph">
+<p>Every time this runs, it records the last run of each repo on a json
+called
+<code>lastrun.json</code>.</p>
+</div>
+<div class="paragraph">
+<p>Running this manually can be boring, so I create a CRON job on the
+machine which
+runs this app.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-cron" data-lang="cron"> * * * * * java -jar /root/nexus-monitor-1.0.jar &gt;&gt; /root/NexusMonitor.log</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It runs every minute and scans the RSS feed of your repository.</p>
+</div>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="how-does-my-team-use-this">How does my team use this?</h3>
+<div class="paragraph">
+<p>We have an engineering team that is responsible for internally releasing
+applications,
+that will then be tested by our business analysts. You can think of that
+as a UAT phase.
+Once that is done, they want to make it available to our ops team which
+is responsible
+for installing these apps on customer machines.</p>
+</div>
+<div class="paragraph">
+<p>When Engineering decides it&#8217;s time to do a release, we use git flow to
+get a new release onto the master branch, and Jenkins starts turning
+code into artifacts and putting them in the right repository.</p>
+</div>
+<div class="paragraph">
+<p>Once a new artifact is available in these scanned repositories, the feed
+is automatically
+updated by Nexus. Now NexusMonitor kicks in and sees the new artifact
+and sends out an
+email to the business analysts and engineers confirming the availability
+of the new
+release and instructions to download the build.</p>
+</div>
+<div class="paragraph">
+<p>We have some scripts prepared for them to run when they are happy with
+the build, and that downloads the artifacts from one repository and
+uploads them to another repository. This second repository is also
+scanned by NexusMonitor, and this sends out an email to the ops team
+notifying them what they can do with the build.</p>
+</div>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="how-do-we-send-custom-instructions">How do we send custom instructions?</h3>
+<div class="paragraph">
+<p>By default, there is a template embedded in the app called <code>basic.html</code>
+which gets used
+for emails. However there is an attribute in our definition of
+repositories called <code>name</code>.
+You could create a file called <code>repo1.html</code> and that would get picked up
+if your repository
+name in the config was <code>repo1</code>.</p>
+</div>
+<div class="paragraph">
+<p>This is a good starting point for your email templates -
+<a href="https://github.com/rahulsom/NexusMonitor/blob/master/src/main/resources/basic.html"><code>basic.html</code></a>
+.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p>Updates: Removed reference to snapshot in favor of running released
+code.</p>
+</div>
+</div></p>
+
+	<hr />
+	
+		</div>
+		<div id="push"></div>
+    </div>
+    
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.4.0</a></p>
+      </div>
+    </div>
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../js/jquery-1.11.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/prettify.js"></script>
+    
+  </body>
+</html>

@@ -6,9 +6,193 @@
     <atom:link href="http://rahulsom.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Tue, 30 Aug 2016 22:09:05 -0700</pubDate>
-    <lastBuildDate>Tue, 30 Aug 2016 22:09:05 -0700</lastBuildDate>
+    <pubDate>Wed, 31 Aug 2016 00:44:31 -0700</pubDate>
+    <lastBuildDate>Wed, 31 Aug 2016 00:44:31 -0700</lastBuildDate>
 
+    <item>
+      <title>NexusMonitor</title>
+      <link>http://rahulsom.github.io/blog/2015/nexusmonitor.html</link>
+      <pubDate>Mon, 16 Mar 2015 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/2015/nexusmonitor.html</guid>
+      	<description>
+	&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&amp;#160;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;At &lt;a href=&quot;https://twitter.com/CertifyData&quot;&gt;@CertifyData&lt;/a&gt;, we run a bunch of
+different
+build systems including maven, gradle and grails. All of them produce
+artifacts
+that can be uploaded to a maven repository. In fact we use a maven
+repository
+to deliver content to our end users.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A somewhat boring part of our release process, was waiting for Jenkins
+to finish
+its build and then copy the link from nexus and send it out to our
+deployment team.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Given how long some projects take to build with all their dependencies,
+sometimes
+a developer pushing the release button would forget to send out the
+email. Also
+capturing the link and details for the email was a repetitive process
+prone to
+occasional errors.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So I came up with
+&lt;a href=&quot;https://github.com/rahulsom/NexusMonitor&quot;&gt;NexusMonitor&lt;/a&gt;. It is a
+groovy/gradle app which can monitor a Nexus repository&amp;#8217;s RSS feed and
+send out emails
+based on a template.&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;configuring&quot;&gt;Configuring&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s get to a sample usage. This describes what happens in our
+&lt;code&gt;NexusMonitorConfig.groovy&lt;/code&gt;. This is the groovy version of a properties
+file.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;First you need to configure your email settings. This
+is self explanatory.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;nexusmonitor {
+  from {
+    address = &apos;nexus@example.com&apos;
+    personal = &apos;Nexus&apos;
+  }
+  mail {
+    host = &apos;smtp.example.com&apos;
+    port = 587
+    username = &apos;user@example.com&apos;
+    password = &apos;password&apos;
+    javaMailProperties = [
+        &apos;mail.smtp.auth&apos; : true,
+        &apos;mail.smtp.starttls.enable&apos; : false
+    ]
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Next step, you need to configure feeds you&amp;#8217;re interested in monitoring.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;nexusmonitor.feeds = [
+    new Repository(
+        name: &apos;repo1&apos;,
+        feedUrl: &apos;http://domain/nexus/service/local/feeds/&apos;,
+        repoUrl: &apos;http://domain/nexus/content/repositories/public/&apos;,
+        recipients: [&apos;a@example.com&apos;, &apos;b@example.com&apos;]
+    ),
+    new Repository(
+        name: &apos;repo2&apos;,
+        feedUrl: &apos;http://otherdomain/nexus/service/local/feeds/&apos;,
+        repoUrl: &apos;http://otherdomain/nexus/content/repositories/public/&apos;,
+        recipients: [&apos;c@example.com&apos;, &apos;d@example.com&apos;]
+    )
+]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;running&quot;&gt;Running&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Now you can run &lt;code&gt;java -jar nexus-monitor.jar&lt;/code&gt; after you&amp;#8217;ve downloaded
+the jar file from
+&lt;a href=&quot;https://oss.sonatype.org/content/repositories/releases/com/github/rahulsom/nexus-monitor/1.0/nexus-monitor-1.0.jar&quot;&gt;Central&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Every time this runs, it records the last run of each repo on a json
+called
+&lt;code&gt;lastrun.json&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Running this manually can be boring, so I create a CRON job on the
+machine which
+runs this app.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-cron&quot; data-lang=&quot;cron&quot;&gt; * * * * * java -jar /root/nexus-monitor-1.0.jar &amp;gt;&amp;gt; /root/NexusMonitor.log&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It runs every minute and scans the RSS feed of your repository.&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;how-does-my-team-use-this&quot;&gt;How does my team use this?&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We have an engineering team that is responsible for internally releasing
+applications,
+that will then be tested by our business analysts. You can think of that
+as a UAT phase.
+Once that is done, they want to make it available to our ops team which
+is responsible
+for installing these apps on customer machines.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When Engineering decides it&amp;#8217;s time to do a release, we use git flow to
+get a new release onto the master branch, and Jenkins starts turning
+code into artifacts and putting them in the right repository.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Once a new artifact is available in these scanned repositories, the feed
+is automatically
+updated by Nexus. Now NexusMonitor kicks in and sees the new artifact
+and sends out an
+email to the business analysts and engineers confirming the availability
+of the new
+release and instructions to download the build.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We have some scripts prepared for them to run when they are happy with
+the build, and that downloads the artifacts from one repository and
+uploads them to another repository. This second repository is also
+scanned by NexusMonitor, and this sends out an email to the ops team
+notifying them what they can do with the build.&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;how-do-we-send-custom-instructions&quot;&gt;How do we send custom instructions?&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;By default, there is a template embedded in the app called &lt;code&gt;basic.html&lt;/code&gt;
+which gets used
+for emails. However there is an attribute in our definition of
+repositories called &lt;code&gt;name&lt;/code&gt;.
+You could create a file called &lt;code&gt;repo1.html&lt;/code&gt; and that would get picked up
+if your repository
+name in the config was &lt;code&gt;repo1&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is a good starting point for your email templates -
+&lt;a href=&quot;https://github.com/rahulsom/NexusMonitor/blob/master/src/main/resources/basic.html&quot;&gt;&lt;code&gt;basic.html&lt;/code&gt;&lt;/a&gt;
+.&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Updates: Removed reference to snapshot in favor of running released
+code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+	</description>
+    </item>
     <item>
       <title>Character Encodings</title>
       <link>http://rahulsom.github.io/blog/2014/character-encodings.html</link>
@@ -194,113 +378,458 @@ x-windows-iso2022jp&lt;/pre&gt;
 	</description>
     </item>
     <item>
-      <title>Fourth Post</title>
-      <link>http://rahulsom.github.io/blog/2013/fourth-post.html</link>
-      <pubDate>Thu, 17 Oct 2013 00:00:00 -0700</pubDate>
-      <guid isPermaLink="false">blog/2013/fourth-post.html</guid>
+      <title>Blue Shirt, White Shirt</title>
+      <link>http://rahulsom.github.io/blog/2013/blue-shirt-white-shirt.html</link>
+      <pubDate>Tue, 17 Sep 2013 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/2013/blue-shirt-white-shirt.html</guid>
       	<description>
 	&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vel diam purus. Curabitur ut nisi lacus.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;http://example.org&quot; class=&quot;bare&quot;&gt;http://example.org&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;http://example.org&quot;&gt;Example.org&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Woman_in_white_Shirt_and_black_pants_and_Woman_in_blue_shirt_and_white_pants_jumping.jpg/800px-Woman_in_white_Shirt_and_black_pants_and_Woman_in_blue_shirt_and_white_pants_jumping.jpg&quot; alt=&quot;Blue Shirt White Shirt&quot;&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Nam id nisl quam. Donec a lorem sit amet libero pretium vulputate vel ut purus. Suspendisse leo arcu,
-mattis et imperdiet luctus, pulvinar vitae mi. Quisque fermentum sollicitudin feugiat. Mauris nec leo
-ligula. Vestibulum tristique odio ut risus ultricies a hendrerit quam iaculis. Duis tempor elit sit amet
-ligula vehicula et iaculis sem placerat. Fusce dictum, metus at volutpat lacinia, elit massa auctor risus,
-id auctor arcu enim eu augue. Donec ultrices turpis in mi imperdiet ac venenatis sapien sodales. In
-consequat imperdiet nunc quis bibendum. Nulla semper, erat quis ornare tristique, lectus massa posuere
-libero, ut vehicula lectus nunc ut lorem. Aliquam erat volutpat.&lt;/p&gt;
+&lt;p&gt;Image from
+&lt;a href=&quot;https://en.m.wikipedia.org/wiki/File:Woman_in_white_Shirt_and_black_pants_and_Woman_in_blue_shirt_and_white_pants_jumping.jpg&quot;&gt;Wikipedia&lt;/a&gt;.
+No! That is not Bob.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I call this the &lt;code&gt;Blue Shirt, White Shirt&lt;/code&gt; problem. It goes like this:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Your customer, &lt;em&gt;Bob&lt;/em&gt; comes to your garage and says&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;My car does not work.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;It&amp;#8217;s actually quite simple, and I figured out what makes it stop.
+When I wear a blue shirt, it works just fine. But when I wear a white
+shirt,
+it doesn&amp;#8217;t work.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you&amp;#8217;re a mechanic, you know there&amp;#8217;s some serious shit going on there,
+but
+your customer has a hypothesis and you don&amp;#8217;t. Let&amp;#8217;s start looking into
+this problem
+deeper.&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;I woke up last morning and wore a blue shirt. Then I got to work.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Then I came home. The car was still working. You with me?&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;I had to go to my buddy&amp;#8217;s place. So I quickly changed to a white
+shirt,
+and tried starting my car. It just wouldn&amp;#8217;t.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;So I said &quot;let&amp;#8217;s go back to my blue shirt&quot;. So I went back in, and
+changed.
+I got a call from Mom, and minutes later I start the car, and it works
+just
+fine.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;But I wanted to make sure I&amp;#8217;m right so I also took my white shirt with
+me
+to his place, and told him about this problem. He doubted me too.
+So I put on the white shirt and tried starting it, and it wouldn&amp;#8217;t
+start.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Then we went out for dinner in his car, and I spilled some of that Thai
+Curry
+on my white shirt. So I had to change back to my blue shirt, because,
+well anyways
+my car wouldn&amp;#8217;t start with the white shirt.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Now I started the car, and came back home. But to be sure, I put on
+another white
+shirt and tried starting the car. It just wouldn&amp;#8217;t.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;So this morning, I put on this green shirt, and drove to work.
+Everything was great.
+I quickly changed to my white shirt, to show my coworker the problem,
+and as expected
+the car wouldn&amp;#8217;t start.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;I decided to bring my car in around my lunch break.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Let me quickly put on my white shirt and show you that I&amp;#8217;m not making
+things
+up.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Now &lt;em&gt;Bob&lt;/em&gt; has done an amazing analysis of the problem, and it&amp;#8217;s a great
+story.
+The only problem with it is &lt;strong&gt;it&amp;#8217;s all wrong&lt;/strong&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;While having a diploma in car repair would help you trust my judgement
+of this analysis,
+you probably know that any way.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A lot of customer problems in Software Development get reported this
+way. And by the
+time they get to the developer who needs to fix the problem, this is
+what it looks like&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;CAR-1034: Car does not start when customer is wearing white shirts.
+
+Severity: Blocker
+Type: Bug&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What would have helped move things around is&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;CAR-1034: Investigate intermittent starting trouble on Bob&apos;s car.
+
+Severity: Blocker
+Type: Support Task&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The amount of time wasted by development and QA in reproducing Bob&amp;#8217;s
+&quot;problem&quot; is huge.
+Perhaps it might have been simpler to find out why Bob&amp;#8217;s car does not
+start when the
+engine is already warm.&lt;/p&gt;
 &lt;/div&gt;
 	</description>
     </item>
     <item>
-      <title>Third Post</title>
-      <link>http://rahulsom.github.io/blog/2013/third-post.html</link>
-      <pubDate>Thu, 26 Sep 2013 00:00:00 -0700</pubDate>
-      <guid isPermaLink="false">blog/2013/third-post.html</guid>
+      <title>Jenkins, Email Ext and Gmail Grimace</title>
+      <link>http://rahulsom.github.io/blog/2013/jenkins-email-ext-and-gmail-grimace.html</link>
+      <pubDate>Wed, 20 Mar 2013 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/2013/jenkins-email-ext-and-gmail-grimace.html</guid>
       	<description>
 	&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vel diam purus. Curabitur ut nisi lacus.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;http://example.org&quot; class=&quot;bare&quot;&gt;http://example.org&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;http://example.org&quot;&gt;Example.org&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;If you&amp;#8217;re working on any project that involves more than one developer
+and
+weeks or possibly months of work, you should be using some sort of
+Continuous
+Integration. The most common system to use is
+&lt;a href=&quot;http://jenkins-ci.org/&quot;&gt;Jenkins&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Nam id nisl quam. Donec a lorem sit amet libero pretium vulputate vel ut purus. Suspendisse leo arcu,
-mattis et imperdiet luctus, pulvinar vitae mi. Quisque fermentum sollicitudin feugiat. Mauris nec leo
-ligula. Vestibulum tristique odio ut risus ultricies a hendrerit quam iaculis. Duis tempor elit sit amet
-ligula vehicula et iaculis sem placerat. Fusce dictum, metus at volutpat lacinia, elit massa auctor risus,
-id auctor arcu enim eu augue. Donec ultrices turpis in mi imperdiet ac venenatis sapien sodales. In
-consequat imperdiet nunc quis bibendum. Nulla semper, erat quis ornare tristique, lectus massa posuere
-libero, ut vehicula lectus nunc ut lorem. Aliquam erat volutpat.&lt;/p&gt;
+&lt;p&gt;If you start using Jenkins and start committing code often, you&amp;#8217;ll
+realize you
+need email notifications on build status on each commit. The default
+emails
+from Jenkins are to put it mildly, &lt;em&gt;a bit lacking&lt;/em&gt;.&lt;/p&gt;
 &lt;/div&gt;
-	</description>
-    </item>
-    <item>
-      <title>Second Post</title>
-      <link>http://rahulsom.github.io/blog/2013/second-post.html</link>
-      <pubDate>Sun, 25 Aug 2013 00:00:00 -0700</pubDate>
-      <guid isPermaLink="false">blog/2013/second-post.html</guid>
-      	<description>
-	&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vel diam purus. Curabitur ut nisi lacus.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://example.org&quot;&gt;http://example.org&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://example.org&quot;&gt;Example.org&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;Nam id nisl quam. Donec a lorem sit amet libero pretium vulputate vel ut purus. Suspendisse leo arcu,&lt;br/&gt;mattis et imperdiet luctus, pulvinar vitae mi. Quisque fermentum sollicitudin feugiat. Mauris nec leo&lt;br/&gt;ligula. Vestibulum tristique odio ut risus ultricies a hendrerit quam iaculis. Duis tempor elit sit amet&lt;br/&gt;ligula vehicula et iaculis sem placerat. Fusce dictum, metus at volutpat lacinia, elit massa auctor risus,&lt;br/&gt;id auctor arcu enim eu augue. Donec ultrices turpis in mi imperdiet ac venenatis sapien sodales. In&lt;br/&gt;consequat imperdiet nunc quis bibendum. Nulla semper, erat quis ornare tristique, lectus massa posuere&lt;br/&gt;libero, ut vehicula lectus nunc ut lorem. Aliquam erat volutpat.&lt;/p&gt;
-	</description>
-    </item>
-    <item>
-      <title>First Post</title>
-      <link>http://rahulsom.github.io/blog/2013/first-post.html</link>
-      <pubDate>Wed, 24 Jul 2013 00:00:00 -0700</pubDate>
-      <guid isPermaLink="false">blog/2013/first-post.html</guid>
-      	<description>
-	
-&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vel diam purus. Curabitur ut nisi lacus.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://example.org&quot;&gt;http://example.org&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://example.org&quot;&gt;Example.org&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Nam id nisl quam. Donec a lorem sit amet libero pretium vulputate vel ut purus. Suspendisse leo arcu, 
-mattis et imperdiet luctus, pulvinar vitae mi. Quisque fermentum sollicitudin feugiat. Mauris nec leo 
-ligula. Vestibulum tristique odio ut risus ultricies a hendrerit quam iaculis. Duis tempor elit sit amet 
-ligula vehicula et iaculis sem placerat. Fusce dictum, metus at volutpat lacinia, elit massa auctor risus, 
-id auctor arcu enim eu augue. Donec ultrices turpis in mi imperdiet ac venenatis sapien sodales.&lt;/p&gt; 
-
-&lt;pre class=&quot;prettyprint&quot;&gt;
-&lt;code&gt;
-package org.jbake;
-
-public class Oven {
-	public static void main(String[] args) {
-		System.out.print(&quot;Baking!&quot;);
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The solution is, the
+&lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin&quot;&gt;Email-ext&lt;/a&gt;
+plugin. This lets you customize your emails. They have some decent
+templates
+in their code. However you&amp;#8217;ll want to customize your emails further. I
+took
+the approach of taking their template and making it prettier with
+&lt;a href=&quot;http://www.zurb.com/playground/responsive-email-templates&quot;&gt;Zurb&amp;#8217;s
+responsive email&lt;/a&gt;
+templates. I use Mail.app on the Mac and the Mail app on my iPhone.
+Things
+were going great until I committed something to github with my gmail id.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;That&amp;#8217;s when I learnt about
+&lt;a href=&quot;http://www.flickr.com/groups/project-gmail-grimace/&quot;&gt;GMail Grimace&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Rewriting all my templates to not use style tags was not an option.
+Changing
+the appearance of an html element using css classes that are variables
+in your
+template is super easy. Doing that using if conditions in your template,
+is a
+pain in the ass.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Then I ran into this
+&lt;a href=&quot;http://stackoverflow.com/questions/4521557/automatically-convert-style-sheets-to-inline-style&quot;&gt;SO&lt;/a&gt;.
+So I decided to use this information and create a &lt;code&gt;pre-send&lt;/code&gt; script for
+the
+Email-ext plugin. However I learnt that
+&lt;a href=&quot;https://groups.google.com/forum/?fromgroups=#!topic/jenkinsci-users/Avme-hTCeDs&quot;&gt;there
+were some problems&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So I decided to
+&lt;a href=&quot;https://github.com/jenkinsci/email-ext-plugin/pull/60&quot;&gt;hack the plugin&lt;/a&gt;
+to do what I want. It&amp;#8217;s now part of v2.28.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;All you need to do is create a &lt;code&gt;style&lt;/code&gt; tag in your email with an
+additional
+attribute &lt;code&gt;data-inline&lt;/code&gt; and value &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&amp;lt;style type=&quot;text/css&quot; data-inline=&quot;true&quot;&amp;gt;
+  div.good {
+  	background-color: blue;
   }
-}
-&lt;/code&gt;
-&lt;/pre&gt;
-
-&lt;p&gt;In consequat imperdiet nunc quis bibendum. Nulla semper, erat quis ornare tristique, lectus massa posuere 
-libero, ut vehicula lectus nunc ut lorem. Aliquam erat volutpat.&lt;/p&gt;
-
+  div.bad {
+  	background-color: red;
+  }
+&amp;lt;/style&amp;gt;
+&amp;lt;style type=&quot;text/css&quot;&amp;gt;
+  ... more styles ...
+&amp;lt;/style&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The plugin now will take this css and apply it inline to all elements.
+This
+makes GMail happy.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Here&amp;#8217;s my &lt;a href=&quot;https://gist.github.com/rahulsom/5125421&quot;&gt;Jelly Template&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>The year in fitness</title>
+      <link>http://rahulsom.github.io/blog/2013/the-year-in-fitness.html</link>
+      <pubDate>Sat, 5 Jan 2013 00:00:00 -0800</pubDate>
+      <guid isPermaLink="false">blog/2013/the-year-in-fitness.html</guid>
+      	<description>
+	&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;2012 had been a fairly successful year in some aspects. In some, it was
+terrible.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;cycling&quot;&gt;Cycling&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I had set a target of 1500 miles and was possibly very very short of
+this target.
+A lot of things caused this - mostly my lazyness. However the good news
+was that
+I was able to get back to biking after my rather long hiatus after an
+accident.
+Also I never did many 50 miles rides. There was just one 50 mile ride.
+Most rides
+were shorter, though they included some rides to Palomares.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The best thing however was, I got closer to my ideal weight. I got
+better average
+speeds. I expanded my territory, i.e. got into mountain biking. I did
+some rides in
+Skyline but several rides at Mission Peak. Also my climb speed has
+improved a lot.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For 2013, I want to revive my goal from 2012, i.e. 1500 miles on my road
+bike. I
+have signed up for an 80 miler in May. Also
+I want to pack in a few mountain rides. And I want to buy my own
+mountain bike.
+I&amp;#8217;m looking at the
+&lt;a href=&quot;http://reviews.mtbr.com/2013-specialized-camber&quot;&gt;&apos;13 Specialized Camber
+29&lt;/a&gt;.
+Any suggestions are welcome.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;running&quot;&gt;Running&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I was able to manage to start running. It took a lot of effort, but I
+got comfortable
+with running ~10K. The speed isn&amp;#8217;t great, but it&amp;#8217;s still something. For
+2013, I&amp;#8217;m
+thinking of getting to do a half marathon.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;otherwise&quot;&gt;Otherwise&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I took help from a personal trainer to get my shit straight. And that
+was helpful.
+If you need help with your fitness goals, do consider consulting a
+personal trainer.
+You might think you don&amp;#8217;t want to hulk up, and that&amp;#8217;s fine, but having a
+trainer who
+knows what the hell they&amp;#8217;re doing advise you is better than you trying
+to figure out
+how to reach your goals.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For 2013, my goal keep this going. As a first hurdle, I seem to have
+screwed up my
+wrist, &lt;em&gt;again&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>Fitness Trackers</title>
+      <link>http://rahulsom.github.io/blog/2012/fitness-trackers.html</link>
+      <pubDate>Mon, 25 Jun 2012 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/2012/fitness-trackers.html</guid>
+      	<description>
+	&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&amp;#160;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The first thing you&amp;#8217;re taught when you start learning physics is&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you can&amp;#8217;t measure it, you can&amp;#8217;t do anything about it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect4&quot;&gt;
+&lt;h5 id=&quot;when-cycling&quot;&gt;When cycling&lt;/h5&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I applied that approach to cycling - I bought a
+&lt;a href=&quot;http://amzn.to/Rk2yTx&quot;&gt;Schwinn&lt;/a&gt; computer and then a
+&lt;a href=&quot;http://amzn.to/Rk2KSG&quot;&gt;Cateye&lt;/a&gt; and this made me understand my biking
+better. I knew
+how fast I could go, what my speed was on flats, climbs and descents.
+With Schwinn, I had an understanding of
+how many calories I burnt. With Cateye, I started looking at my cadence.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect4&quot;&gt;
+&lt;h5 id=&quot;when-not-cycling&quot;&gt;When not cycling&lt;/h5&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However seasonal allergies brought my biking to a halt. And my fitness
+started declining again. So I decided to
+sign up for a gym membership - I hate using treadmills and stationary
+bikes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If I&amp;#8217;m walking or biking for 5 minutes, I expect to be farther away from
+where I started. If I&amp;#8217;m not, I get bored.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However I&amp;#8217;ve come to terms with the fact that, the gym is the only way I
+can get back to being fit if I can&amp;#8217;t
+get my miles when pollen is high.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As part of a goodie bag at a race
+&lt;a href=&quot;http://www.active.com/cycling/yountville-ca/napa-valley-tour-de-cure-2012&quot;&gt;ride&lt;/a&gt;
+I attended this year, I got a
+pedometer from the good folks at Walgreens. It&amp;#8217;s terrible in terms of
+accuracy and discreetness. One day, I did
+nothing more than driving to work and returning home; and it said I&amp;#8217;d
+walked 5 miles. And it&amp;#8217;s noisy; my colleagues thought
+I was tin-foil carrying a Geiger Counter with me. Also pedometers don&amp;#8217;t
+account for other activity I do.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect4&quot;&gt;
+&lt;h5 id=&quot;the-choices&quot;&gt;The choices&lt;/h5&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I saw my trainer at the gym wearing one of those
+&lt;a href=&quot;http://www.bodybugg.com/&quot;&gt;Bodybuggs&lt;/a&gt;
+&lt;a href=&quot;http://amzn.to/TkthyG&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;http://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt;.
+That seemed like a good idea.
+Except that you require a subscription to get the best out of it. So
+I&amp;#8217;ve started looking at other alternatives&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.fitbit.com/product&quot;&gt;Fitbit&lt;/a&gt;
+&lt;a href=&quot;http://amzn.to/WYwUOY&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;http://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt;
+seems to do away with the subscription, but it&amp;#8217;s just a 3D
+accelerometer;
+&lt;em&gt;that&amp;#8217;s like a fancy pedometer&lt;/em&gt;. It&amp;#8217;s great in that it has an
+&lt;a href=&quot;http://dev.fitbit.com/&quot;&gt;API&lt;/a&gt;, and apparently a
+thriving ecosystem.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Then there&amp;#8217;s Nike&amp;#8217;s &lt;a href=&quot;http://www.nike.com/fuelband/&quot;&gt;Fuelband&lt;/a&gt;
+&lt;a href=&quot;http://amzn.to/VXo1XY&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;http://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt;
+which looks great, but then doesn&amp;#8217;t give any meaningful
+metrics other than it&amp;#8217;s own fake currency.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The third contender is &lt;a href=&quot;https://mybasis.com/&quot;&gt;Basis&lt;/a&gt; which so far seems
+to be vaporvare, in that we don&amp;#8217;t know much
+about it except for that it will cost $199.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Here&amp;#8217;s what I&amp;#8217;m looking for in the device:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Either has either an API or a means to download data to my computer.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Measures my activity and gives meaningful metrics.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Lets me look at data in fine grained durations so I can compare past
+performance.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect4&quot;&gt;
+&lt;h5 id=&quot;what-does-it-mean-to-have-an-api&quot;&gt;What does it mean to have an API?&lt;/h5&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It means that I do not have to pay money to someone so they can gather
+up my data, and sell it to someone else. My
+fitness data is my Protected Health Information. I don&amp;#8217;t want to pay
+someone $10 a month so they know
+when I&amp;#8217;ve been pumping iron and have my information sent to the makers
+of
+&lt;a href=&quot;http://www.cytosport.com/products/muscle-milk&quot;&gt;Muscle Milk&lt;/a&gt; and when I&amp;#8217;m
+sleeping on my couch for 3 days in a row,
+send it to
+&lt;a href=&quot;http://www.nutrisystem.com/jsps_hmr/home/index.jsp?_requestid=594177&quot;&gt;Nutrisystem&lt;/a&gt;.
+I would love something
+like good old Nike+ which merely synced with your iPod and if you chose
+to, shared it on their website. However it looks
+like everyone is taking the cloud seriously and there aren&amp;#8217;t any
+products in this category that work that way. I may be
+wrong here, but that&amp;#8217;s what everyone&amp;#8217;s advertising looks like.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Do you have any fitness trackers? What do you like about them? How have
+they helped you? Tweet me at &lt;a href=&quot;http://twitter.com/rahulsom&quot;&gt;@rahulsom&lt;/a&gt; or
+get me on
+&lt;a href=&quot;http://www.quora.com/Fitness/I-want-a-fitness-health-tracking-device-Whats-my-best-bet&quot;&gt;Quora&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 	</description>
     </item>
 
