@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:300italic,700italic,300,700);
+@import url(https://fonts.googleapis.com/css?family=Lato:400italic,700italic,400,700);
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -9,7 +9,7 @@ body {
   /* The html and body elements cannot have any padding or margin. */
   font:16px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
   color:#777;
-  font-weight:300;
+  font-weight:400;
 }
 
 /* Wrapper for page content to push down footer */
