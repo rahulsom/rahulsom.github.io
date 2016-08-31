@@ -24,10 +24,8 @@ Jul 11–Present
 * Automated the setup machines using boxen & puppet
 * Dockerized deployment and testing of products
 * Created DSLs for authoring content in complex data formats
-* Collaborated with several partner services for building software that worked
-    with each other
-* Developed pre interview assignments for javascript and groovy to make hiring
-    smoother
+* Collaborated with several partner services for building software that worked with each other
+* Developed pre interview assignments for javascript and groovy to make hiring smoother
 
 === Certify Data Systems
 
@@ -37,8 +35,7 @@ Apr 08–Jul 11
 
 * Built the Certify Gateway and Certify HealthDock products
 * Created a Jython API for runtime customization of inbound messages
-* Built a JNLP-Swing client to integrate with Electronic Medical Record (EMR)
-    vendors who needed filesystem based IO
+* Built a JNLP-Swing client to integrate with Electronic Medical Record (EMR) vendors who needed filesystem based IO
 
 === PRI Network
 
@@ -55,17 +52,13 @@ Bangalore INDIA --
 Software Engineer --
 Nov 05–Jan 08
 
-* Developed a COBOL module to let the Business Analysts merge their test data
-    along with the data from several systems into the complex plumbing of
-    modules on the Mainframe
+* Developed a COBOL module to let the Business Analysts merge their test data along with the data from several systems into the complex plumbing of modules on the Mainframe
 * Developed a tool to help in static analysis of COBOL code
 * Developed a tool to parse COBOL code and convert it to data
 
 == Technology
 
-I have been programming since I was 12, starting with trivial programs on
-   logo and basic, and eventually working on several larger applications and
-   some serious, some fun languages
+I have been programming since I was 12, starting with trivial programs on logo and basic, and eventually working on several larger applications and some serious, some fun languages
 
 Java & the JVM::
   Java, Groovy, Grails, Spring, Hibernate, Gradle

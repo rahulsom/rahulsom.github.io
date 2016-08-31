@@ -6,7 +6,7 @@ Rahul Somasunderam
 
 {nbsp}
 
-I am a software engineer with lots of experience in JVM langguages.
+I am a software engineer with lots of experience in JVM languages.
 I work in Healthcare, and contribute to Open Source as much as I can.
 
 I also talk a lot about cycling.

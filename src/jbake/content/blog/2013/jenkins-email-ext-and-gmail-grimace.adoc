@@ -6,58 +6,34 @@ Rahul Somasunderam
 :jbake-tags: utf
 :idprefix:
 
-If you're working on any project that involves more than one developer
-and 
-weeks or possibly months of work, you should be using some sort of
-Continuous 
-Integration. The most common system to use is 
-http://jenkins-ci.org/[Jenkins].
+If you're working on any project that involves more than one developer and  weeks or possibly months of work, you should be using some sort of Continuous Integration.
+The most common system to use is http://jenkins-ci.org/[Jenkins].
 
-If you start using Jenkins and start committing code often, you'll
-realize you 
-need email notifications on build status on each commit. The default
-emails 
-from Jenkins are to put it mildly, __a bit lacking__.
+If you start using Jenkins and start committing code often, you'll realize you need email notifications on build status on each commit.
+The default emails from Jenkins are to put it mildly, __a bit lacking__.
 
-The solution is, the 
-https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin[Email-ext] 
-plugin. This lets you customize your emails. They have some decent
-templates 
-in their code. However you'll want to customize your emails further. I
-took 
-the approach of taking their template and making it prettier with 
-http://www.zurb.com/playground/responsive-email-templates[Zurb's
-responsive email] 
-templates. I use Mail.app on the Mac and the Mail app on my iPhone.
-Things 
-were going great until I committed something to github with my gmail id.
+The solution is, the  https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin[Email-ext]  plugin.
+This lets you customize your emails.
+They have some decent templates  in their code.
+However you'll want to customize your emails further.
+I took  the approach of taking their template and making it prettier with  http://www.zurb.com/playground/responsive-email-templates[Zurb's responsive email]  templates.
+I use Mail.app on the Mac and the Mail app on my iPhone.
+Things  were going great until I committed something to github with my gmail id.
 
-That's when I learnt about 
-http://www.flickr.com/groups/project-gmail-grimace/[GMail Grimace].
+That's when I learnt about http://www.flickr.com/groups/project-gmail-grimace/[GMail Grimace].
 
 Rewriting all my templates to not use style tags was not an option.
-Changing 
-the appearance of an html element using css classes that are variables
-in your 
-template is super easy. Doing that using if conditions in your template,
-is a 
-pain in the ass.
+Changing the appearance of an html element using css classes that are variables in your template is super easy.
+Doing that using if conditions in your template, is a pain in the ass.
 
-Then I ran into this
-http://stackoverflow.com/questions/4521557/automatically-convert-style-sheets-to-inline-style[SO]. 
-So I decided to use this information and create a `pre-send` script for
-the 
-Email-ext plugin. However I learnt that
-https://groups.google.com/forum/?fromgroups=#!topic/jenkinsci-users/Avme-hTCeDs[there
-were some problems].
+Then I ran into this http://stackoverflow.com/questions/4521557/automatically-convert-style-sheets-to-inline-style[SO].
+So I decided to use this information and create a `pre-send` script for the Email-ext plugin.
+However I learnt that https://groups.google.com/forum/?fromgroups=#!topic/jenkinsci-users/Avme-hTCeDs[there were some problems].
 
-So I decided to
-https://github.com/jenkinsci/email-ext-plugin/pull/60[hack the plugin]
-to do what I want. It's now part of v2.28.
+So I decided to https://github.com/jenkinsci/email-ext-plugin/pull/60[hack the plugin] to do what I want.
+It's now part of v2.28.
 
-All you need to do is create a `style` tag in your email with an
-additional 
-attribute `data-inline` and value `true`.
+All you need to do is create a `style` tag in your email with an additional attribute `data-inline` and value `true`.
 
 [source,html]
 ----
@@ -75,7 +51,6 @@ attribute `data-inline` and value `true`.
 ----
 
 The plugin now will take this css and apply it inline to all elements.
-This 
-makes GMail happy.
+This makes GMail happy.
 
 Here's my https://gist.github.com/rahulsom/5125421[Jelly Template].

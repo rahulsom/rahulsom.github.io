@@ -7,7 +7,7 @@ Rahul Somasunderam
 :idprefix:
 :icons: font
 
-Maven has a way to configure mirrors in `settings.xml`. Gradle doesn't have a direct analogue to it, but what it has is really nice. Also it's _underdocumented_.
+Maven has a way to configure mirrors in `settings.xml`. Gradle doesn't have a direct analogue to it, but what it has is really nice. Also it's _under-documented_.
 
 Let's say you're using gradle at work, and you want to use your company's maven mirror.
 You might want to do this for numerous reasons.

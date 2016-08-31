@@ -7,12 +7,12 @@ Rahul Somasunderam
 :idprefix:
 
 
-I wrote this a while back in an office blog, and then realized that a lot of people run into this problem, and would
-benefit from reading this.
+I wrote this a while back in an office blog, and then realized that a lot of people run into this problem, and would benefit from reading this.
 
 '''
 
-Character Encoding is what decides how Strings which are first class citizens in most modern programming languages, get converted into byte arrays. Byte arrays are what get sent over the wire, or get written to disk. In the reverse direction, they decide how a byte array must be converted to a String.
+Character Encoding is what decides how Strings which are first class citizens in most modern programming languages, get converted into byte arrays.
+Byte arrays are what get sent over the wire, or get written to disk. In the reverse direction, they decide how a byte array must be converted to a String.
 
 This program takes a string in 3 different languages and shows how each language is affected by different charsets.
 
@@ -28,7 +28,9 @@ Let's look at the output before we dig into the explanation
 include::../../../../../build/CharEncoding.txt[]
 ....
 
-As you can see, all the encodings we use do a great job with plain English text. That's because all encodings have support for the characters in the English alphabet. As we start making the alphabet more and more complex, we start seeing the difference between the Universal Encodings and the regional Encodings.
+As you can see, all the encodings we use do a great job with plain English text.
+That's because all encodings have support for the characters in the English alphabet.
+As we start making the alphabet more and more complex, we start seeing the difference between the Universal Encodings and the regional Encodings.
 
 ASCII and windows-1521 have very limited support for anything other than English.
 
