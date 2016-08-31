@@ -316,12 +316,12 @@ code.</p>
   			<p><div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>I wrote this a while back in an office blog, and then realized that a lot of people run into this problem, and would
-benefit from reading this.</p>
+<p>I wrote this a while back in an office blog, and then realized that a lot of people run into this problem, and would benefit from reading this.</p>
 </div>
 <hr>
 <div class="paragraph">
-<p>Character Encoding is what decides how Strings which are first class citizens in most modern programming languages, get converted into byte arrays. Byte arrays are what get sent over the wire, or get written to disk. In the reverse direction, they decide how a byte array must be converted to a String.</p>
+<p>Character Encoding is what decides how Strings which are first class citizens in most modern programming languages, get converted into byte arrays.
+Byte arrays are what get sent over the wire, or get written to disk. In the reverse direction, they decide how a byte array must be converted to a String.</p>
 </div>
 <div class="paragraph">
 <p>This program takes a string in 3 different languages and shows how each language is affected by different charsets.</p>
@@ -393,7 +393,9 @@ UTF-32      : 0000004b0000005900000050000000480000004f0000004e000000ae0000002000
 </div>
 </div>
 <div class="paragraph">
-<p>As you can see, all the encodings we use do a great job with plain English text. That&#8217;s because all encodings have support for the characters in the English alphabet. As we start making the alphabet more and more complex, we start seeing the difference between the Universal Encodings and the regional Encodings.</p>
+<p>As you can see, all the encodings we use do a great job with plain English text.
+That&#8217;s because all encodings have support for the characters in the English alphabet.
+As we start making the alphabet more and more complex, we start seeing the difference between the Universal Encodings and the regional Encodings.</p>
 </div>
 <div class="paragraph">
 <p>ASCII and windows-1521 have very limited support for anything other than English.</p>
@@ -495,8 +497,7 @@ x-windows-iso2022jp</pre>
 <p><span class="image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Woman_in_white_Shirt_and_black_pants_and_Woman_in_blue_shirt_and_white_pants_jumping.jpg/800px-Woman_in_white_Shirt_and_black_pants_and_Woman_in_blue_shirt_and_white_pants_jumping.jpg" alt="Blue Shirt White Shirt"></span></p>
 </div>
 <div class="paragraph">
-<p>Image from
-<a href="https://en.m.wikipedia.org/wiki/File:Woman_in_white_Shirt_and_black_pants_and_Woman_in_blue_shirt_and_white_pants_jumping.jpg">Wikipedia</a>.
+<p>Image from <a href="https://en.m.wikipedia.org/wiki/File:Woman_in_white_Shirt_and_black_pants_and_Woman_in_blue_shirt_and_white_pants_jumping.jpg">Wikipedia</a>.
 No! That is not Bob.</p>
 </div>
 <div class="paragraph">
@@ -511,17 +512,13 @@ No! That is not Bob.</p>
 </div>
 <div class="paragraph">
 <p><em>It&#8217;s actually quite simple, and I figured out what makes it stop.
-When I wear a blue shirt, it works just fine. But when I wear a white
-shirt,
-it doesn&#8217;t work.</em></p>
+When I wear a blue shirt, it works just fine.
+But when I wear a white shirt, it doesn&#8217;t work.</em>
+'''''</p>
 </div>
-<hr>
 <div class="paragraph">
-<p>If you&#8217;re a mechanic, you know there&#8217;s some serious shit going on there,
-but
-your customer has a hypothesis and you don&#8217;t. Let&#8217;s start looking into
-this problem
-deeper.</p>
+<p>If you&#8217;re a mechanic, you know there&#8217;s some serious shit going on there, but  your customer has a hypothesis and you don&#8217;t.
+Let&#8217;s start looking into this problem deeper.</p>
 </div>
 <hr>
 <div class="paragraph">
@@ -531,67 +528,40 @@ deeper.</p>
 <p><em>Then I came home. The car was still working. You with me?</em></p>
 </div>
 <div class="paragraph">
-<p><em>I had to go to my buddy&#8217;s place. So I quickly changed to a white
-shirt,
-and tried starting my car. It just wouldn&#8217;t.</em></p>
+<p><em>I had to go to my buddy&#8217;s place. So I quickly changed to a white shirt, and tried starting my car. It just wouldn&#8217;t.</em></p>
 </div>
 <div class="paragraph">
-<p><em>So I said "let&#8217;s go back to my blue shirt". So I went back in, and
-changed.
-I got a call from Mom, and minutes later I start the car, and it works
-just
-fine.</em></p>
+<p><em>So I said "let&#8217;s go back to my blue shirt". So I went back in, and changed. I got a call from Mom, and minutes later I start the car, and it works just  fine.</em></p>
 </div>
 <div class="paragraph">
-<p><em>But I wanted to make sure I&#8217;m right so I also took my white shirt with
-me
-to his place, and told him about this problem. He doubted me too.
-So I put on the white shirt and tried starting it, and it wouldn&#8217;t
-start.</em></p>
+<p><em>But I wanted to make sure I&#8217;m right so I also took my white shirt with me to his place, and told him about this problem. He doubted me too. So I put on the white shirt and tried starting it, and it wouldn&#8217;t start.</em></p>
 </div>
 <div class="paragraph">
-<p><em>Then we went out for dinner in his car, and I spilled some of that Thai
-Curry
-on my white shirt. So I had to change back to my blue shirt, because,
-well anyways
-my car wouldn&#8217;t start with the white shirt.</em></p>
+<p><em>Then we went out for dinner in his car, and I spilled some of that Thai Curry  on my white shirt. So I had to change back to my blue shirt, because, well anyways  my car wouldn&#8217;t start with the white shirt.</em></p>
 </div>
 <div class="paragraph">
-<p><em>Now I started the car, and came back home. But to be sure, I put on
-another white
-shirt and tried starting the car. It just wouldn&#8217;t.</em></p>
+<p><em>Now I started the car, and came back home. But to be sure, I put on another white  shirt and tried starting the car. It just wouldn&#8217;t.</em></p>
 </div>
 <div class="paragraph">
-<p><em>So this morning, I put on this green shirt, and drove to work.
-Everything was great.
-I quickly changed to my white shirt, to show my coworker the problem,
-and as expected
-the car wouldn&#8217;t start.</em></p>
+<p><em>So this morning, I put on this green shirt, and drove to work. Everything was great.  I quickly changed to my white shirt, to show my coworker the problem, and as expected  the car wouldn&#8217;t start.</em></p>
 </div>
 <div class="paragraph">
 <p><em>I decided to bring my car in around my lunch break.</em></p>
 </div>
 <div class="paragraph">
-<p><em>Let me quickly put on my white shirt and show you that I&#8217;m not making
-things
-up.</em></p>
+<p><em>Let me quickly put on my white shirt and show you that I&#8217;m not making things up.</em></p>
 </div>
 <hr>
 <div class="paragraph">
-<p>Now <em>Bob</em> has done an amazing analysis of the problem, and it&#8217;s a great
-story.
+<p>Now <em>Bob</em> has done an amazing analysis of the problem, and it&#8217;s a great story.
 The only problem with it is <strong>it&#8217;s all wrong</strong>.</p>
 </div>
 <div class="paragraph">
-<p>While having a diploma in car repair would help you trust my judgement
-of this analysis,
-you probably know that any way.</p>
+<p>While having a diploma in car repair would help you trust my judgement of this analysis,  you probably know that any way.</p>
 </div>
 <div class="paragraph">
-<p>A lot of customer problems in Software Development get reported this
-way. And by the
-time they get to the developer who needs to fix the problem, this is
-what it looks like</p>
+<p>A lot of customer problems in Software Development get reported this way.
+And by the time they get to the developer who needs to fix the problem, this is what it looks like</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -613,74 +583,47 @@ Type: Support Task</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The amount of time wasted by development and QA in reproducing Bob&#8217;s
-"problem" is huge.
-Perhaps it might have been simpler to find out why Bob&#8217;s car does not
-start when the
-engine is already warm.</p>
+<p>The amount of time wasted by development and QA in reproducing Bob&#8217;s "problem" is huge.
+Perhaps it might have been simpler to find out why Bob&#8217;s car does not start when the  engine is already warm.</p>
 </div></p>
   			<a href="blog/2013/jenkins-email-ext-and-gmail-grimace.html"><h1>Jenkins, Email Ext and Gmail Grimace</h1></a>
   			<p>20 March 2013</p>
   			<p><div class="paragraph">
-<p>If you&#8217;re working on any project that involves more than one developer
-and
-weeks or possibly months of work, you should be using some sort of
-Continuous
-Integration. The most common system to use is
-<a href="http://jenkins-ci.org/">Jenkins</a>.</p>
+<p>If you&#8217;re working on any project that involves more than one developer and  weeks or possibly months of work, you should be using some sort of Continuous Integration.
+The most common system to use is <a href="http://jenkins-ci.org/">Jenkins</a>.</p>
 </div>
 <div class="paragraph">
-<p>If you start using Jenkins and start committing code often, you&#8217;ll
-realize you
-need email notifications on build status on each commit. The default
-emails
-from Jenkins are to put it mildly, <em>a bit lacking</em>.</p>
+<p>If you start using Jenkins and start committing code often, you&#8217;ll realize you need email notifications on build status on each commit.
+The default emails from Jenkins are to put it mildly, <em>a bit lacking</em>.</p>
 </div>
 <div class="paragraph">
-<p>The solution is, the
-<a href="https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin">Email-ext</a>
-plugin. This lets you customize your emails. They have some decent
-templates
-in their code. However you&#8217;ll want to customize your emails further. I
-took
-the approach of taking their template and making it prettier with
-<a href="http://www.zurb.com/playground/responsive-email-templates">Zurb&#8217;s
-responsive email</a>
-templates. I use Mail.app on the Mac and the Mail app on my iPhone.
-Things
-were going great until I committed something to github with my gmail id.</p>
+<p>The solution is, the  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin">Email-ext</a>  plugin.
+This lets you customize your emails.
+They have some decent templates  in their code.
+However you&#8217;ll want to customize your emails further.
+I took  the approach of taking their template and making it prettier with  <a href="http://www.zurb.com/playground/responsive-email-templates">Zurb&#8217;s responsive email</a>  templates.
+I use Mail.app on the Mac and the Mail app on my iPhone.
+Things  were going great until I committed something to github with my gmail id.</p>
 </div>
 <div class="paragraph">
-<p>That&#8217;s when I learnt about
-<a href="http://www.flickr.com/groups/project-gmail-grimace/">GMail Grimace</a>.</p>
+<p>That&#8217;s when I learnt about <a href="http://www.flickr.com/groups/project-gmail-grimace/">GMail Grimace</a>.</p>
 </div>
 <div class="paragraph">
 <p>Rewriting all my templates to not use style tags was not an option.
-Changing
-the appearance of an html element using css classes that are variables
-in your
-template is super easy. Doing that using if conditions in your template,
-is a
-pain in the ass.</p>
+Changing the appearance of an html element using css classes that are variables in your template is super easy.
+Doing that using if conditions in your template, is a pain in the ass.</p>
 </div>
 <div class="paragraph">
-<p>Then I ran into this
-<a href="http://stackoverflow.com/questions/4521557/automatically-convert-style-sheets-to-inline-style">SO</a>.
-So I decided to use this information and create a <code>pre-send</code> script for
-the
-Email-ext plugin. However I learnt that
-<a href="https://groups.google.com/forum/?fromgroups=#!topic/jenkinsci-users/Avme-hTCeDs">there
-were some problems</a>.</p>
+<p>Then I ran into this <a href="http://stackoverflow.com/questions/4521557/automatically-convert-style-sheets-to-inline-style">SO</a>.
+So I decided to use this information and create a <code>pre-send</code> script for the Email-ext plugin.
+However I learnt that <a href="https://groups.google.com/forum/?fromgroups=#!topic/jenkinsci-users/Avme-hTCeDs">there were some problems</a>.</p>
 </div>
 <div class="paragraph">
-<p>So I decided to
-<a href="https://github.com/jenkinsci/email-ext-plugin/pull/60">hack the plugin</a>
-to do what I want. It&#8217;s now part of v2.28.</p>
+<p>So I decided to <a href="https://github.com/jenkinsci/email-ext-plugin/pull/60">hack the plugin</a> to do what I want.
+It&#8217;s now part of v2.28.</p>
 </div>
 <div class="paragraph">
-<p>All you need to do is create a <code>style</code> tag in your email with an
-additional
-attribute <code>data-inline</code> and value <code>true</code>.</p>
+<p>All you need to do is create a <code>style</code> tag in your email with an additional attribute <code>data-inline</code> and value <code>true</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -699,8 +642,7 @@ attribute <code>data-inline</code> and value <code>true</code>.</p>
 </div>
 <div class="paragraph">
 <p>The plugin now will take this css and apply it inline to all elements.
-This
-makes GMail happy.</p>
+This makes GMail happy.</p>
 </div>
 <div class="paragraph">
 <p>Here&#8217;s my <a href="https://gist.github.com/rahulsom/5125421">Jelly Template</a>.</p>
@@ -710,71 +652,56 @@ makes GMail happy.</p>
   			<p><div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>2012 had been a fairly successful year in some aspects. In some, it was
-terrible.</p>
+<p>2012 had been a fairly successful year in some aspects. In some, it was terrible.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="cycling">Cycling</h3>
 <div class="paragraph">
-<p>I had set a target of 1500 miles and was possibly very very short of
-this target.
-A lot of things caused this - mostly my lazyness. However the good news
-was that
-I was able to get back to biking after my rather long hiatus after an
-accident.
-Also I never did many 50 miles rides. There was just one 50 mile ride.
-Most rides
-were shorter, though they included some rides to Palomares.</p>
+<p>I had set a target of 1500 miles and was possibly very very short of this target.
+A lot of things caused this - mostly my lazyness.
+However the good news was that I was able to get back to biking after my rather long hiatus after an accident.
+Also I never did many 50 miles rides.
+There was just one 50 mile ride.
+Most rides were shorter, though they included some rides to Palomares.</p>
 </div>
 <div class="paragraph">
-<p>The best thing however was, I got closer to my ideal weight. I got
-better average
-speeds. I expanded my territory, i.e. got into mountain biking. I did
-some rides in
-Skyline but several rides at Mission Peak. Also my climb speed has
-improved a lot.</p>
+<p>The best thing however was, I got closer to my ideal weight.
+I got better average speeds.
+I expanded my territory, i.e. got into mountain biking.
+I did some rides in Skyline but several rides at Mission Peak.
+Also my climb speed has improved a lot.</p>
 </div>
 <div class="paragraph">
-<p>For 2013, I want to revive my goal from 2012, i.e. 1500 miles on my road
-bike. I
-have signed up for an 80 miler in May. Also
-I want to pack in a few mountain rides. And I want to buy my own
-mountain bike.
-I&#8217;m looking at the
-<a href="http://reviews.mtbr.com/2013-specialized-camber">'13 Specialized Camber
-29</a>.
+<p>For 2013, I want to revive my goal from 2012, i.e. 1500 miles on my road bike.
+I have signed up for an 80 miler in May.
+Also I want to pack in a few mountain rides.
+And I want to buy my own mountain bike.
+I&#8217;m looking at the <a href="http://reviews.mtbr.com/2013-specialized-camber">'13 Specialized Camber 29</a>.
 Any suggestions are welcome.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="running">Running</h3>
 <div class="paragraph">
-<p>I was able to manage to start running. It took a lot of effort, but I
-got comfortable
-with running ~10K. The speed isn&#8217;t great, but it&#8217;s still something. For
-2013, I&#8217;m
-thinking of getting to do a half marathon.</p>
+<p>I was able to manage to start running.
+It took a lot of effort, but I got comfortable with running ~10K.
+The speed isn&#8217;t great, but it&#8217;s still something.
+For 2013, I&#8217;m thinking of getting to do a half marathon.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="otherwise">Otherwise</h3>
 <div class="paragraph">
-<p>I took help from a personal trainer to get my shit straight. And that
-was helpful.
-If you need help with your fitness goals, do consider consulting a
-personal trainer.
-You might think you don&#8217;t want to hulk up, and that&#8217;s fine, but having a
-trainer who
-knows what the hell they&#8217;re doing advise you is better than you trying
-to figure out
-how to reach your goals.</p>
+<p>I took help from a personal trainer to get my shit straight.
+And that was helpful.
+If you need help with your fitness goals, do consider consulting a personal trainer.
+You might think you don&#8217;t want to hulk up, and that&#8217;s fine, but having a trainer who knows what the hell they&#8217;re doing advise you is better than you trying to figure out how to reach your goals.</p>
 </div>
 <div class="paragraph">
-<p>For 2013, my goal keep this going. As a first hurdle, I seem to have
-screwed up my
-wrist, <em>again</em>.</p>
+<p>For 2013, my goal keep this going.
+As a first hurdle, I seem to have screwed up my wrist, <em>again</em>.</p>
 </div>
 </div></p>
   			<a href="blog/2012/fitness-trackers.html"><h1>Fitness Trackers</h1></a>
@@ -799,79 +726,57 @@ wrist, <em>again</em>.</p>
 <div class="sect4">
 <h5 id="when-cycling">When cycling</h5>
 <div class="paragraph">
-<p>I applied that approach to cycling - I bought a
-<a href="http://amzn.to/Rk2yTx">Schwinn</a> computer and then a
-<a href="http://amzn.to/Rk2KSG">Cateye</a> and this made me understand my biking
-better. I knew
-how fast I could go, what my speed was on flats, climbs and descents.
-With Schwinn, I had an understanding of
-how many calories I burnt. With Cateye, I started looking at my cadence.</p>
+<p>I applied that approach to cycling - I bought a <a href="http://amzn.to/Rk2yTx">Schwinn</a> computer and then a <a href="http://amzn.to/Rk2KSG">Cateye</a> and this made me understand my biking better.
+I knew how fast I could go, what my speed was on flats, climbs and descents.
+With Schwinn, I had an understanding of how many calories I burnt.
+With Cateye, I started looking at my cadence.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="when-not-cycling">When not cycling</h5>
 <div class="paragraph">
-<p>However seasonal allergies brought my biking to a halt. And my fitness
-started declining again. So I decided to
-sign up for a gym membership - I hate using treadmills and stationary
-bikes.</p>
+<p>However seasonal allergies brought my biking to a halt.
+And my fitness started declining again.
+So I decided to sign up for a gym membership - I hate using treadmills and stationary bikes.</p>
 </div>
 <div class="quoteblock">
 <blockquote>
 <div class="paragraph">
-<p>If I&#8217;m walking or biking for 5 minutes, I expect to be farther away from
-where I started. If I&#8217;m not, I get bored.</p>
+<p>If I&#8217;m walking or biking for 5 minutes, I expect to be farther away from where I started.
+If I&#8217;m not, I get bored.</p>
 </div>
 </blockquote>
 </div>
 <div class="paragraph">
-<p>However I&#8217;ve come to terms with the fact that, the gym is the only way I
-can get back to being fit if I can&#8217;t
-get my miles when pollen is high.</p>
+<p>However I&#8217;ve come to terms with the fact that, the gym is the only way I can get back to being fit if I can&#8217;t get my miles when pollen is high.</p>
 </div>
 <div class="paragraph">
-<p>As part of a goodie bag at a race
-<a href="http://www.active.com/cycling/yountville-ca/napa-valley-tour-de-cure-2012">ride</a>
-I attended this year, I got a
-pedometer from the good folks at Walgreens. It&#8217;s terrible in terms of
-accuracy and discreetness. One day, I did
-nothing more than driving to work and returning home; and it said I&#8217;d
-walked 5 miles. And it&#8217;s noisy; my colleagues thought
-I was tin-foil carrying a Geiger Counter with me. Also pedometers don&#8217;t
-account for other activity I do.</p>
+<p>As part of a goodie bag at a race <a href="http://www.active.com/cycling/yountville-ca/napa-valley-tour-de-cure-2012">ride</a> I attended this year, I got a pedometer from the good folks at Walgreens.
+It&#8217;s terrible in terms of accuracy and discreetness.
+One day, I did nothing more than driving to work and returning home; and it said I&#8217;d walked 5 miles.
+And it&#8217;s noisy; my colleagues thought I was tin-foil carrying a Geiger Counter with me.
+Also pedometers don&#8217;t account for other activity I do.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="the-choices">The choices</h5>
 <div class="paragraph">
-<p>I saw my trainer at the gym wearing one of those
-<a href="http://www.bodybugg.com/">Bodybuggs</a>
-<a href="http://amzn.to/TkthyG"><span class="image"><img src="https://www.amazon.com/favicon.ico" alt="image" width="18" height="18"></span></a>.
+<p>I saw my trainer at the gym wearing one of those <a href="http://www.bodybugg.com/">Bodybuggs</a> <a href="http://amzn.to/TkthyG"><span class="image"><img src="https://www.amazon.com/favicon.ico" alt="image" width="18" height="18"></span></a>.
 That seemed like a good idea.
-Except that you require a subscription to get the best out of it. So
-I&#8217;ve started looking at other alternatives</p>
+Except that you require a subscription to get the best out of it.
+So I&#8217;ve started looking at other alternatives</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="http://www.fitbit.com/product">Fitbit</a>
-<a href="http://amzn.to/WYwUOY"><span class="image"><img src="https://www.amazon.com/favicon.ico" alt="image" width="18" height="18"></span></a>
-seems to do away with the subscription, but it&#8217;s just a 3D
-accelerometer;
-<em>that&#8217;s like a fancy pedometer</em>. It&#8217;s great in that it has an
-<a href="http://dev.fitbit.com/">API</a>, and apparently a
-thriving ecosystem.</p>
+<p><a href="http://www.fitbit.com/product">Fitbit</a> <a href="http://amzn.to/WYwUOY"><span class="image"><img src="https://www.amazon.com/favicon.ico" alt="image" width="18" height="18"></span></a> seems to do away with the subscription, but it&#8217;s just a 3D accelerometer; <em>that&#8217;s like a fancy pedometer</em>.
+It&#8217;s great in that it has an <a href="http://dev.fitbit.com/">API</a>, and apparently a thriving ecosystem.</p>
 </li>
 <li>
-<p>Then there&#8217;s Nike&#8217;s <a href="http://www.nike.com/fuelband/">Fuelband</a>
-<a href="http://amzn.to/VXo1XY"><span class="image"><img src="https://www.amazon.com/favicon.ico" alt="image" width="18" height="18"></span></a>
-which looks great, but then doesn&#8217;t give any meaningful
-metrics other than it&#8217;s own fake currency.</p>
+<p>Then there&#8217;s Nike&#8217;s <a href="http://www.nike.com/fuelband/">Fuelband</a> <a href="http://amzn.to/VXo1XY"><span class="image"><img src="https://www.amazon.com/favicon.ico" alt="image" width="18" height="18"></span></a> which looks great, but then doesn&#8217;t give any meaningful metrics other than it&#8217;s own fake currency.</p>
 </li>
 <li>
-<p>The third contender is <a href="https://mybasis.com/">Basis</a> which so far seems
-to be vaporvare, in that we don&#8217;t know much
-about it except for that it will cost $199.</p>
+<p>The third contender is <a href="https://mybasis.com/">Basis</a> which so far seems to be vaporvare, in that we don&#8217;t know much about it except for that it will cost $199.</p>
 </li>
 </ul>
 </div>
@@ -887,8 +792,7 @@ about it except for that it will cost $199.</p>
 <p>Measures my activity and gives meaningful metrics.</p>
 </li>
 <li>
-<p>Lets me look at data in fine grained durations so I can compare past
-performance.</p>
+<p>Lets me look at data in fine grained durations so I can compare past performance.</p>
 </li>
 </ul>
 </div>
@@ -896,28 +800,15 @@ performance.</p>
 <div class="sect4">
 <h5 id="what-does-it-mean-to-have-an-api">What does it mean to have an API?</h5>
 <div class="paragraph">
-<p>It means that I do not have to pay money to someone so they can gather
-up my data, and sell it to someone else. My
-fitness data is my Protected Health Information. I don&#8217;t want to pay
-someone $10 a month so they know
-when I&#8217;ve been pumping iron and have my information sent to the makers
-of
-<a href="http://www.cytosport.com/products/muscle-milk">Muscle Milk</a> and when I&#8217;m
-sleeping on my couch for 3 days in a row,
-send it to
-<a href="http://www.nutrisystem.com/jsps_hmr/home/index.jsp?_requestid=594177">Nutrisystem</a>.
-I would love something
-like good old Nike+ which merely synced with your iPod and if you chose
-to, shared it on their website. However it looks
-like everyone is taking the cloud seriously and there aren&#8217;t any
-products in this category that work that way. I may be
-wrong here, but that&#8217;s what everyone&#8217;s advertising looks like.</p>
+<p>It means that I do not have to pay money to someone so they can gather up my data, and sell it to someone else.
+My fitness data is my Protected Health Information.
+I don&#8217;t want to pay someone $10 a month so they know when I&#8217;ve been pumping iron and have my information sent to the makers of <a href="http://www.cytosport.com/products/muscle-milk">Muscle Milk</a> and when I&#8217;m sleeping on my couch for 3 days in a row, send it to <a href="http://www.nutrisystem.com/jsps_hmr/home/index.jsp?_requestid=594177">Nutrisystem</a>.
+I would love something like good old Nike+ which merely synced with your iPod and if you chose to, shared it on their website.
+However it looks like everyone is taking the cloud seriously and there aren&#8217;t any products in this category that work that way.
+I may be wrong here, but that&#8217;s what everyone&#8217;s advertising looks like.</p>
 </div>
 <div class="paragraph">
-<p>Do you have any fitness trackers? What do you like about them? How have
-they helped you? Tweet me at <a href="http://twitter.com/rahulsom">@rahulsom</a> or
-get me on
-<a href="http://www.quora.com/Fitness/I-want-a-fitness-health-tracking-device-Whats-my-best-bet">Quora</a></p>
+<p>Do you have any fitness trackers? What do you like about them? How have they helped you? Tweet me at <a href="http://twitter.com/rahulsom">@rahulsom</a> or get me on <a href="http://www.quora.com/Fitness/I-want-a-fitness-health-tracking-device-Whats-my-best-bet">Quora</a></p>
 </div>
 </div></p>
 	
@@ -925,7 +816,7 @@ get me on
 	
 	<p>Older posts are available in the <a href="archive.html">archive</a>.</p>
 
-    </div>
+      </div>
     </div>
     <footer>
       <p>&copy; Rahul Somasunderam 2012

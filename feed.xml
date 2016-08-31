@@ -6,8 +6,8 @@
     <atom:link href="http://rahulsom.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Wed, 31 Aug 2016 14:51:08 -0700</pubDate>
-    <lastBuildDate>Wed, 31 Aug 2016 14:51:08 -0700</lastBuildDate>
+    <pubDate>Wed, 31 Aug 2016 15:45:15 -0700</pubDate>
+    <lastBuildDate>Wed, 31 Aug 2016 15:45:15 -0700</lastBuildDate>
 
     <item>
       <title>Gradle Equivalent of Maven Mirror</title>
@@ -279,12 +279,12 @@ code.&lt;/p&gt;
 	&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I wrote this a while back in an office blog, and then realized that a lot of people run into this problem, and would
-benefit from reading this.&lt;/p&gt;
+&lt;p&gt;I wrote this a while back in an office blog, and then realized that a lot of people run into this problem, and would benefit from reading this.&lt;/p&gt;
 &lt;/div&gt;
 &lt;hr&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Character Encoding is what decides how Strings which are first class citizens in most modern programming languages, get converted into byte arrays. Byte arrays are what get sent over the wire, or get written to disk. In the reverse direction, they decide how a byte array must be converted to a String.&lt;/p&gt;
+&lt;p&gt;Character Encoding is what decides how Strings which are first class citizens in most modern programming languages, get converted into byte arrays.
+Byte arrays are what get sent over the wire, or get written to disk. In the reverse direction, they decide how a byte array must be converted to a String.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;This program takes a string in 3 different languages and shows how each language is affected by different charsets.&lt;/p&gt;
@@ -356,7 +356,9 @@ UTF-32      : 0000004b0000005900000050000000480000004f0000004e000000ae0000002000
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;As you can see, all the encodings we use do a great job with plain English text. That&amp;#8217;s because all encodings have support for the characters in the English alphabet. As we start making the alphabet more and more complex, we start seeing the difference between the Universal Encodings and the regional Encodings.&lt;/p&gt;
+&lt;p&gt;As you can see, all the encodings we use do a great job with plain English text.
+That&amp;#8217;s because all encodings have support for the characters in the English alphabet.
+As we start making the alphabet more and more complex, we start seeing the difference between the Universal Encodings and the regional Encodings.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;ASCII and windows-1521 have very limited support for anything other than English.&lt;/p&gt;
@@ -464,8 +466,7 @@ x-windows-iso2022jp&lt;/pre&gt;
 &lt;p&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Woman_in_white_Shirt_and_black_pants_and_Woman_in_blue_shirt_and_white_pants_jumping.jpg/800px-Woman_in_white_Shirt_and_black_pants_and_Woman_in_blue_shirt_and_white_pants_jumping.jpg&quot; alt=&quot;Blue Shirt White Shirt&quot;&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Image from
-&lt;a href=&quot;https://en.m.wikipedia.org/wiki/File:Woman_in_white_Shirt_and_black_pants_and_Woman_in_blue_shirt_and_white_pants_jumping.jpg&quot;&gt;Wikipedia&lt;/a&gt;.
+&lt;p&gt;Image from &lt;a href=&quot;https://en.m.wikipedia.org/wiki/File:Woman_in_white_Shirt_and_black_pants_and_Woman_in_blue_shirt_and_white_pants_jumping.jpg&quot;&gt;Wikipedia&lt;/a&gt;.
 No! That is not Bob.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -480,17 +481,13 @@ No! That is not Bob.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;&lt;em&gt;It&amp;#8217;s actually quite simple, and I figured out what makes it stop.
-When I wear a blue shirt, it works just fine. But when I wear a white
-shirt,
-it doesn&amp;#8217;t work.&lt;/em&gt;&lt;/p&gt;
+When I wear a blue shirt, it works just fine.
+But when I wear a white shirt, it doesn&amp;#8217;t work.&lt;/em&gt;
+&apos;&apos;&apos;&apos;&apos;&lt;/p&gt;
 &lt;/div&gt;
-&lt;hr&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you&amp;#8217;re a mechanic, you know there&amp;#8217;s some serious shit going on there,
-but
-your customer has a hypothesis and you don&amp;#8217;t. Let&amp;#8217;s start looking into
-this problem
-deeper.&lt;/p&gt;
+&lt;p&gt;If you&amp;#8217;re a mechanic, you know there&amp;#8217;s some serious shit going on there, but  your customer has a hypothesis and you don&amp;#8217;t.
+Let&amp;#8217;s start looking into this problem deeper.&lt;/p&gt;
 &lt;/div&gt;
 &lt;hr&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -500,67 +497,40 @@ deeper.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Then I came home. The car was still working. You with me?&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;em&gt;I had to go to my buddy&amp;#8217;s place. So I quickly changed to a white
-shirt,
-and tried starting my car. It just wouldn&amp;#8217;t.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;I had to go to my buddy&amp;#8217;s place. So I quickly changed to a white shirt, and tried starting my car. It just wouldn&amp;#8217;t.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;em&gt;So I said &quot;let&amp;#8217;s go back to my blue shirt&quot;. So I went back in, and
-changed.
-I got a call from Mom, and minutes later I start the car, and it works
-just
-fine.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;So I said &quot;let&amp;#8217;s go back to my blue shirt&quot;. So I went back in, and changed. I got a call from Mom, and minutes later I start the car, and it works just  fine.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;em&gt;But I wanted to make sure I&amp;#8217;m right so I also took my white shirt with
-me
-to his place, and told him about this problem. He doubted me too.
-So I put on the white shirt and tried starting it, and it wouldn&amp;#8217;t
-start.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;But I wanted to make sure I&amp;#8217;m right so I also took my white shirt with me to his place, and told him about this problem. He doubted me too. So I put on the white shirt and tried starting it, and it wouldn&amp;#8217;t start.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;em&gt;Then we went out for dinner in his car, and I spilled some of that Thai
-Curry
-on my white shirt. So I had to change back to my blue shirt, because,
-well anyways
-my car wouldn&amp;#8217;t start with the white shirt.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Then we went out for dinner in his car, and I spilled some of that Thai Curry  on my white shirt. So I had to change back to my blue shirt, because, well anyways  my car wouldn&amp;#8217;t start with the white shirt.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;em&gt;Now I started the car, and came back home. But to be sure, I put on
-another white
-shirt and tried starting the car. It just wouldn&amp;#8217;t.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Now I started the car, and came back home. But to be sure, I put on another white  shirt and tried starting the car. It just wouldn&amp;#8217;t.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;em&gt;So this morning, I put on this green shirt, and drove to work.
-Everything was great.
-I quickly changed to my white shirt, to show my coworker the problem,
-and as expected
-the car wouldn&amp;#8217;t start.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;So this morning, I put on this green shirt, and drove to work. Everything was great.  I quickly changed to my white shirt, to show my coworker the problem, and as expected  the car wouldn&amp;#8217;t start.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;&lt;em&gt;I decided to bring my car in around my lunch break.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;em&gt;Let me quickly put on my white shirt and show you that I&amp;#8217;m not making
-things
-up.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Let me quickly put on my white shirt and show you that I&amp;#8217;m not making things up.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;hr&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Now &lt;em&gt;Bob&lt;/em&gt; has done an amazing analysis of the problem, and it&amp;#8217;s a great
-story.
+&lt;p&gt;Now &lt;em&gt;Bob&lt;/em&gt; has done an amazing analysis of the problem, and it&amp;#8217;s a great story.
 The only problem with it is &lt;strong&gt;it&amp;#8217;s all wrong&lt;/strong&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;While having a diploma in car repair would help you trust my judgement
-of this analysis,
-you probably know that any way.&lt;/p&gt;
+&lt;p&gt;While having a diploma in car repair would help you trust my judgement of this analysis,  you probably know that any way.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A lot of customer problems in Software Development get reported this
-way. And by the
-time they get to the developer who needs to fix the problem, this is
-what it looks like&lt;/p&gt;
+&lt;p&gt;A lot of customer problems in Software Development get reported this way.
+And by the time they get to the developer who needs to fix the problem, this is what it looks like&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;literalblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
@@ -582,11 +552,8 @@ Type: Support Task&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The amount of time wasted by development and QA in reproducing Bob&amp;#8217;s
-&quot;problem&quot; is huge.
-Perhaps it might have been simpler to find out why Bob&amp;#8217;s car does not
-start when the
-engine is already warm.&lt;/p&gt;
+&lt;p&gt;The amount of time wasted by development and QA in reproducing Bob&amp;#8217;s &quot;problem&quot; is huge.
+Perhaps it might have been simpler to find out why Bob&amp;#8217;s car does not start when the  engine is already warm.&lt;/p&gt;
 &lt;/div&gt;
 	</description>
     </item>
@@ -597,65 +564,41 @@ engine is already warm.&lt;/p&gt;
       <guid isPermaLink="false">blog/2013/jenkins-email-ext-and-gmail-grimace.html</guid>
       	<description>
 	&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you&amp;#8217;re working on any project that involves more than one developer
-and
-weeks or possibly months of work, you should be using some sort of
-Continuous
-Integration. The most common system to use is
-&lt;a href=&quot;http://jenkins-ci.org/&quot;&gt;Jenkins&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you&amp;#8217;re working on any project that involves more than one developer and  weeks or possibly months of work, you should be using some sort of Continuous Integration.
+The most common system to use is &lt;a href=&quot;http://jenkins-ci.org/&quot;&gt;Jenkins&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you start using Jenkins and start committing code often, you&amp;#8217;ll
-realize you
-need email notifications on build status on each commit. The default
-emails
-from Jenkins are to put it mildly, &lt;em&gt;a bit lacking&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;If you start using Jenkins and start committing code often, you&amp;#8217;ll realize you need email notifications on build status on each commit.
+The default emails from Jenkins are to put it mildly, &lt;em&gt;a bit lacking&lt;/em&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The solution is, the
-&lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin&quot;&gt;Email-ext&lt;/a&gt;
-plugin. This lets you customize your emails. They have some decent
-templates
-in their code. However you&amp;#8217;ll want to customize your emails further. I
-took
-the approach of taking their template and making it prettier with
-&lt;a href=&quot;http://www.zurb.com/playground/responsive-email-templates&quot;&gt;Zurb&amp;#8217;s
-responsive email&lt;/a&gt;
-templates. I use Mail.app on the Mac and the Mail app on my iPhone.
-Things
-were going great until I committed something to github with my gmail id.&lt;/p&gt;
+&lt;p&gt;The solution is, the  &lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin&quot;&gt;Email-ext&lt;/a&gt;  plugin.
+This lets you customize your emails.
+They have some decent templates  in their code.
+However you&amp;#8217;ll want to customize your emails further.
+I took  the approach of taking their template and making it prettier with  &lt;a href=&quot;http://www.zurb.com/playground/responsive-email-templates&quot;&gt;Zurb&amp;#8217;s responsive email&lt;/a&gt;  templates.
+I use Mail.app on the Mac and the Mail app on my iPhone.
+Things  were going great until I committed something to github with my gmail id.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;That&amp;#8217;s when I learnt about
-&lt;a href=&quot;http://www.flickr.com/groups/project-gmail-grimace/&quot;&gt;GMail Grimace&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;That&amp;#8217;s when I learnt about &lt;a href=&quot;http://www.flickr.com/groups/project-gmail-grimace/&quot;&gt;GMail Grimace&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Rewriting all my templates to not use style tags was not an option.
-Changing
-the appearance of an html element using css classes that are variables
-in your
-template is super easy. Doing that using if conditions in your template,
-is a
-pain in the ass.&lt;/p&gt;
+Changing the appearance of an html element using css classes that are variables in your template is super easy.
+Doing that using if conditions in your template, is a pain in the ass.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Then I ran into this
-&lt;a href=&quot;http://stackoverflow.com/questions/4521557/automatically-convert-style-sheets-to-inline-style&quot;&gt;SO&lt;/a&gt;.
-So I decided to use this information and create a &lt;code&gt;pre-send&lt;/code&gt; script for
-the
-Email-ext plugin. However I learnt that
-&lt;a href=&quot;https://groups.google.com/forum/?fromgroups=#!topic/jenkinsci-users/Avme-hTCeDs&quot;&gt;there
-were some problems&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Then I ran into this &lt;a href=&quot;http://stackoverflow.com/questions/4521557/automatically-convert-style-sheets-to-inline-style&quot;&gt;SO&lt;/a&gt;.
+So I decided to use this information and create a &lt;code&gt;pre-send&lt;/code&gt; script for the Email-ext plugin.
+However I learnt that &lt;a href=&quot;https://groups.google.com/forum/?fromgroups=#!topic/jenkinsci-users/Avme-hTCeDs&quot;&gt;there were some problems&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;So I decided to
-&lt;a href=&quot;https://github.com/jenkinsci/email-ext-plugin/pull/60&quot;&gt;hack the plugin&lt;/a&gt;
-to do what I want. It&amp;#8217;s now part of v2.28.&lt;/p&gt;
+&lt;p&gt;So I decided to &lt;a href=&quot;https://github.com/jenkinsci/email-ext-plugin/pull/60&quot;&gt;hack the plugin&lt;/a&gt; to do what I want.
+It&amp;#8217;s now part of v2.28.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;All you need to do is create a &lt;code&gt;style&lt;/code&gt; tag in your email with an
-additional
-attribute &lt;code&gt;data-inline&lt;/code&gt; and value &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;All you need to do is create a &lt;code&gt;style&lt;/code&gt; tag in your email with an additional attribute &lt;code&gt;data-inline&lt;/code&gt; and value &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;listingblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
@@ -674,8 +617,7 @@ attribute &lt;code&gt;data-inline&lt;/code&gt; and value &lt;code&gt;true&lt;/co
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;The plugin now will take this css and apply it inline to all elements.
-This
-makes GMail happy.&lt;/p&gt;
+This makes GMail happy.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Here&amp;#8217;s my &lt;a href=&quot;https://gist.github.com/rahulsom/5125421&quot;&gt;Jelly Template&lt;/a&gt;.&lt;/p&gt;
@@ -691,71 +633,56 @@ makes GMail happy.&lt;/p&gt;
 	&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;2012 had been a fairly successful year in some aspects. In some, it was
-terrible.&lt;/p&gt;
+&lt;p&gt;2012 had been a fairly successful year in some aspects. In some, it was terrible.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect2&quot;&gt;
 &lt;h3 id=&quot;cycling&quot;&gt;Cycling&lt;/h3&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I had set a target of 1500 miles and was possibly very very short of
-this target.
-A lot of things caused this - mostly my lazyness. However the good news
-was that
-I was able to get back to biking after my rather long hiatus after an
-accident.
-Also I never did many 50 miles rides. There was just one 50 mile ride.
-Most rides
-were shorter, though they included some rides to Palomares.&lt;/p&gt;
+&lt;p&gt;I had set a target of 1500 miles and was possibly very very short of this target.
+A lot of things caused this - mostly my lazyness.
+However the good news was that I was able to get back to biking after my rather long hiatus after an accident.
+Also I never did many 50 miles rides.
+There was just one 50 mile ride.
+Most rides were shorter, though they included some rides to Palomares.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The best thing however was, I got closer to my ideal weight. I got
-better average
-speeds. I expanded my territory, i.e. got into mountain biking. I did
-some rides in
-Skyline but several rides at Mission Peak. Also my climb speed has
-improved a lot.&lt;/p&gt;
+&lt;p&gt;The best thing however was, I got closer to my ideal weight.
+I got better average speeds.
+I expanded my territory, i.e. got into mountain biking.
+I did some rides in Skyline but several rides at Mission Peak.
+Also my climb speed has improved a lot.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;For 2013, I want to revive my goal from 2012, i.e. 1500 miles on my road
-bike. I
-have signed up for an 80 miler in May. Also
-I want to pack in a few mountain rides. And I want to buy my own
-mountain bike.
-I&amp;#8217;m looking at the
-&lt;a href=&quot;http://reviews.mtbr.com/2013-specialized-camber&quot;&gt;&apos;13 Specialized Camber
-29&lt;/a&gt;.
+&lt;p&gt;For 2013, I want to revive my goal from 2012, i.e. 1500 miles on my road bike.
+I have signed up for an 80 miler in May.
+Also I want to pack in a few mountain rides.
+And I want to buy my own mountain bike.
+I&amp;#8217;m looking at the &lt;a href=&quot;http://reviews.mtbr.com/2013-specialized-camber&quot;&gt;&apos;13 Specialized Camber 29&lt;/a&gt;.
 Any suggestions are welcome.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect2&quot;&gt;
 &lt;h3 id=&quot;running&quot;&gt;Running&lt;/h3&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I was able to manage to start running. It took a lot of effort, but I
-got comfortable
-with running ~10K. The speed isn&amp;#8217;t great, but it&amp;#8217;s still something. For
-2013, I&amp;#8217;m
-thinking of getting to do a half marathon.&lt;/p&gt;
+&lt;p&gt;I was able to manage to start running.
+It took a lot of effort, but I got comfortable with running ~10K.
+The speed isn&amp;#8217;t great, but it&amp;#8217;s still something.
+For 2013, I&amp;#8217;m thinking of getting to do a half marathon.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect2&quot;&gt;
 &lt;h3 id=&quot;otherwise&quot;&gt;Otherwise&lt;/h3&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I took help from a personal trainer to get my shit straight. And that
-was helpful.
-If you need help with your fitness goals, do consider consulting a
-personal trainer.
-You might think you don&amp;#8217;t want to hulk up, and that&amp;#8217;s fine, but having a
-trainer who
-knows what the hell they&amp;#8217;re doing advise you is better than you trying
-to figure out
-how to reach your goals.&lt;/p&gt;
+&lt;p&gt;I took help from a personal trainer to get my shit straight.
+And that was helpful.
+If you need help with your fitness goals, do consider consulting a personal trainer.
+You might think you don&amp;#8217;t want to hulk up, and that&amp;#8217;s fine, but having a trainer who knows what the hell they&amp;#8217;re doing advise you is better than you trying to figure out how to reach your goals.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;For 2013, my goal keep this going. As a first hurdle, I seem to have
-screwed up my
-wrist, &lt;em&gt;again&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;For 2013, my goal keep this going.
+As a first hurdle, I seem to have screwed up my wrist, &lt;em&gt;again&lt;/em&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 	</description>
@@ -786,79 +713,57 @@ wrist, &lt;em&gt;again&lt;/em&gt;.&lt;/p&gt;
 &lt;div class=&quot;sect4&quot;&gt;
 &lt;h5 id=&quot;when-cycling&quot;&gt;When cycling&lt;/h5&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I applied that approach to cycling - I bought a
-&lt;a href=&quot;http://amzn.to/Rk2yTx&quot;&gt;Schwinn&lt;/a&gt; computer and then a
-&lt;a href=&quot;http://amzn.to/Rk2KSG&quot;&gt;Cateye&lt;/a&gt; and this made me understand my biking
-better. I knew
-how fast I could go, what my speed was on flats, climbs and descents.
-With Schwinn, I had an understanding of
-how many calories I burnt. With Cateye, I started looking at my cadence.&lt;/p&gt;
+&lt;p&gt;I applied that approach to cycling - I bought a &lt;a href=&quot;http://amzn.to/Rk2yTx&quot;&gt;Schwinn&lt;/a&gt; computer and then a &lt;a href=&quot;http://amzn.to/Rk2KSG&quot;&gt;Cateye&lt;/a&gt; and this made me understand my biking better.
+I knew how fast I could go, what my speed was on flats, climbs and descents.
+With Schwinn, I had an understanding of how many calories I burnt.
+With Cateye, I started looking at my cadence.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect4&quot;&gt;
 &lt;h5 id=&quot;when-not-cycling&quot;&gt;When not cycling&lt;/h5&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;However seasonal allergies brought my biking to a halt. And my fitness
-started declining again. So I decided to
-sign up for a gym membership - I hate using treadmills and stationary
-bikes.&lt;/p&gt;
+&lt;p&gt;However seasonal allergies brought my biking to a halt.
+And my fitness started declining again.
+So I decided to sign up for a gym membership - I hate using treadmills and stationary bikes.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;quoteblock&quot;&gt;
 &lt;blockquote&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If I&amp;#8217;m walking or biking for 5 minutes, I expect to be farther away from
-where I started. If I&amp;#8217;m not, I get bored.&lt;/p&gt;
+&lt;p&gt;If I&amp;#8217;m walking or biking for 5 minutes, I expect to be farther away from where I started.
+If I&amp;#8217;m not, I get bored.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/blockquote&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;However I&amp;#8217;ve come to terms with the fact that, the gym is the only way I
-can get back to being fit if I can&amp;#8217;t
-get my miles when pollen is high.&lt;/p&gt;
+&lt;p&gt;However I&amp;#8217;ve come to terms with the fact that, the gym is the only way I can get back to being fit if I can&amp;#8217;t get my miles when pollen is high.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;As part of a goodie bag at a race
-&lt;a href=&quot;http://www.active.com/cycling/yountville-ca/napa-valley-tour-de-cure-2012&quot;&gt;ride&lt;/a&gt;
-I attended this year, I got a
-pedometer from the good folks at Walgreens. It&amp;#8217;s terrible in terms of
-accuracy and discreetness. One day, I did
-nothing more than driving to work and returning home; and it said I&amp;#8217;d
-walked 5 miles. And it&amp;#8217;s noisy; my colleagues thought
-I was tin-foil carrying a Geiger Counter with me. Also pedometers don&amp;#8217;t
-account for other activity I do.&lt;/p&gt;
+&lt;p&gt;As part of a goodie bag at a race &lt;a href=&quot;http://www.active.com/cycling/yountville-ca/napa-valley-tour-de-cure-2012&quot;&gt;ride&lt;/a&gt; I attended this year, I got a pedometer from the good folks at Walgreens.
+It&amp;#8217;s terrible in terms of accuracy and discreetness.
+One day, I did nothing more than driving to work and returning home; and it said I&amp;#8217;d walked 5 miles.
+And it&amp;#8217;s noisy; my colleagues thought I was tin-foil carrying a Geiger Counter with me.
+Also pedometers don&amp;#8217;t account for other activity I do.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect4&quot;&gt;
 &lt;h5 id=&quot;the-choices&quot;&gt;The choices&lt;/h5&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I saw my trainer at the gym wearing one of those
-&lt;a href=&quot;http://www.bodybugg.com/&quot;&gt;Bodybuggs&lt;/a&gt;
-&lt;a href=&quot;http://amzn.to/TkthyG&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt;.
+&lt;p&gt;I saw my trainer at the gym wearing one of those &lt;a href=&quot;http://www.bodybugg.com/&quot;&gt;Bodybuggs&lt;/a&gt; &lt;a href=&quot;http://amzn.to/TkthyG&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt;.
 That seemed like a good idea.
-Except that you require a subscription to get the best out of it. So
-I&amp;#8217;ve started looking at other alternatives&lt;/p&gt;
+Except that you require a subscription to get the best out of it.
+So I&amp;#8217;ve started looking at other alternatives&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;ulist&quot;&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;http://www.fitbit.com/product&quot;&gt;Fitbit&lt;/a&gt;
-&lt;a href=&quot;http://amzn.to/WYwUOY&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt;
-seems to do away with the subscription, but it&amp;#8217;s just a 3D
-accelerometer;
-&lt;em&gt;that&amp;#8217;s like a fancy pedometer&lt;/em&gt;. It&amp;#8217;s great in that it has an
-&lt;a href=&quot;http://dev.fitbit.com/&quot;&gt;API&lt;/a&gt;, and apparently a
-thriving ecosystem.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.fitbit.com/product&quot;&gt;Fitbit&lt;/a&gt; &lt;a href=&quot;http://amzn.to/WYwUOY&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt; seems to do away with the subscription, but it&amp;#8217;s just a 3D accelerometer; &lt;em&gt;that&amp;#8217;s like a fancy pedometer&lt;/em&gt;.
+It&amp;#8217;s great in that it has an &lt;a href=&quot;http://dev.fitbit.com/&quot;&gt;API&lt;/a&gt;, and apparently a thriving ecosystem.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Then there&amp;#8217;s Nike&amp;#8217;s &lt;a href=&quot;http://www.nike.com/fuelband/&quot;&gt;Fuelband&lt;/a&gt;
-&lt;a href=&quot;http://amzn.to/VXo1XY&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt;
-which looks great, but then doesn&amp;#8217;t give any meaningful
-metrics other than it&amp;#8217;s own fake currency.&lt;/p&gt;
+&lt;p&gt;Then there&amp;#8217;s Nike&amp;#8217;s &lt;a href=&quot;http://www.nike.com/fuelband/&quot;&gt;Fuelband&lt;/a&gt; &lt;a href=&quot;http://amzn.to/VXo1XY&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt; which looks great, but then doesn&amp;#8217;t give any meaningful metrics other than it&amp;#8217;s own fake currency.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;The third contender is &lt;a href=&quot;https://mybasis.com/&quot;&gt;Basis&lt;/a&gt; which so far seems
-to be vaporvare, in that we don&amp;#8217;t know much
-about it except for that it will cost $199.&lt;/p&gt;
+&lt;p&gt;The third contender is &lt;a href=&quot;https://mybasis.com/&quot;&gt;Basis&lt;/a&gt; which so far seems to be vaporvare, in that we don&amp;#8217;t know much about it except for that it will cost $199.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
@@ -874,8 +779,7 @@ about it except for that it will cost $199.&lt;/p&gt;
 &lt;p&gt;Measures my activity and gives meaningful metrics.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Lets me look at data in fine grained durations so I can compare past
-performance.&lt;/p&gt;
+&lt;p&gt;Lets me look at data in fine grained durations so I can compare past performance.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
@@ -883,28 +787,15 @@ performance.&lt;/p&gt;
 &lt;div class=&quot;sect4&quot;&gt;
 &lt;h5 id=&quot;what-does-it-mean-to-have-an-api&quot;&gt;What does it mean to have an API?&lt;/h5&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It means that I do not have to pay money to someone so they can gather
-up my data, and sell it to someone else. My
-fitness data is my Protected Health Information. I don&amp;#8217;t want to pay
-someone $10 a month so they know
-when I&amp;#8217;ve been pumping iron and have my information sent to the makers
-of
-&lt;a href=&quot;http://www.cytosport.com/products/muscle-milk&quot;&gt;Muscle Milk&lt;/a&gt; and when I&amp;#8217;m
-sleeping on my couch for 3 days in a row,
-send it to
-&lt;a href=&quot;http://www.nutrisystem.com/jsps_hmr/home/index.jsp?_requestid=594177&quot;&gt;Nutrisystem&lt;/a&gt;.
-I would love something
-like good old Nike+ which merely synced with your iPod and if you chose
-to, shared it on their website. However it looks
-like everyone is taking the cloud seriously and there aren&amp;#8217;t any
-products in this category that work that way. I may be
-wrong here, but that&amp;#8217;s what everyone&amp;#8217;s advertising looks like.&lt;/p&gt;
+&lt;p&gt;It means that I do not have to pay money to someone so they can gather up my data, and sell it to someone else.
+My fitness data is my Protected Health Information.
+I don&amp;#8217;t want to pay someone $10 a month so they know when I&amp;#8217;ve been pumping iron and have my information sent to the makers of &lt;a href=&quot;http://www.cytosport.com/products/muscle-milk&quot;&gt;Muscle Milk&lt;/a&gt; and when I&amp;#8217;m sleeping on my couch for 3 days in a row, send it to &lt;a href=&quot;http://www.nutrisystem.com/jsps_hmr/home/index.jsp?_requestid=594177&quot;&gt;Nutrisystem&lt;/a&gt;.
+I would love something like good old Nike+ which merely synced with your iPod and if you chose to, shared it on their website.
+However it looks like everyone is taking the cloud seriously and there aren&amp;#8217;t any products in this category that work that way.
+I may be wrong here, but that&amp;#8217;s what everyone&amp;#8217;s advertising looks like.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Do you have any fitness trackers? What do you like about them? How have
-they helped you? Tweet me at &lt;a href=&quot;http://twitter.com/rahulsom&quot;&gt;@rahulsom&lt;/a&gt; or
-get me on
-&lt;a href=&quot;http://www.quora.com/Fitness/I-want-a-fitness-health-tracking-device-Whats-my-best-bet&quot;&gt;Quora&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Do you have any fitness trackers? What do you like about them? How have they helped you? Tweet me at &lt;a href=&quot;http://twitter.com/rahulsom&quot;&gt;@rahulsom&lt;/a&gt; or get me on &lt;a href=&quot;http://www.quora.com/Fitness/I-want-a-fitness-health-tracking-device-Whats-my-best-bet&quot;&gt;Quora&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 	</description>
