@@ -367,7 +367,7 @@ div.pagination ul li.next {
   float: right;
 }
 
-a > img[src="http://www.amazon.com/favicon.ico"] {
+a > img[src="https://www.amazon.com/favicon.ico"] {
   height: 12px;
 }
 

@@ -6,8 +6,8 @@
     <atom:link href="http://rahulsom.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Wed, 31 Aug 2016 14:23:40 -0700</pubDate>
-    <lastBuildDate>Wed, 31 Aug 2016 14:23:40 -0700</lastBuildDate>
+    <pubDate>Wed, 31 Aug 2016 14:27:48 -0700</pubDate>
+    <lastBuildDate>Wed, 31 Aug 2016 14:27:48 -0700</lastBuildDate>
 
     <item>
       <title>Gradle Equivalent of Maven Mirror</title>
@@ -833,7 +833,7 @@ account for other activity I do.&lt;/p&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;I saw my trainer at the gym wearing one of those
 &lt;a href=&quot;http://www.bodybugg.com/&quot;&gt;Bodybuggs&lt;/a&gt;
-&lt;a href=&quot;http://amzn.to/TkthyG&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;http://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt;.
+&lt;a href=&quot;http://amzn.to/TkthyG&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt;.
 That seemed like a good idea.
 Except that you require a subscription to get the best out of it. So
 I&amp;#8217;ve started looking at other alternatives&lt;/p&gt;
@@ -842,7 +842,7 @@ I&amp;#8217;ve started looking at other alternatives&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&quot;http://www.fitbit.com/product&quot;&gt;Fitbit&lt;/a&gt;
-&lt;a href=&quot;http://amzn.to/WYwUOY&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;http://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;a href=&quot;http://amzn.to/WYwUOY&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt;
 seems to do away with the subscription, but it&amp;#8217;s just a 3D
 accelerometer;
 &lt;em&gt;that&amp;#8217;s like a fancy pedometer&lt;/em&gt;. It&amp;#8217;s great in that it has an
@@ -851,7 +851,7 @@ thriving ecosystem.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Then there&amp;#8217;s Nike&amp;#8217;s &lt;a href=&quot;http://www.nike.com/fuelband/&quot;&gt;Fuelband&lt;/a&gt;
-&lt;a href=&quot;http://amzn.to/VXo1XY&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;http://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;a href=&quot;http://amzn.to/VXo1XY&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt;
 which looks great, but then doesn&amp;#8217;t give any meaningful
 metrics other than it&amp;#8217;s own fake currency.&lt;/p&gt;
 &lt;/li&gt;
