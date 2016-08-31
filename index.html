@@ -62,6 +62,77 @@
 	<div class="page-header">
 		<h1>Blog</h1>
 	</div>
+  			<a href="blog/2016/gradle-equivalent-of-maven-mirror.html"><h1>Gradle Equivalent of Maven Mirror</h1></a>
+  			<p>31 August 2016</p>
+  			<p><div class="paragraph">
+<p>Maven has a way to configure mirrors in <code>settings.xml</code>. Gradle doesn&#8217;t have a direct analogue to it, but what it has is really nice. Also it&#8217;s <em>underdocumented</em>.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s say you&#8217;re using gradle at work, and you want to use your company&#8217;s maven mirror.
+You might want to do this for numerous reasons.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The connection to the open internet is very slow</p>
+</li>
+<li>
+<p>The connection to the open internet protected by a proxy that prevents access to maven central</p>
+</li>
+<li>
+<p>You want to audit what is being used in projects at work</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s say your maven mirror&#8217;s url is <code><a href="http://repo.internal.example.com/releases" class="bare">http://repo.internal.example.com/releases</a></code></p>
+</div>
+<div class="paragraph">
+<p>Just create a file called <code>init.gradle</code> under <code>$USER_HOME/.gradle</code> with this in it</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">allprojects { <i class="conum" data-value="1"></i><b>(1)</b>
+  buildscript { <i class="conum" data-value="2"></i><b>(2)</b>
+    repositories {
+      mavenLocal() <i class="conum" data-value="3"></i><b>(3)</b>
+      maven { url "http://repo.internal.example.com/releases" } <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+  }
+  repositories { <i class="conum" data-value="5"></i><b>(5)</b>
+    mavenLocal()
+    maven { url "http://repo.internal.example.com/releases" }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This says we want to apply to all projects on this machine.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>This says you want to modify the build script dependencies too. This will make gradle plugins and build dependencies also use your mirror.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>This says to look in maven local first. That&#8217;s typically your <code>$USER_HOME/.m2/repository</code> directory.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>This says to look at your maven mirror next if the artifact could not be found.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>This says to do the same set of changes for non-build dependencies of your gradle projects.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can find more information on what else you can do with init scripts <a href="https://docs.gradle.org/current/userguide/init_scripts.html">here</a>.</p>
+</div></p>
   			<a href="blog/2015/nexusmonitor.html"><h1>NexusMonitor</h1></a>
   			<p>16 March 2015</p>
   			<p><div id="preamble">

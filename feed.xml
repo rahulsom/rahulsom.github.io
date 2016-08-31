@@ -6,9 +6,86 @@
     <atom:link href="http://rahulsom.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Wed, 31 Aug 2016 09:33:16 -0700</pubDate>
-    <lastBuildDate>Wed, 31 Aug 2016 09:33:16 -0700</lastBuildDate>
+    <pubDate>Wed, 31 Aug 2016 14:14:53 -0700</pubDate>
+    <lastBuildDate>Wed, 31 Aug 2016 14:14:53 -0700</lastBuildDate>
 
+    <item>
+      <title>Gradle Equivalent of Maven Mirror</title>
+      <link>http://rahulsom.github.io/blog/2016/gradle-equivalent-of-maven-mirror.html</link>
+      <pubDate>Wed, 31 Aug 2016 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/2016/gradle-equivalent-of-maven-mirror.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Maven has a way to configure mirrors in &lt;code&gt;settings.xml&lt;/code&gt;. Gradle doesn&amp;#8217;t have a direct analogue to it, but what it has is really nice. Also it&amp;#8217;s &lt;em&gt;underdocumented&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s say you&amp;#8217;re using gradle at work, and you want to use your company&amp;#8217;s maven mirror.
+You might want to do this for numerous reasons.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The connection to the open internet is very slow&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The connection to the open internet protected by a proxy that prevents access to maven central&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;You want to audit what is being used in projects at work&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s say your maven mirror&amp;#8217;s url is &lt;code&gt;&lt;a href=&quot;http://repo.internal.example.com/releases&quot; class=&quot;bare&quot;&gt;http://repo.internal.example.com/releases&lt;/a&gt;&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Just create a file called &lt;code&gt;init.gradle&lt;/code&gt; under &lt;code&gt;$USER_HOME/.gradle&lt;/code&gt; with this in it&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;allprojects { &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+  buildscript { &lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;(2)&lt;/b&gt;
+    repositories {
+      mavenLocal() &lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;(3)&lt;/b&gt;
+      maven { url &quot;http://repo.internal.example.com/releases&quot; } &lt;i class=&quot;conum&quot; data-value=&quot;4&quot;&gt;&lt;/i&gt;&lt;b&gt;(4)&lt;/b&gt;
+    }
+  }
+  repositories { &lt;i class=&quot;conum&quot; data-value=&quot;5&quot;&gt;&lt;/i&gt;&lt;b&gt;(5)&lt;/b&gt;
+    mavenLocal()
+    maven { url &quot;http://repo.internal.example.com/releases&quot; }
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;This says we want to apply to all projects on this machine.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;2&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;This says you want to modify the build script dependencies too. This will make gradle plugins and build dependencies also use your mirror.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;3&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;This says to look in maven local first. That&amp;#8217;s typically your &lt;code&gt;$USER_HOME/.m2/repository&lt;/code&gt; directory.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;4&quot;&gt;&lt;/i&gt;&lt;b&gt;4&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;This says to look at your maven mirror next if the artifact could not be found.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;5&quot;&gt;&lt;/i&gt;&lt;b&gt;5&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;This says to do the same set of changes for non-build dependencies of your gradle projects.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can find more information on what else you can do with init scripts &lt;a href=&quot;https://docs.gradle.org/current/userguide/init_scripts.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+	</description>
+    </item>
     <item>
       <title>NexusMonitor</title>
       <link>http://rahulsom.github.io/blog/2015/nexusmonitor.html</link>
