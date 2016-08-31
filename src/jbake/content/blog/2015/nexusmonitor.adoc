@@ -20,11 +20,7 @@ Also capturing the link and details for the email was a repetitive process prone
 So I came up with https://github.com/rahulsom/NexusMonitor[NexusMonitor].
 It is a groovy/gradle app which can monitor a Nexus repository's RSS feed and send out emails based on a template.
 
-'''''
-
-[[configuring]]
-Configuring
-~~~~~~~~~~~
+== Configuring
 
 Let's get to a sample usage.
 This describes what happens in our `NexusMonitorConfig.groovy`.
@@ -73,11 +69,7 @@ nexusmonitor.feeds = [
 ]
 ----
 
-'''''
-
-[[running]]
-Running
-~~~~~~~
+== Running
 
 Now you can run `java -jar nexus-monitor.jar` after you've downloaded the jar file from https://oss.sonatype.org/content/repositories/releases/com/github/rahulsom/nexus-monitor/1.0/nexus-monitor-1.0.jar[Central].
 
@@ -92,11 +84,7 @@ Running this manually can be boring, so I create a CRON job on the machine which
 
 It runs every minute and scans the RSS feed of your repository.
 
-'''''
-
-[[how-does-my-team-use-this]]
-How does my team use this?
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+== How does my team use this?
 
 We have an engineering team that is responsible for internally releasing applications, that will then be tested by our business analysts.
 You can think of that as a UAT phase.
@@ -110,11 +98,7 @@ Now NexusMonitor kicks in and sees the new artifact and sends out an email to th
 We have some scripts prepared for them to run when they are happy with the build, and that downloads the artifacts from one repository and uploads them to another repository.
 This second repository is also scanned by NexusMonitor, and this sends out an email to the ops team notifying them what they can do with the build.
 
-'''''
-
-[[how-do-we-send-custom-instructions]]
-How do we send custom instructions?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== How do we send custom instructions?
 
 By default, there is a template embedded in the app called `basic.html` which gets used for emails.
 However there is an attribute in our definition of repositories called `name`.

@@ -14,18 +14,14 @@ ________________________________________________________
 If you can't measure it, you can't do anything about it.
 ________________________________________________________
 
-[[when-cycling]]
-When cycling
-+++++++++++
+== When cycling
 
 I applied that approach to cycling - I bought a http://amzn.to/Rk2yTx[Schwinn] computer and then a http://amzn.to/Rk2KSG[Cateye] and this made me understand my biking better.
 I knew how fast I could go, what my speed was on flats, climbs and descents.
 With Schwinn, I had an understanding of how many calories I burnt.
 With Cateye, I started looking at my cadence.
 
-[[when-not-cycling]]
-When not cycling
-+++++++++++++++
+== When not cycling
 
 However seasonal allergies brought my biking to a halt.
 And my fitness started declining again.
@@ -44,9 +40,7 @@ One day, I did nothing more than driving to work and returning home; and it said
 And it's noisy; my colleagues thought I was tin-foil carrying a Geiger Counter with me.
 Also pedometers don't account for other activity I do.
 
-[[the-choices]]
-The choices
-++++++++++
+== The choices
 
 I saw my trainer at the gym wearing one of those http://www.bodybugg.com/[Bodybuggs] http://amzn.to/TkthyG[image:https://www.amazon.com/favicon.ico[image,18,18]].
 That seemed like a good idea.
@@ -64,9 +58,7 @@ Here's what I'm looking for in the device:
 * Measures my activity and gives meaningful metrics.
 * Lets me look at data in fine grained durations so I can compare past performance.
 
-[[what-does-it-mean-to-have-an-api]]
-What does it mean to have an API?
-++++++++++++++++++++++++++++++++
+== What does it mean to have an API?
 
 It means that I do not have to pay money to someone so they can gather up my data, and sell it to someone else.
 My fitness data is my Protected Health Information.

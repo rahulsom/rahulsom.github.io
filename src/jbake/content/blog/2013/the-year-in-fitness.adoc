@@ -8,9 +8,7 @@ Rahul Somasunderam
 
 2012 had been a fairly successful year in some aspects. In some, it was terrible.
 
-[[cycling]]
-Cycling
-~~~~~~~
+== Cycling
 
 I had set a target of 1500 miles and was possibly very very short of this target.
 A lot of things caused this - mostly my laziness.
@@ -32,18 +30,14 @@ And I want to buy my own mountain bike.
 I'm looking at the http://reviews.mtbr.com/2013-specialized-camber['13 Specialized Camber 29].
 Any suggestions are welcome.
 
-[[running]]
-Running
-~~~~~~~
+== Running
 
 I was able to manage to start running.
 It took a lot of effort, but I got comfortable with running ~10K.
 The speed isn't great, but it's still something.
 For 2013, I'm thinking of getting to do a half marathon.
 
-[[otherwise]]
-Otherwise
-~~~~~~~~~
+== Otherwise
 
 I took help from a personal trainer to get my shit straight.
 And that was helpful.
