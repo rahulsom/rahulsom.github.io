@@ -1,14 +1,14 @@
-</div>
-<footer>
-  <p>&copy; Rahul Somasunderam 2012
-  </p>
-  <p><small>
-    With help from <a href="http://jbake.org" target="_blank" title="JBake">JBake</a>. <br>
-    Hosted on <a href="http://pages.github.com">GitHub Pages</a>. <br>
-    Based on Minimalist by <a href="https://github.com/orderedlist">orderedlist</a>.
-  </small></p>
-</footer>
-</div>
+    </div>
+    </div>
+    <footer>
+      <p>&copy; Rahul Somasunderam 2012
+      </p>
+      <p><small>
+        With help from <a href="http://jbake.org" target="_blank" title="JBake">JBake</a>. <br>
+        Hosted on <a href="http://pages.github.com">GitHub Pages</a>. <br>
+        Based on Minimalist by <a href="https://github.com/orderedlist">orderedlist</a>.
+      </small></p>
+    </footer>
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
