@@ -70,7 +70,6 @@
 <div class="paragraph">
 <p>I wrote this a while back in an office blog, and then realized that a lot of people run into this problem, and would benefit from reading this.</p>
 </div>
-<hr>
 <div class="paragraph">
 <p>Character Encoding is what decides how Strings which are first class citizens in most modern programming languages, get converted into byte arrays.
 Byte arrays are what get sent over the wire, or get written to disk. In the reverse direction, they decide how a byte array must be converted to a String.</p>
@@ -163,8 +162,9 @@ As we start making the alphabet more and more complex, we start seeing the diffe
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="what_if_we_change_charsets_after_encoding">What if we change charsets after encoding?</h4>
+<div class="sect1">
+<h2 id="what_if_we_change_charsets_after_encoding">What if we change charsets after encoding?</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>This is precisely what happens when one system encodes a message in one charset and another tries to parse it using a different charset.</p>
 </div>
@@ -201,8 +201,10 @@ KYPHON® Balloon Kyphoplasty: 4b5950484f4eae2042616c6c6f6f6e204b7970686f706c6173
 <p>As you can see, there will be problems in parsing the string into UTF-8. This is what happens when another system uses a different encoding and we parse it using UTF-8.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="why_utf_8">Why UTF-8</h4>
+</div>
+<div class="sect1">
+<h2 id="why_utf_8">Why UTF-8</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>You might already have guessed why we use UTF. It&#8217;s because UTF can support all major characters we are likely to run into. But why UTF-8 in specific?</p>
 </div>
@@ -240,6 +242,7 @@ x-MacTurkish, x-MacUkraine, x-MS932_0213, x-MS950-HKSCS, x-MS950-HKSCS-XP,
 x-mswin-936, x-PCK, x-SJIS_0213, x-UTF-16LE-BOM, X-UTF-32BE-BOM, X-UTF-32LE-BOM,
 x-windows-50220, x-windows-50221, x-windows-874, x-windows-949, x-windows-950,
 x-windows-iso2022jp</pre>
+</div>
 </div>
 </div>
 </div></p>

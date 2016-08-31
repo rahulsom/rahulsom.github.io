@@ -6,8 +6,8 @@
     <atom:link href="http://rahulsom.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Wed, 31 Aug 2016 15:54:51 -0700</pubDate>
-    <lastBuildDate>Wed, 31 Aug 2016 15:54:51 -0700</lastBuildDate>
+    <pubDate>Wed, 31 Aug 2016 16:07:26 -0700</pubDate>
+    <lastBuildDate>Wed, 31 Aug 2016 16:07:26 -0700</lastBuildDate>
 
     <item>
       <title>Gradle Equivalent of Maven Mirror</title>
@@ -113,11 +113,11 @@ Also capturing the link and details for the email was a repetitive process prone
 &lt;p&gt;So I came up with &lt;a href=&quot;https://github.com/rahulsom/NexusMonitor&quot;&gt;NexusMonitor&lt;/a&gt;.
 It is a groovy/gradle app which can monitor a Nexus repository&amp;#8217;s RSS feed and send out emails based on a template.&lt;/p&gt;
 &lt;/div&gt;
-&lt;hr&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;configuring&quot;&gt;Configuring&lt;/h3&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;configuring&quot;&gt;Configuring&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Let&amp;#8217;s get to a sample usage.
 This describes what happens in our &lt;code&gt;NexusMonitorConfig.groovy&lt;/code&gt;.
@@ -168,10 +168,11 @@ This is self explanatory.&lt;/p&gt;
 ]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;hr&gt;
 &lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;running&quot;&gt;Running&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;running&quot;&gt;Running&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Now you can run &lt;code&gt;java -jar nexus-monitor.jar&lt;/code&gt; after you&amp;#8217;ve downloaded the jar file from &lt;a href=&quot;https://oss.sonatype.org/content/repositories/releases/com/github/rahulsom/nexus-monitor/1.0/nexus-monitor-1.0.jar&quot;&gt;Central&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
@@ -189,10 +190,11 @@ This is self explanatory.&lt;/p&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;It runs every minute and scans the RSS feed of your repository.&lt;/p&gt;
 &lt;/div&gt;
-&lt;hr&gt;
 &lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;how-does-my-team-use-this&quot;&gt;How does my team use this?&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;how_does_my_team_use_this&quot;&gt;How does my team use this?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;We have an engineering team that is responsible for internally releasing applications, that will then be tested by our business analysts.
 You can think of that as a UAT phase.
@@ -209,10 +211,11 @@ Now NexusMonitor kicks in and sees the new artifact and sends out an email to th
 &lt;p&gt;We have some scripts prepared for them to run when they are happy with the build, and that downloads the artifacts from one repository and uploads them to another repository.
 This second repository is also scanned by NexusMonitor, and this sends out an email to the ops team notifying them what they can do with the build.&lt;/p&gt;
 &lt;/div&gt;
-&lt;hr&gt;
 &lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;how-do-we-send-custom-instructions&quot;&gt;How do we send custom instructions?&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;how_do_we_send_custom_instructions&quot;&gt;How do we send custom instructions?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;By default, there is a template embedded in the app called &lt;code&gt;basic.html&lt;/code&gt; which gets used for emails.
 However there is an attribute in our definition of repositories called &lt;code&gt;name&lt;/code&gt;.
@@ -224,6 +227,7 @@ You could create a file called &lt;code&gt;repo1.html&lt;/code&gt; and that woul
 &lt;hr&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Updates: Removed reference to snapshot in favor of running released code.&lt;/p&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 	</description>
@@ -239,7 +243,6 @@ You could create a file called &lt;code&gt;repo1.html&lt;/code&gt; and that woul
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;I wrote this a while back in an office blog, and then realized that a lot of people run into this problem, and would benefit from reading this.&lt;/p&gt;
 &lt;/div&gt;
-&lt;hr&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Character Encoding is what decides how Strings which are first class citizens in most modern programming languages, get converted into byte arrays.
 Byte arrays are what get sent over the wire, or get written to disk. In the reverse direction, they decide how a byte array must be converted to a String.&lt;/p&gt;
@@ -332,8 +335,9 @@ As we start making the alphabet more and more complex, we start seeing the diffe
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;sect3&quot;&gt;
-&lt;h4 id=&quot;what_if_we_change_charsets_after_encoding&quot;&gt;What if we change charsets after encoding?&lt;/h4&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;what_if_we_change_charsets_after_encoding&quot;&gt;What if we change charsets after encoding?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;This is precisely what happens when one system encodes a message in one charset and another tries to parse it using a different charset.&lt;/p&gt;
 &lt;/div&gt;
@@ -370,8 +374,10 @@ KYPHON® Balloon Kyphoplasty: 4b5950484f4eae2042616c6c6f6f6e204b7970686f706c6173
 &lt;p&gt;As you can see, there will be problems in parsing the string into UTF-8. This is what happens when another system uses a different encoding and we parse it using UTF-8.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;sect3&quot;&gt;
-&lt;h4 id=&quot;why_utf_8&quot;&gt;Why UTF-8&lt;/h4&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;why_utf_8&quot;&gt;Why UTF-8&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;You might already have guessed why we use UTF. It&amp;#8217;s because UTF can support all major characters we are likely to run into. But why UTF-8 in specific?&lt;/p&gt;
 &lt;/div&gt;
@@ -409,6 +415,7 @@ x-MacTurkish, x-MacUkraine, x-MS932_0213, x-MS950-HKSCS, x-MS950-HKSCS-XP,
 x-mswin-936, x-PCK, x-SJIS_0213, x-UTF-16LE-BOM, X-UTF-32BE-BOM, X-UTF-32LE-BOM,
 x-windows-50220, x-windows-50221, x-windows-874, x-windows-949, x-windows-950,
 x-windows-iso2022jp&lt;/pre&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -595,8 +602,9 @@ This makes GMail happy.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;cycling&quot;&gt;Cycling&lt;/h3&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;cycling&quot;&gt;Cycling&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;I had set a target of 1500 miles and was possibly very very short of this target.
 A lot of things caused this - mostly my laziness.
@@ -621,8 +629,10 @@ I&amp;#8217;m looking at the &lt;a href=&quot;http://reviews.mtbr.com/2013-speci
 Any suggestions are welcome.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;running&quot;&gt;Running&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;running&quot;&gt;Running&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;I was able to manage to start running.
 It took a lot of effort, but I got comfortable with running ~10K.
@@ -630,8 +640,10 @@ The speed isn&amp;#8217;t great, but it&amp;#8217;s still something.
 For 2013, I&amp;#8217;m thinking of getting to do a half marathon.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;otherwise&quot;&gt;Otherwise&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;otherwise&quot;&gt;Otherwise&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;I took help from a personal trainer to get my shit straight.
 And that was helpful.
@@ -641,6 +653,7 @@ You might think you don&amp;#8217;t want to hulk up, and that&amp;#8217;s fine, 
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;For 2013, my goal keep this going.
 As a first hurdle, I seem to have screwed up my wrist, &lt;em&gt;again&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 	</description>
@@ -668,8 +681,9 @@ As a first hurdle, I seem to have screwed up my wrist, &lt;em&gt;again&lt;/em&gt
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;sect4&quot;&gt;
-&lt;h5 id=&quot;when-cycling&quot;&gt;When cycling&lt;/h5&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;when_cycling&quot;&gt;When cycling&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;I applied that approach to cycling - I bought a &lt;a href=&quot;http://amzn.to/Rk2yTx&quot;&gt;Schwinn&lt;/a&gt; computer and then a &lt;a href=&quot;http://amzn.to/Rk2KSG&quot;&gt;Cateye&lt;/a&gt; and this made me understand my biking better.
 I knew how fast I could go, what my speed was on flats, climbs and descents.
@@ -677,8 +691,10 @@ With Schwinn, I had an understanding of how many calories I burnt.
 With Cateye, I started looking at my cadence.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;sect4&quot;&gt;
-&lt;h5 id=&quot;when-not-cycling&quot;&gt;When not cycling&lt;/h5&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;when_not_cycling&quot;&gt;When not cycling&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;However seasonal allergies brought my biking to a halt.
 And my fitness started declining again.
@@ -703,8 +719,10 @@ And it&amp;#8217;s noisy; my colleagues thought I was tin-foil carrying a Geiger
 Also pedometers don&amp;#8217;t account for other activity I do.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;sect4&quot;&gt;
-&lt;h5 id=&quot;the-choices&quot;&gt;The choices&lt;/h5&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;the_choices&quot;&gt;The choices&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;I saw my trainer at the gym wearing one of those &lt;a href=&quot;http://www.bodybugg.com/&quot;&gt;Bodybuggs&lt;/a&gt; &lt;a href=&quot;http://amzn.to/TkthyG&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt;.
 That seemed like a good idea.
@@ -742,8 +760,10 @@ It&amp;#8217;s great in that it has an &lt;a href=&quot;http://dev.fitbit.com/&q
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;sect4&quot;&gt;
-&lt;h5 id=&quot;what-does-it-mean-to-have-an-api&quot;&gt;What does it mean to have an API?&lt;/h5&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;what_does_it_mean_to_have_an_api&quot;&gt;What does it mean to have an API?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;It means that I do not have to pay money to someone so they can gather up my data, and sell it to someone else.
 My fitness data is my Protected Health Information.
@@ -754,6 +774,7 @@ I may be wrong here, but that&amp;#8217;s what everyone&amp;#8217;s advertising 
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Do you have any fitness trackers? What do you like about them? How have they helped you? Tweet me at &lt;a href=&quot;http://twitter.com/rahulsom&quot;&gt;@rahulsom&lt;/a&gt; or get me on &lt;a href=&quot;http://www.quora.com/Fitness/I-want-a-fitness-health-tracking-device-Whats-my-best-bet&quot;&gt;Quora&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 	</description>

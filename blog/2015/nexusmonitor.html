@@ -86,11 +86,11 @@ Also capturing the link and details for the email was a repetitive process prone
 <p>So I came up with <a href="https://github.com/rahulsom/NexusMonitor">NexusMonitor</a>.
 It is a groovy/gradle app which can monitor a Nexus repository&#8217;s RSS feed and send out emails based on a template.</p>
 </div>
-<hr>
 </div>
 </div>
-<div class="sect2">
-<h3 id="configuring">Configuring</h3>
+<div class="sect1">
+<h2 id="configuring">Configuring</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Let&#8217;s get to a sample usage.
 This describes what happens in our <code>NexusMonitorConfig.groovy</code>.
@@ -141,10 +141,11 @@ This is self explanatory.</p>
 ]</code></pre>
 </div>
 </div>
-<hr>
 </div>
-<div class="sect2">
-<h3 id="running">Running</h3>
+</div>
+<div class="sect1">
+<h2 id="running">Running</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Now you can run <code>java -jar nexus-monitor.jar</code> after you&#8217;ve downloaded the jar file from <a href="https://oss.sonatype.org/content/repositories/releases/com/github/rahulsom/nexus-monitor/1.0/nexus-monitor-1.0.jar">Central</a>.</p>
 </div>
@@ -162,10 +163,11 @@ This is self explanatory.</p>
 <div class="paragraph">
 <p>It runs every minute and scans the RSS feed of your repository.</p>
 </div>
-<hr>
 </div>
-<div class="sect2">
-<h3 id="how-does-my-team-use-this">How does my team use this?</h3>
+</div>
+<div class="sect1">
+<h2 id="how_does_my_team_use_this">How does my team use this?</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>We have an engineering team that is responsible for internally releasing applications, that will then be tested by our business analysts.
 You can think of that as a UAT phase.
@@ -182,10 +184,11 @@ Now NexusMonitor kicks in and sees the new artifact and sends out an email to th
 <p>We have some scripts prepared for them to run when they are happy with the build, and that downloads the artifacts from one repository and uploads them to another repository.
 This second repository is also scanned by NexusMonitor, and this sends out an email to the ops team notifying them what they can do with the build.</p>
 </div>
-<hr>
 </div>
-<div class="sect2">
-<h3 id="how-do-we-send-custom-instructions">How do we send custom instructions?</h3>
+</div>
+<div class="sect1">
+<h2 id="how_do_we_send_custom_instructions">How do we send custom instructions?</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>By default, there is a template embedded in the app called <code>basic.html</code> which gets used for emails.
 However there is an attribute in our definition of repositories called <code>name</code>.
@@ -197,6 +200,7 @@ You could create a file called <code>repo1.html</code> and that would get picked
 <hr>
 <div class="paragraph">
 <p>Updates: Removed reference to snapshot in favor of running released code.</p>
+</div>
 </div>
 </div></p>
 

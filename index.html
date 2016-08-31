@@ -62,6 +62,7 @@
 	<div class="page-header">
 		<h1>Blog</h1>
 	</div>
+		<div class="post">
   			<a href="blog/2016/gradle-equivalent-of-maven-mirror.html"><h1>Gradle Equivalent of Maven Mirror</h1></a>
   			<p>31 August 2016</p>
   			<p><div class="paragraph">
@@ -133,6 +134,8 @@ You might want to do this for numerous reasons.</p>
 <div class="paragraph">
 <p>You can find more information on what else you can do with init scripts <a href="https://docs.gradle.org/current/userguide/init_scripts.html">here</a>.</p>
 </div></p>
+        </div>
+		<div class="post">
   			<a href="blog/2015/nexusmonitor.html"><h1>NexusMonitor</h1></a>
   			<p>16 March 2015</p>
   			<p><div id="preamble">
@@ -156,11 +159,11 @@ Also capturing the link and details for the email was a repetitive process prone
 <p>So I came up with <a href="https://github.com/rahulsom/NexusMonitor">NexusMonitor</a>.
 It is a groovy/gradle app which can monitor a Nexus repository&#8217;s RSS feed and send out emails based on a template.</p>
 </div>
-<hr>
 </div>
 </div>
-<div class="sect2">
-<h3 id="configuring">Configuring</h3>
+<div class="sect1">
+<h2 id="configuring">Configuring</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Let&#8217;s get to a sample usage.
 This describes what happens in our <code>NexusMonitorConfig.groovy</code>.
@@ -211,10 +214,11 @@ This is self explanatory.</p>
 ]</code></pre>
 </div>
 </div>
-<hr>
 </div>
-<div class="sect2">
-<h3 id="running">Running</h3>
+</div>
+<div class="sect1">
+<h2 id="running">Running</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Now you can run <code>java -jar nexus-monitor.jar</code> after you&#8217;ve downloaded the jar file from <a href="https://oss.sonatype.org/content/repositories/releases/com/github/rahulsom/nexus-monitor/1.0/nexus-monitor-1.0.jar">Central</a>.</p>
 </div>
@@ -232,10 +236,11 @@ This is self explanatory.</p>
 <div class="paragraph">
 <p>It runs every minute and scans the RSS feed of your repository.</p>
 </div>
-<hr>
 </div>
-<div class="sect2">
-<h3 id="how-does-my-team-use-this">How does my team use this?</h3>
+</div>
+<div class="sect1">
+<h2 id="how_does_my_team_use_this">How does my team use this?</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>We have an engineering team that is responsible for internally releasing applications, that will then be tested by our business analysts.
 You can think of that as a UAT phase.
@@ -252,10 +257,11 @@ Now NexusMonitor kicks in and sees the new artifact and sends out an email to th
 <p>We have some scripts prepared for them to run when they are happy with the build, and that downloads the artifacts from one repository and uploads them to another repository.
 This second repository is also scanned by NexusMonitor, and this sends out an email to the ops team notifying them what they can do with the build.</p>
 </div>
-<hr>
 </div>
-<div class="sect2">
-<h3 id="how-do-we-send-custom-instructions">How do we send custom instructions?</h3>
+</div>
+<div class="sect1">
+<h2 id="how_do_we_send_custom_instructions">How do we send custom instructions?</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>By default, there is a template embedded in the app called <code>basic.html</code> which gets used for emails.
 However there is an attribute in our definition of repositories called <code>name</code>.
@@ -268,7 +274,10 @@ You could create a file called <code>repo1.html</code> and that would get picked
 <div class="paragraph">
 <p>Updates: Removed reference to snapshot in favor of running released code.</p>
 </div>
+</div>
 </div></p>
+        </div>
+		<div class="post">
   			<a href="blog/2014/character-encodings.html"><h1>Character Encodings</h1></a>
   			<p>15 January 2014</p>
   			<p><div id="preamble">
@@ -276,7 +285,6 @@ You could create a file called <code>repo1.html</code> and that would get picked
 <div class="paragraph">
 <p>I wrote this a while back in an office blog, and then realized that a lot of people run into this problem, and would benefit from reading this.</p>
 </div>
-<hr>
 <div class="paragraph">
 <p>Character Encoding is what decides how Strings which are first class citizens in most modern programming languages, get converted into byte arrays.
 Byte arrays are what get sent over the wire, or get written to disk. In the reverse direction, they decide how a byte array must be converted to a String.</p>
@@ -369,8 +377,9 @@ As we start making the alphabet more and more complex, we start seeing the diffe
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="what_if_we_change_charsets_after_encoding">What if we change charsets after encoding?</h4>
+<div class="sect1">
+<h2 id="what_if_we_change_charsets_after_encoding">What if we change charsets after encoding?</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>This is precisely what happens when one system encodes a message in one charset and another tries to parse it using a different charset.</p>
 </div>
@@ -407,8 +416,10 @@ KYPHON® Balloon Kyphoplasty: 4b5950484f4eae2042616c6c6f6f6e204b7970686f706c6173
 <p>As you can see, there will be problems in parsing the string into UTF-8. This is what happens when another system uses a different encoding and we parse it using UTF-8.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="why_utf_8">Why UTF-8</h4>
+</div>
+<div class="sect1">
+<h2 id="why_utf_8">Why UTF-8</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>You might already have guessed why we use UTF. It&#8217;s because UTF can support all major characters we are likely to run into. But why UTF-8 in specific?</p>
 </div>
@@ -448,7 +459,10 @@ x-windows-50220, x-windows-50221, x-windows-874, x-windows-949, x-windows-950,
 x-windows-iso2022jp</pre>
 </div>
 </div>
+</div>
 </div></p>
+        </div>
+		<div class="post">
   			<a href="blog/2013/blue-shirt-white-shirt.html"><h1>Blue Shirt, White Shirt</h1></a>
   			<p>17 September 2013</p>
   			<p><div class="paragraph">
@@ -544,6 +558,8 @@ Type: Support Task</pre>
 <p>The amount of time wasted by development and QA in reproducing Bob&#8217;s "problem" is huge.
 Perhaps it might have been simpler to find out why Bob&#8217;s car does not start when the  engine is already warm.</p>
 </div></p>
+        </div>
+		<div class="post">
   			<a href="blog/2013/jenkins-email-ext-and-gmail-grimace.html"><h1>Jenkins, Email Ext and Gmail Grimace</h1></a>
   			<p>20 March 2013</p>
   			<p><div class="paragraph">
@@ -605,6 +621,8 @@ This makes GMail happy.</p>
 <div class="paragraph">
 <p>Here&#8217;s my <a href="https://gist.github.com/rahulsom/5125421">Jelly Template</a>.</p>
 </div></p>
+        </div>
+		<div class="post">
   			<a href="blog/2013/the-year-in-fitness.html"><h1>The year in fitness</h1></a>
   			<p>05 January 2013</p>
   			<p><div id="preamble">
@@ -614,8 +632,9 @@ This makes GMail happy.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="cycling">Cycling</h3>
+<div class="sect1">
+<h2 id="cycling">Cycling</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>I had set a target of 1500 miles and was possibly very very short of this target.
 A lot of things caused this - mostly my laziness.
@@ -640,8 +659,10 @@ I&#8217;m looking at the <a href="http://reviews.mtbr.com/2013-specialized-cambe
 Any suggestions are welcome.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="running">Running</h3>
+</div>
+<div class="sect1">
+<h2 id="running">Running</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>I was able to manage to start running.
 It took a lot of effort, but I got comfortable with running ~10K.
@@ -649,8 +670,10 @@ The speed isn&#8217;t great, but it&#8217;s still something.
 For 2013, I&#8217;m thinking of getting to do a half marathon.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="otherwise">Otherwise</h3>
+</div>
+<div class="sect1">
+<h2 id="otherwise">Otherwise</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>I took help from a personal trainer to get my shit straight.
 And that was helpful.
@@ -661,7 +684,10 @@ You might think you don&#8217;t want to hulk up, and that&#8217;s fine, but havi
 <p>For 2013, my goal keep this going.
 As a first hurdle, I seem to have screwed up my wrist, <em>again</em>.</p>
 </div>
+</div>
 </div></p>
+        </div>
+		<div class="post">
   			<a href="blog/2012/fitness-trackers.html"><h1>Fitness Trackers</h1></a>
   			<p>25 June 2012</p>
   			<p><div id="preamble">
@@ -681,8 +707,9 @@ As a first hurdle, I seem to have screwed up my wrist, <em>again</em>.</p>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="when-cycling">When cycling</h5>
+<div class="sect1">
+<h2 id="when_cycling">When cycling</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>I applied that approach to cycling - I bought a <a href="http://amzn.to/Rk2yTx">Schwinn</a> computer and then a <a href="http://amzn.to/Rk2KSG">Cateye</a> and this made me understand my biking better.
 I knew how fast I could go, what my speed was on flats, climbs and descents.
@@ -690,8 +717,10 @@ With Schwinn, I had an understanding of how many calories I burnt.
 With Cateye, I started looking at my cadence.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="when-not-cycling">When not cycling</h5>
+</div>
+<div class="sect1">
+<h2 id="when_not_cycling">When not cycling</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>However seasonal allergies brought my biking to a halt.
 And my fitness started declining again.
@@ -716,8 +745,10 @@ And it&#8217;s noisy; my colleagues thought I was tin-foil carrying a Geiger Cou
 Also pedometers don&#8217;t account for other activity I do.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="the-choices">The choices</h5>
+</div>
+<div class="sect1">
+<h2 id="the_choices">The choices</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>I saw my trainer at the gym wearing one of those <a href="http://www.bodybugg.com/">Bodybuggs</a> <a href="http://amzn.to/TkthyG"><span class="image"><img src="https://www.amazon.com/favicon.ico" alt="image" width="18" height="18"></span></a>.
 That seemed like a good idea.
@@ -755,8 +786,10 @@ It&#8217;s great in that it has an <a href="http://dev.fitbit.com/">API</a>, and
 </ul>
 </div>
 </div>
-<div class="sect4">
-<h5 id="what-does-it-mean-to-have-an-api">What does it mean to have an API?</h5>
+</div>
+<div class="sect1">
+<h2 id="what_does_it_mean_to_have_an_api">What does it mean to have an API?</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>It means that I do not have to pay money to someone so they can gather up my data, and sell it to someone else.
 My fitness data is my Protected Health Information.
@@ -768,7 +801,9 @@ I may be wrong here, but that&#8217;s what everyone&#8217;s advertising looks li
 <div class="paragraph">
 <p>Do you have any fitness trackers? What do you like about them? How have they helped you? Tweet me at <a href="http://twitter.com/rahulsom">@rahulsom</a> or get me on <a href="http://www.quora.com/Fitness/I-want-a-fitness-health-tracking-device-Whats-my-best-bet">Quora</a></p>
 </div>
+</div>
 </div></p>
+        </div>
 	
 	<hr />
 	
