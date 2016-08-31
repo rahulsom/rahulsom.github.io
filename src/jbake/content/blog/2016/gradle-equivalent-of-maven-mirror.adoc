@@ -3,7 +3,7 @@ Rahul Somasunderam
 2016-08-31
 :jbake-type: post
 :jbake-status: published
-:jbake-tags: fitness, tracker, bodybugg, fitbit, fuelband, basis
+:jbake-tags: gradle, maven, mirror
 :idprefix:
 :icons: font
 
