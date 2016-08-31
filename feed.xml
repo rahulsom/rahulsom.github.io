@@ -6,8 +6,8 @@
     <atom:link href="http://rahulsom.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Wed, 31 Aug 2016 15:45:15 -0700</pubDate>
-    <lastBuildDate>Wed, 31 Aug 2016 15:45:15 -0700</lastBuildDate>
+    <pubDate>Wed, 31 Aug 2016 15:50:39 -0700</pubDate>
+    <lastBuildDate>Wed, 31 Aug 2016 15:50:39 -0700</lastBuildDate>
 
     <item>
       <title>Gradle Equivalent of Maven Mirror</title>
@@ -16,7 +16,7 @@
       <guid isPermaLink="false">blog/2016/gradle-equivalent-of-maven-mirror.html</guid>
       	<description>
 	&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Maven has a way to configure mirrors in &lt;code&gt;settings.xml&lt;/code&gt;. Gradle doesn&amp;#8217;t have a direct analogue to it, but what it has is really nice. Also it&amp;#8217;s &lt;em&gt;underdocumented&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Maven has a way to configure mirrors in &lt;code&gt;settings.xml&lt;/code&gt;. Gradle doesn&amp;#8217;t have a direct analogue to it, but what it has is really nice. Also it&amp;#8217;s &lt;em&gt;under-documented&lt;/em&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Let&amp;#8217;s say you&amp;#8217;re using gradle at work, and you want to use your company&amp;#8217;s maven mirror.
@@ -98,35 +98,20 @@ You might want to do this for numerous reasons.&lt;/p&gt;
 &lt;p&gt;&amp;#160;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;At &lt;a href=&quot;https://twitter.com/CertifyData&quot;&gt;@CertifyData&lt;/a&gt;, we run a bunch of
-different
-build systems including maven, gradle and grails. All of them produce
-artifacts
-that can be uploaded to a maven repository. In fact we use a maven
-repository
-to deliver content to our end users.&lt;/p&gt;
+&lt;p&gt;At &lt;a href=&quot;https://twitter.com/CertifyData&quot;&gt;@CertifyData&lt;/a&gt;, we run a bunch of different build systems including maven, gradle and grails.
+All of them produce artifacts that can be uploaded to a maven repository.
+In fact we use a maven repository to deliver content to our end users.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A somewhat boring part of our release process, was waiting for Jenkins
-to finish
-its build and then copy the link from nexus and send it out to our
-deployment team.&lt;/p&gt;
+&lt;p&gt;A somewhat boring part of our release process, was waiting for Jenkins to finish its build and then copy the link from nexus and send it out to our deployment team.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Given how long some projects take to build with all their dependencies,
-sometimes
-a developer pushing the release button would forget to send out the
-email. Also
-capturing the link and details for the email was a repetitive process
-prone to
-occasional errors.&lt;/p&gt;
+&lt;p&gt;Given how long some projects take to build with all their dependencies, sometimes a developer pushing the release button would forget to send out the email.
+Also capturing the link and details for the email was a repetitive process prone to occasional errors.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;So I came up with
-&lt;a href=&quot;https://github.com/rahulsom/NexusMonitor&quot;&gt;NexusMonitor&lt;/a&gt;. It is a
-groovy/gradle app which can monitor a Nexus repository&amp;#8217;s RSS feed and
-send out emails
-based on a template.&lt;/p&gt;
+&lt;p&gt;So I came up with &lt;a href=&quot;https://github.com/rahulsom/NexusMonitor&quot;&gt;NexusMonitor&lt;/a&gt;.
+It is a groovy/gradle app which can monitor a Nexus repository&amp;#8217;s RSS feed and send out emails based on a template.&lt;/p&gt;
 &lt;/div&gt;
 &lt;hr&gt;
 &lt;/div&gt;
@@ -134,13 +119,13 @@ based on a template.&lt;/p&gt;
 &lt;div class=&quot;sect2&quot;&gt;
 &lt;h3 id=&quot;configuring&quot;&gt;Configuring&lt;/h3&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Let&amp;#8217;s get to a sample usage. This describes what happens in our
-&lt;code&gt;NexusMonitorConfig.groovy&lt;/code&gt;. This is the groovy version of a properties
-file.&lt;/p&gt;
+&lt;p&gt;Let&amp;#8217;s get to a sample usage.
+This describes what happens in our &lt;code&gt;NexusMonitorConfig.groovy&lt;/code&gt;.
+This is the groovy version of a properties file.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;First you need to configure your email settings. This
-is self explanatory.&lt;/p&gt;
+&lt;p&gt;First you need to configure your email settings.
+This is self explanatory.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;listingblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
@@ -188,19 +173,13 @@ is self explanatory.&lt;/p&gt;
 &lt;div class=&quot;sect2&quot;&gt;
 &lt;h3 id=&quot;running&quot;&gt;Running&lt;/h3&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Now you can run &lt;code&gt;java -jar nexus-monitor.jar&lt;/code&gt; after you&amp;#8217;ve downloaded
-the jar file from
-&lt;a href=&quot;https://oss.sonatype.org/content/repositories/releases/com/github/rahulsom/nexus-monitor/1.0/nexus-monitor-1.0.jar&quot;&gt;Central&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Now you can run &lt;code&gt;java -jar nexus-monitor.jar&lt;/code&gt; after you&amp;#8217;ve downloaded the jar file from &lt;a href=&quot;https://oss.sonatype.org/content/repositories/releases/com/github/rahulsom/nexus-monitor/1.0/nexus-monitor-1.0.jar&quot;&gt;Central&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Every time this runs, it records the last run of each repo on a json
-called
-&lt;code&gt;lastrun.json&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Every time this runs, it records the last run of each repo on a json called &lt;code&gt;lastrun.json&lt;/code&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Running this manually can be boring, so I create a CRON job on the
-machine which
-runs this app.&lt;/p&gt;
+&lt;p&gt;Running this manually can be boring, so I create a CRON job on the machine which runs this app.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;listingblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
@@ -215,57 +194,37 @@ runs this app.&lt;/p&gt;
 &lt;div class=&quot;sect2&quot;&gt;
 &lt;h3 id=&quot;how-does-my-team-use-this&quot;&gt;How does my team use this?&lt;/h3&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We have an engineering team that is responsible for internally releasing
-applications,
-that will then be tested by our business analysts. You can think of that
-as a UAT phase.
-Once that is done, they want to make it available to our ops team which
-is responsible
-for installing these apps on customer machines.&lt;/p&gt;
+&lt;p&gt;We have an engineering team that is responsible for internally releasing applications, that will then be tested by our business analysts.
+You can think of that as a UAT phase.
+Once that is done, they want to make it available to our ops team which is responsible for installing these apps on customer machines.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When Engineering decides it&amp;#8217;s time to do a release, we use git flow to
-get a new release onto the master branch, and Jenkins starts turning
-code into artifacts and putting them in the right repository.&lt;/p&gt;
+&lt;p&gt;When Engineering decides it&amp;#8217;s time to do a release, we use git flow to get a new release onto the master branch, and Jenkins starts turning code into artifacts and putting them in the right repository.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Once a new artifact is available in these scanned repositories, the feed
-is automatically
-updated by Nexus. Now NexusMonitor kicks in and sees the new artifact
-and sends out an
-email to the business analysts and engineers confirming the availability
-of the new
-release and instructions to download the build.&lt;/p&gt;
+&lt;p&gt;Once a new artifact is available in these scanned repositories, the feed is automatically updated by Nexus.
+Now NexusMonitor kicks in and sees the new artifact and sends out an email to the business analysts and engineers confirming the availability of the new release and instructions to download the build.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We have some scripts prepared for them to run when they are happy with
-the build, and that downloads the artifacts from one repository and
-uploads them to another repository. This second repository is also
-scanned by NexusMonitor, and this sends out an email to the ops team
-notifying them what they can do with the build.&lt;/p&gt;
+&lt;p&gt;We have some scripts prepared for them to run when they are happy with the build, and that downloads the artifacts from one repository and uploads them to another repository.
+This second repository is also scanned by NexusMonitor, and this sends out an email to the ops team notifying them what they can do with the build.&lt;/p&gt;
 &lt;/div&gt;
 &lt;hr&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect2&quot;&gt;
 &lt;h3 id=&quot;how-do-we-send-custom-instructions&quot;&gt;How do we send custom instructions?&lt;/h3&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;By default, there is a template embedded in the app called &lt;code&gt;basic.html&lt;/code&gt;
-which gets used
-for emails. However there is an attribute in our definition of
-repositories called &lt;code&gt;name&lt;/code&gt;.
-You could create a file called &lt;code&gt;repo1.html&lt;/code&gt; and that would get picked up
-if your repository
-name in the config was &lt;code&gt;repo1&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;By default, there is a template embedded in the app called &lt;code&gt;basic.html&lt;/code&gt; which gets used for emails.
+However there is an attribute in our definition of repositories called &lt;code&gt;name&lt;/code&gt;.
+You could create a file called &lt;code&gt;repo1.html&lt;/code&gt; and that would get picked up if your repository name in the config was &lt;code&gt;repo1&lt;/code&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This is a good starting point for your email templates -
-&lt;a href=&quot;https://github.com/rahulsom/NexusMonitor/blob/master/src/main/resources/basic.html&quot;&gt;&lt;code&gt;basic.html&lt;/code&gt;&lt;/a&gt;
+&lt;p&gt;This is a good starting point for your email templates - &lt;a href=&quot;https://github.com/rahulsom/NexusMonitor/blob/master/src/main/resources/basic.html&quot;&gt;&lt;code&gt;basic.html&lt;/code&gt;&lt;/a&gt;
 .&lt;/p&gt;
 &lt;/div&gt;
 &lt;hr&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Updates: Removed reference to snapshot in favor of running released
-code.&lt;/p&gt;
+&lt;p&gt;Updates: Removed reference to snapshot in favor of running released code.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 	</description>
@@ -641,7 +600,7 @@ This makes GMail happy.&lt;/p&gt;
 &lt;h3 id=&quot;cycling&quot;&gt;Cycling&lt;/h3&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;I had set a target of 1500 miles and was possibly very very short of this target.
-A lot of things caused this - mostly my lazyness.
+A lot of things caused this - mostly my laziness.
 However the good news was that I was able to get back to biking after my rather long hiatus after an accident.
 Also I never did many 50 miles rides.
 There was just one 50 mile ride.

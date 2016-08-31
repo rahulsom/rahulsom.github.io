@@ -65,7 +65,7 @@
   			<a href="blog/2016/gradle-equivalent-of-maven-mirror.html"><h1>Gradle Equivalent of Maven Mirror</h1></a>
   			<p>31 August 2016</p>
   			<p><div class="paragraph">
-<p>Maven has a way to configure mirrors in <code>settings.xml</code>. Gradle doesn&#8217;t have a direct analogue to it, but what it has is really nice. Also it&#8217;s <em>underdocumented</em>.</p>
+<p>Maven has a way to configure mirrors in <code>settings.xml</code>. Gradle doesn&#8217;t have a direct analogue to it, but what it has is really nice. Also it&#8217;s <em>under-documented</em>.</p>
 </div>
 <div class="paragraph">
 <p>Let&#8217;s say you&#8217;re using gradle at work, and you want to use your company&#8217;s maven mirror.
@@ -141,35 +141,20 @@ You might want to do this for numerous reasons.</p>
 <p>&#160;</p>
 </div>
 <div class="paragraph">
-<p>At <a href="https://twitter.com/CertifyData">@CertifyData</a>, we run a bunch of
-different
-build systems including maven, gradle and grails. All of them produce
-artifacts
-that can be uploaded to a maven repository. In fact we use a maven
-repository
-to deliver content to our end users.</p>
+<p>At <a href="https://twitter.com/CertifyData">@CertifyData</a>, we run a bunch of different build systems including maven, gradle and grails.
+All of them produce artifacts that can be uploaded to a maven repository.
+In fact we use a maven repository to deliver content to our end users.</p>
 </div>
 <div class="paragraph">
-<p>A somewhat boring part of our release process, was waiting for Jenkins
-to finish
-its build and then copy the link from nexus and send it out to our
-deployment team.</p>
+<p>A somewhat boring part of our release process, was waiting for Jenkins to finish its build and then copy the link from nexus and send it out to our deployment team.</p>
 </div>
 <div class="paragraph">
-<p>Given how long some projects take to build with all their dependencies,
-sometimes
-a developer pushing the release button would forget to send out the
-email. Also
-capturing the link and details for the email was a repetitive process
-prone to
-occasional errors.</p>
+<p>Given how long some projects take to build with all their dependencies, sometimes a developer pushing the release button would forget to send out the email.
+Also capturing the link and details for the email was a repetitive process prone to occasional errors.</p>
 </div>
 <div class="paragraph">
-<p>So I came up with
-<a href="https://github.com/rahulsom/NexusMonitor">NexusMonitor</a>. It is a
-groovy/gradle app which can monitor a Nexus repository&#8217;s RSS feed and
-send out emails
-based on a template.</p>
+<p>So I came up with <a href="https://github.com/rahulsom/NexusMonitor">NexusMonitor</a>.
+It is a groovy/gradle app which can monitor a Nexus repository&#8217;s RSS feed and send out emails based on a template.</p>
 </div>
 <hr>
 </div>
@@ -177,13 +162,13 @@ based on a template.</p>
 <div class="sect2">
 <h3 id="configuring">Configuring</h3>
 <div class="paragraph">
-<p>Let&#8217;s get to a sample usage. This describes what happens in our
-<code>NexusMonitorConfig.groovy</code>. This is the groovy version of a properties
-file.</p>
+<p>Let&#8217;s get to a sample usage.
+This describes what happens in our <code>NexusMonitorConfig.groovy</code>.
+This is the groovy version of a properties file.</p>
 </div>
 <div class="paragraph">
-<p>First you need to configure your email settings. This
-is self explanatory.</p>
+<p>First you need to configure your email settings.
+This is self explanatory.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -231,19 +216,13 @@ is self explanatory.</p>
 <div class="sect2">
 <h3 id="running">Running</h3>
 <div class="paragraph">
-<p>Now you can run <code>java -jar nexus-monitor.jar</code> after you&#8217;ve downloaded
-the jar file from
-<a href="https://oss.sonatype.org/content/repositories/releases/com/github/rahulsom/nexus-monitor/1.0/nexus-monitor-1.0.jar">Central</a>.</p>
+<p>Now you can run <code>java -jar nexus-monitor.jar</code> after you&#8217;ve downloaded the jar file from <a href="https://oss.sonatype.org/content/repositories/releases/com/github/rahulsom/nexus-monitor/1.0/nexus-monitor-1.0.jar">Central</a>.</p>
 </div>
 <div class="paragraph">
-<p>Every time this runs, it records the last run of each repo on a json
-called
-<code>lastrun.json</code>.</p>
+<p>Every time this runs, it records the last run of each repo on a json called <code>lastrun.json</code>.</p>
 </div>
 <div class="paragraph">
-<p>Running this manually can be boring, so I create a CRON job on the
-machine which
-runs this app.</p>
+<p>Running this manually can be boring, so I create a CRON job on the machine which runs this app.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -258,57 +237,37 @@ runs this app.</p>
 <div class="sect2">
 <h3 id="how-does-my-team-use-this">How does my team use this?</h3>
 <div class="paragraph">
-<p>We have an engineering team that is responsible for internally releasing
-applications,
-that will then be tested by our business analysts. You can think of that
-as a UAT phase.
-Once that is done, they want to make it available to our ops team which
-is responsible
-for installing these apps on customer machines.</p>
+<p>We have an engineering team that is responsible for internally releasing applications, that will then be tested by our business analysts.
+You can think of that as a UAT phase.
+Once that is done, they want to make it available to our ops team which is responsible for installing these apps on customer machines.</p>
 </div>
 <div class="paragraph">
-<p>When Engineering decides it&#8217;s time to do a release, we use git flow to
-get a new release onto the master branch, and Jenkins starts turning
-code into artifacts and putting them in the right repository.</p>
+<p>When Engineering decides it&#8217;s time to do a release, we use git flow to get a new release onto the master branch, and Jenkins starts turning code into artifacts and putting them in the right repository.</p>
 </div>
 <div class="paragraph">
-<p>Once a new artifact is available in these scanned repositories, the feed
-is automatically
-updated by Nexus. Now NexusMonitor kicks in and sees the new artifact
-and sends out an
-email to the business analysts and engineers confirming the availability
-of the new
-release and instructions to download the build.</p>
+<p>Once a new artifact is available in these scanned repositories, the feed is automatically updated by Nexus.
+Now NexusMonitor kicks in and sees the new artifact and sends out an email to the business analysts and engineers confirming the availability of the new release and instructions to download the build.</p>
 </div>
 <div class="paragraph">
-<p>We have some scripts prepared for them to run when they are happy with
-the build, and that downloads the artifacts from one repository and
-uploads them to another repository. This second repository is also
-scanned by NexusMonitor, and this sends out an email to the ops team
-notifying them what they can do with the build.</p>
+<p>We have some scripts prepared for them to run when they are happy with the build, and that downloads the artifacts from one repository and uploads them to another repository.
+This second repository is also scanned by NexusMonitor, and this sends out an email to the ops team notifying them what they can do with the build.</p>
 </div>
 <hr>
 </div>
 <div class="sect2">
 <h3 id="how-do-we-send-custom-instructions">How do we send custom instructions?</h3>
 <div class="paragraph">
-<p>By default, there is a template embedded in the app called <code>basic.html</code>
-which gets used
-for emails. However there is an attribute in our definition of
-repositories called <code>name</code>.
-You could create a file called <code>repo1.html</code> and that would get picked up
-if your repository
-name in the config was <code>repo1</code>.</p>
+<p>By default, there is a template embedded in the app called <code>basic.html</code> which gets used for emails.
+However there is an attribute in our definition of repositories called <code>name</code>.
+You could create a file called <code>repo1.html</code> and that would get picked up if your repository name in the config was <code>repo1</code>.</p>
 </div>
 <div class="paragraph">
-<p>This is a good starting point for your email templates -
-<a href="https://github.com/rahulsom/NexusMonitor/blob/master/src/main/resources/basic.html"><code>basic.html</code></a>
+<p>This is a good starting point for your email templates - <a href="https://github.com/rahulsom/NexusMonitor/blob/master/src/main/resources/basic.html"><code>basic.html</code></a>
 .</p>
 </div>
 <hr>
 <div class="paragraph">
-<p>Updates: Removed reference to snapshot in favor of running released
-code.</p>
+<p>Updates: Removed reference to snapshot in favor of running released code.</p>
 </div>
 </div></p>
   			<a href="blog/2014/character-encodings.html"><h1>Character Encodings</h1></a>
@@ -660,7 +619,7 @@ This makes GMail happy.</p>
 <h3 id="cycling">Cycling</h3>
 <div class="paragraph">
 <p>I had set a target of 1500 miles and was possibly very very short of this target.
-A lot of things caused this - mostly my lazyness.
+A lot of things caused this - mostly my laziness.
 However the good news was that I was able to get back to biking after my rather long hiatus after an accident.
 Also I never did many 50 miles rides.
 There was just one 50 mile ride.
