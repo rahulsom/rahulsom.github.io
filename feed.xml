@@ -6,8 +6,8 @@
     <atom:link href="http://rahulsom.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Thu, 1 Sep 2016 03:39:25 +0000</pubDate>
-    <lastBuildDate>Thu, 1 Sep 2016 03:39:25 +0000</lastBuildDate>
+    <pubDate>Thu, 1 Sep 2016 03:44:17 +0000</pubDate>
+    <lastBuildDate>Thu, 1 Sep 2016 03:44:17 +0000</lastBuildDate>
 
     <item>
       <title>Gradle Equivalent of Maven Mirror</title>
@@ -36,7 +36,7 @@ You might want to do this for numerous reasons.&lt;/p&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Let&amp;#8217;s say your maven mirror&amp;#8217;s url is &lt;code&gt;&lt;a href=&quot;http://repo.internal.example.com/releases&quot; class=&quot;bare&quot;&gt;http://repo.internal.example.com/releases&lt;/a&gt;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Let&amp;#8217;s say your maven mirror&amp;#8217;s url is &lt;code&gt;http://repo.internal.example.com/releases&lt;/code&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Just create a file called &lt;code&gt;init.gradle&lt;/code&gt; under &lt;code&gt;$USER_HOME/.gradle&lt;/code&gt; with this in it&lt;/p&gt;
@@ -222,7 +222,7 @@ However there is an attribute in our definition of repositories called &lt;code&
 You could create a file called &lt;code&gt;repo1.html&lt;/code&gt; and that would get picked up if your repository name in the config was &lt;code&gt;repo1&lt;/code&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This is a good starting point for your email templates - &lt;a href=&quot;https://github.com/rahulsom/NexusMonitor/blob/master/src/main/resources/basic.html&quot;&gt;&lt;code&gt;basic.html&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This is a good starting point for your email templates - &lt;a href=&quot;https://github.com/rahulsom/NexusMonitor/blob/master/src/main/resources/basic.html&quot;&gt;basic.html&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;hr&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
