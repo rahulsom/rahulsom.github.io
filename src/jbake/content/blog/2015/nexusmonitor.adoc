@@ -104,7 +104,7 @@ By default, there is a template embedded in the app called `basic.html` which ge
 However there is an attribute in our definition of repositories called `name`.
 You could create a file called `repo1.html` and that would get picked up if your repository name in the config was `repo1`.
 
-This is a good starting point for your email templates - https://github.com/rahulsom/NexusMonitor/blob/master/src/main/resources/basic.html[`basic.html`].
+This is a good starting point for your email templates - https://github.com/rahulsom/NexusMonitor/blob/master/src/main/resources/basic.html[basic.html].
 
 '''''
 

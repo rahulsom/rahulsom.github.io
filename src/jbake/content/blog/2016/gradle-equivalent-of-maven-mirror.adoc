@@ -16,7 +16,7 @@ You might want to do this for numerous reasons.
 * The connection to the open internet protected by a proxy that prevents access to maven central
 * You want to audit what is being used in projects at work
 
-Let's say your maven mirror's url is `http://repo.internal.example.com/releases`
+Let's say your maven mirror's url is `\http://repo.internal.example.com/releases`
 
 Just create a file called `init.gradle` under `$USER_HOME/.gradle` with this in it
 
