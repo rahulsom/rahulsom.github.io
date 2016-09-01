@@ -6,8 +6,8 @@
     <atom:link href="http://rahulsom.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Thu, 1 Sep 2016 04:00:24 +0000</pubDate>
-    <lastBuildDate>Thu, 1 Sep 2016 04:00:24 +0000</lastBuildDate>
+    <pubDate>Thu, 1 Sep 2016 17:33:31 +0000</pubDate>
+    <lastBuildDate>Thu, 1 Sep 2016 17:33:31 +0000</lastBuildDate>
 
     <item>
       <title>Gradle Equivalent of Maven Mirror</title>
@@ -590,6 +590,43 @@ This makes GMail happy.&lt;/p&gt;
 	</description>
     </item>
     <item>
+      <title>Functional Programming in Scala</title>
+      <link>http://rahulsom.github.io/blog/2013/functional-programming-in-scala.html</link>
+      <pubDate>Tue, 8 Jan 2013 00:00:00 +0000</pubDate>
+      <guid isPermaLink="false">blog/2013/functional-programming-in-scala.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A couple of months back I took the &lt;a href=&quot;https://class.coursera.org/progfun-2012-001/class/index&quot;&gt;Functional Programming Principles in Scala&lt;/a&gt; course at Coursera.
+It&amp;#8217;s a beautiful course offered by EPFL, specifically &lt;a href=&quot;https://twitter.com/odersky&quot;&gt;Martin Odersky&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Personally I&amp;#8217;ve been working on Java for several years, and at work use Groovy and Grails.
+At one point I have used scala in small side projects at work.
+And all these things have impacted one another.
+Things I learn in one language change the way I write code in another language.
+However there is the imperative programmers burden.
+As a programmer you&amp;#8217;ve been taught by C, C++ and then Java to think in terms of steps.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Learning Groovy as part of an offering from SpringSource did bring in several closures that let you write &lt;em&gt;slightly more functional&lt;/em&gt; code.
+There were the closures you could pass to functions in collections and get cleaner code, i.e.
+it was easier to write functional code.
+However it was just as easy to write bad functional code or imperative code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Scala, for one makes it incredibly hard to use mutable lists.
+Which means the likelihood of a developer being tempted to write bad functional code goes down significantly.
+Immutability is the default behavior in Scala.
+So much so that you have a &lt;code&gt;val&lt;/code&gt; declaration in addition to the &lt;code&gt;var&lt;/code&gt; declaration to make sure you think twice before writing mutable code.
+And this has changed how I think of my code back in Groovy and Java.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you&amp;#8217;re a Java programmer, whether or not you plan to use Scala in one of your projects, I recommend you take this course.
+If for no other reason, then just because &lt;em&gt;it&amp;#8217;s free&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
       <title>The year in fitness</title>
       <link>http://rahulsom.github.io/blog/2013/the-year-in-fitness.html</link>
       <pubDate>Sat, 5 Jan 2013 00:00:00 +0000</pubDate>
@@ -655,6 +692,27 @@ You might think you don&amp;#8217;t want to hulk up, and that&amp;#8217;s fine, 
 As a first hurdle, I seem to have screwed up my wrist, &lt;em&gt;again&lt;/em&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>What happens at IHE &amp;#8230;&amp;#8203;</title>
+      <link>http://rahulsom.github.io/blog/2012/what-happens-at-ihe.html</link>
+      <pubDate>Sat, 13 Oct 2012 00:00:00 +0000</pubDate>
+      <guid isPermaLink="false">blog/2012/what-happens-at-ihe.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;At the crux of Healthcare IT, is a body called Integrating Healthcare Enterprise &lt;a href=&quot;http://www.ihe.net/&quot;&gt;(IHE)&lt;/a&gt;. They are one of the standards bodies in healthcare.
+They organize this little thing in Chicago every winter called &lt;a href=&quot;http://www.ihe.net/connectathon/&quot;&gt;Connectathon&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is no secret that my opinion of healthcare technology is very bad.
+However &lt;a href=&quot;http://ihememes.tumblr.com/&quot;&gt;I am not alone&lt;/a&gt;.
+Keep calm and carry on!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you are into healthcare and want to talk to the nice folks from &lt;a href=&quot;https://twitter.com/CertifyData&quot;&gt;@CertifyData&lt;/a&gt;, we&amp;#8217;ll be there.
+And if I may add, it&amp;#8217;ll be easy to find us.&lt;/p&gt;
 &lt;/div&gt;
 	</description>
     </item>
