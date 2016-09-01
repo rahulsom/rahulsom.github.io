@@ -401,3 +401,5 @@ h1 {
   content:"";
 
 }
+
+.sect1 + .sect1 {border-top: none;}
