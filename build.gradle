@@ -30,12 +30,16 @@ jbake {
 }
 
 githubPages {
-  repoUri = 'git@github.com:rahulsom/rahulsom.github.io.git'
+  repoUri = 'https://github.com/rahulsom/rahulsom.github.io.git'
   targetBranch = 'master'
   pages {
     from(file('build/jbake')) {
       into '.'
     }
+  }
+  credentials {
+    username = System.getenv('GH_TOKEN')
+    password = '\n'
   }
 }
 

@@ -1,0 +1,11 @@
+language: groovy
+jdk:
+- oraclejdk8
+cache:
+  directories:
+  - "$HOME/.m2"
+  - "$HOME/.gradle/wrapper"
+script: "./gradlew publish"
+env:
+  global:
+    secure: Qzt95gtwf+7Ge7QnT7IUoGpUrEIojRzMYaEAIa84i9SZS0QPiSrxJlecMrLf1cxuXCCBXER9E9HjihNQucQUrK4gdLcGpBHlklQeIvii5SDCtRgg0UoDJICXFLBjQAecipXEJTqSRmHT6XsBsCpoUgApcXTyq+3zrdgjZD8A+bRWTyU47sMEwZPAgyScbtWifzSSe5LBQxvD68cX63CpXRnJnVCw8x19qifTaf5qmCnThmKx/Q+vVLlHZnndmmN60RYTdM6JVTiK7bVjrRUflr6SNqgeyeIAnFSQc6/MxL374HUmvdjqG1jy6qanNUnljb28hQ081vledmXQnuy2CrVtvoiCN1nRCihHilRt7e5whcbwsZnAE9PFSUm98+XaJSCwdc4gwkQXV18bzuYEU9O7LWppRktYHIj0G3q3cNNzly7JM2W2tZGGBk8n4X6pptRwENTC9EEHmwJ480MIkubWCzW1Wvzbv5uyUlNa9BFhbPSihcvOsAlKPx5YXSYXwF3MDf+F22QIukxwxkT/Je67KYy67/8QyW2EpWLGddOSYgeMETKVJb7sqNLFbSzUhrFoEnbg9aOi4BlkHvwonD5XA8Uz1ht9u5LV7WLLwjrDB5Z1TQfvxxy+mvls59Dhazlczd7e9YAiJi4GFKpOEzQuHMrioJdEsEe7e36mFdE=
