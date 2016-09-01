@@ -1,6 +1,6 @@
 = Rahul Somasunderam
-rahul.som@gmail.com 510-449-3467
-2016-08-30
+rahul.som@gmail.com ~ 510-449-3467 ~ San Jose, CA
+2016-08-31
 :sectnums!:
 :notoc:
 :nofooter:
@@ -16,7 +16,7 @@ Passionate about Functional Programming and Open Source.
 
 _(formerly Certify Data Systems)_ Campbell, CA --
 Senior Engineer --
-Jul 11–Present
+Jul 11 - Present
 
 * Architected _HealthLogix_, the platform for Health Information Exchange
 * Built a reverse push mechanism for last mile connectivity
@@ -31,7 +31,7 @@ Jul 11–Present
 
 _Employee of Intelliswift Software Inc_ (San Jose CA) --
 Java Developer --
-Apr 08–Jul 11
+Apr 08 - Jul 11
 
 * Built the Certify Gateway and Certify HealthDock products
 * Created a Jython API for runtime customization of inbound messages
@@ -41,7 +41,7 @@ Apr 08–Jul 11
 
 _Employee of Intelliswift Software Inc_ (Warrendale PA) --
 Java Developer --
-Feb 08–Apr 08
+Feb 08 - Apr 08
 
 * Implemented several reports for customers to access audits
 * Developed script to move data across databases with all dependencies
@@ -50,7 +50,7 @@ Feb 08–Apr 08
 
 Bangalore INDIA --
 Software Engineer --
-Nov 05–Jan 08
+Nov 05 - Jan 08
 
 * Developed a COBOL module to let the Business Analysts merge their test data along with the data from several systems into the complex plumbing of modules on the Mainframe
 * Developed a tool to help in static analysis of COBOL code
@@ -76,4 +76,4 @@ Other::
 === Bachelor of Technology (Electronics and Communications Engineering)
 
 Pondicherry Engineering College, Pondicherry University, INDIA --
-Aug 01–Apr 05
+Aug 01 - Apr 05

@@ -35,7 +35,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <header>
-                      <a class="brand" href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>/index.html">
+                      <a class="brand" href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>index.html">
                         <h1>Rahul Somasunderam</h1>
                       </a>
 

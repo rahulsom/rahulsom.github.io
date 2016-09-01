@@ -3,7 +3,9 @@
 <#list published_content as content>
     <url>
         <loc>${config.site_host}/${content.uri}</loc>
+        <#if content.date ??>
         <lastmod>${content.date?string("yyyy-MM-dd")}</lastmod>
+        </#if>
     </url>
 </#list>
 </urlset>
