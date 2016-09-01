@@ -1,0 +1,17 @@
+= What happens at IHE ...
+Rahul Somasunderam
+2012-10-13
+:jbake-type: post
+:jbake-status: published
+:jbake-tags:
+:idprefix:
+
+At the crux of Healthcare IT, is a body called Integrating Healthcare Enterprise http://www.ihe.net/[(IHE)]. They are one of the standards bodies in healthcare.
+They organize this little thing in Chicago every winter called http://www.ihe.net/connectathon/[Connectathon].
+
+It is no secret that my opinion of healthcare technology is very bad.
+However http://ihememes.tumblr.com/[I am not alone].
+Keep calm and carry on!
+
+If you are into healthcare and want to talk to the nice folks from https://twitter.com/CertifyData[@CertifyData], we'll be there.
+And if I may add, it'll be easy to find us.
