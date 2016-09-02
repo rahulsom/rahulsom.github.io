@@ -2,7 +2,7 @@
 Rahul Somasunderam
 2016-09-02
 :jbake-type: post
-:jbake-status: draft
+:jbake-status: published
 :jbake-tags: ratpack, assetpipeline
 :idprefix:
 
