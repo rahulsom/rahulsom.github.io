@@ -6,9 +6,238 @@
     <atom:link href="http://rahulsom.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Fri, 2 Sep 2016 18:33:57 +0000</pubDate>
-    <lastBuildDate>Fri, 2 Sep 2016 18:33:57 +0000</lastBuildDate>
+    <pubDate>Fri, 2 Sep 2016 20:01:48 +0000</pubDate>
+    <lastBuildDate>Fri, 2 Sep 2016 20:01:48 +0000</lastBuildDate>
 
+    <item>
+      <title>Ratpack Assets in Development</title>
+      <link>http://rahulsom.github.io/blog/2016/ratpack-assets-in-development.html</link>
+      <pubDate>Fri, 2 Sep 2016 00:00:00 +0000</pubDate>
+      <guid isPermaLink="false">blog/2016/ratpack-assets-in-development.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This post details how to achieve productivity with ratpack when you&amp;#8217;re doing front-end development.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The asset pipeline has a nice integration with Ratpack that enables you to optimize your front-end resources for production mode.
+However, while you&amp;#8217;re developing, this make debugging harder.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If your front end code has a lot of scripts and stylesheets, then you would want to use the asset-pipeline to optimize delivery in production.
+e.g. You would have an &lt;code&gt;app.css&lt;/code&gt; and an &lt;code&gt;app.js&lt;/code&gt; that look like this:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;app.js&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;//= require /main
+//= require /util
+//= require /group1/module1
+//= require /group1/module2
+//= require /group2/module1&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;app.css&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;/*
+*= require /bower_components/bootstrap/less/bootstrap
+*= require /bower_components/font-awesome/less/font-awesome
+*= require /base
+*= require /module1
+*= require /module2
+*/&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Now in your html, you can include just these two assets like this (assuming you&amp;#8217;re using html templates).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;index.html&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+  &amp;lt;head&amp;gt;
+    &amp;lt;link rel=&quot;stylesheet&quot; href=&quot;/app.css&quot; /&amp;gt;
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;script src=&quot;/app.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For completeness, here&amp;#8217;s the &lt;code&gt;ratpack.groovy&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;ratpack.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;import asset.pipeline.ratpack.AssetPipelineHandler
+import asset.pipeline.ratpack.AssetPipelineModule
+import ratpack.groovy.template.TextTemplateModule
+import ratpack.server.ServerConfig
+
+import static ratpack.groovy.Groovy.groovyTemplate
+import static ratpack.groovy.Groovy.ratpack
+import static ratpack.jackson.Jackson.json
+
+ratpack {
+
+  bindings {
+    module(AssetPipelineModule) {
+      it.url(&quot;/&quot;)
+      it.sourcePath(&quot;../../../src/assets&quot;)
+    }
+    module TextTemplateModule
+  }
+
+  handlers {
+    all AssetPipelineHandler
+    all {
+      render groovyTemplate(&apos;index.html&apos;)
+    }
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This will serve the compiled css and js to the browser as a single file.
+If you want to debug your code, this can pose a bit of a problem.
+The same asset pipeline when used with Grails does allow you to see individual files served in development mode.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As of writing (ratpack 1.4.0 and asset-pipeline 2.6.4) there is no way to get this to work out of the box.
+The reason being that ratpack does not have a standard taglib that works across all template types.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I&amp;#8217;m going to assume we&amp;#8217;re using html templates, but this can be adopted to any template type.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;First off, we need to create a helper class that provides taglib like rendering support.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;src/main/groovy/com/example/AssetTag.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;package com.example
+
+import asset.pipeline.AssetPipeline
+import com.google.inject.Inject
+import ratpack.server.ServerConfig
+
+import java.util.function.Consumer
+
+/**
+ * Helps with calling out assets in Groovy Templates
+ */
+class AssetTag {
+  @Inject ServerConfig serverConfig
+
+  String javascript(String uri) {
+    if (serverConfig.isDevelopment()) {
+      StringBuilder tags = new StringBuilder()
+      dependencies(uri, &apos;js&apos;, &apos;application/javascript&apos;) {
+        tags.append(&quot;&amp;lt;script src=\&quot;${it.path}?compile=false\&quot;&amp;gt;&amp;lt;/script&amp;gt;&quot;)
+      }
+      tags.toString()
+    } else {
+      &quot;&amp;lt;script src=\&quot;${uri}\&quot;&amp;gt;&amp;lt;/script&amp;gt;&quot;
+    }
+  }
+
+  String stylesheet(String uri) {
+    if (serverConfig.isDevelopment()) {
+      StringBuilder tags = new StringBuilder()
+      dependencies(uri, &apos;css&apos;, &apos;text/css&apos;) {
+        tags.append(&quot;&amp;lt;link rel=\&quot;stylesheet\&quot; href=\&quot;${it.path}?compile=false\&quot;/&amp;gt;&quot;)
+      }
+      tags.toString()
+    } else {
+      &quot;&amp;lt;link rel=\&quot;stylesheet\&quot; href=\&quot;${uri}\&quot;/&amp;gt;&quot;
+    }
+  }
+
+  private void dependencies(String src, String ext, String contentType, Consumer&amp;lt;Map&amp;gt; callback) {
+
+    final int lastDotIndex = src.lastIndexOf(&apos;.&apos;)
+    final def uri
+    final def extension
+    if (lastDotIndex &amp;gt;= 0) {
+      uri = src.substring(0, lastDotIndex)
+      extension = src.substring(lastDotIndex + 1)
+    } else {
+      uri = src
+      extension = ext
+    }
+
+    AssetPipeline.getDependencyList(uri, contentType, extension).each {
+      callback.accept(it as Map)
+    }
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Next up, we bind that into our Ratpack application&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;ratpack.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;import asset.pipeline.ratpack.AssetPipelineHandler
+import asset.pipeline.ratpack.AssetPipelineModule
+import com.example.AssetTag
+import ratpack.groovy.template.TextTemplateModule
+import ratpack.server.ServerConfig
+
+import static ratpack.groovy.Groovy.groovyTemplate
+import static ratpack.groovy.Groovy.ratpack
+import static ratpack.jackson.Jackson.json
+
+ratpack {
+
+  bindings {
+    module(AssetPipelineModule) {
+      it.url(&quot;/&quot;)
+      it.sourcePath(&quot;../../../src/assets&quot;)
+    }
+    module TextTemplateModule
+    bind(AssetTag)
+  }
+
+  handlers {
+    all AssetPipelineHandler
+    all { AssetTag asset -&amp;gt;
+      render groovyTemplate(&apos;index.html&apos;, asset: asset)
+    }
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Finally, we use it in the html template.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;index.html&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+  &amp;lt;head&amp;gt;
+    ${model.asset.stylesheet(&apos;/app.css&apos;)}
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    ${model.asset.javascript(&apos;/app.js&apos;)}
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Now, when you develop, you&amp;#8217;ll see individual files in your browser.
+And when you package your app for deployment, you&amp;#8217;ll still have your optimized version.&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Thanks to &lt;a href=&quot;https://twitter.com/davydotcom&quot;&gt;@davydotcom&lt;/a&gt; for creating the awesome asset pipeline library and pointing me in this direction when I first ran into the problem.&lt;/p&gt;
+&lt;/div&gt;
+	</description>
+    </item>
     <item>
       <title>Gradle Equivalent of Maven Mirror</title>
       <link>http://rahulsom.github.io/blog/2016/gradle-equivalent-of-maven-mirror.html</link>
