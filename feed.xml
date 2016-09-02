@@ -6,8 +6,8 @@
     <atom:link href="http://rahulsom.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Fri, 2 Sep 2016 02:58:09 +0000</pubDate>
-    <lastBuildDate>Fri, 2 Sep 2016 02:58:09 +0000</lastBuildDate>
+    <pubDate>Fri, 2 Sep 2016 18:33:57 +0000</pubDate>
+    <lastBuildDate>Fri, 2 Sep 2016 18:33:57 +0000</lastBuildDate>
 
     <item>
       <title>Gradle Equivalent of Maven Mirror</title>
