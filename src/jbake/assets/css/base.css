@@ -403,3 +403,16 @@ h1 {
 }
 
 .sect1 + .sect1 {border-top: none;}
+
+pre code {
+  font-size: 14px;
+}
+
+*:not(pre) > code {
+  font-size: 14px;
+  border: none;
+}
+
+a > code {
+  color: #39c;
+}
