@@ -1,0 +1,216 @@
+= Ratpack Assets in Development
+Rahul Somasunderam
+2016-09-02
+:jbake-type: post
+:jbake-status: draft
+:jbake-tags: ratpack, assetpipeline
+:idprefix:
+
+This post details how to achieve productivity with ratpack when you're doing front-end development.
+
+The asset pipeline has a nice integration with Ratpack that enables you to optimize your front-end resources for production mode.
+However, while you're developing, this make debugging harder.
+
+If your front end code has a lot of scripts and stylesheets, then you would want to use the asset-pipeline to optimize delivery in production.
+e.g. You would have an `app.css` and an `app.js` that look like this:
+
+[source,javascript]
+.app.js
+----
+//= require /main
+//= require /util
+//= require /group1/module1
+//= require /group1/module2
+//= require /group2/module1
+----
+
+[source,css]
+.app.css
+----
+/*
+*= require /bower_components/bootstrap/less/bootstrap
+*= require /bower_components/font-awesome/less/font-awesome
+*= require /base
+*= require /module1
+*= require /module2
+*/
+----
+
+Now in your html, you can include just these two assets like this (assuming you're using html templates).
+
+[source,html]
+.index.html
+----
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/app.css" />
+  </head>
+  <body>
+    <script src="/app.js"></script>
+  </body>
+</html>
+----
+
+For completeness, here's the `ratpack.groovy`.
+
+[source,groovy]
+.ratpack.groovy
+----
+import asset.pipeline.ratpack.AssetPipelineHandler
+import asset.pipeline.ratpack.AssetPipelineModule
+import ratpack.groovy.template.TextTemplateModule
+import ratpack.server.ServerConfig
+
+import static ratpack.groovy.Groovy.groovyTemplate
+import static ratpack.groovy.Groovy.ratpack
+import static ratpack.jackson.Jackson.json
+
+ratpack {
+
+  bindings {
+    module(AssetPipelineModule) {
+      it.url("/")
+      it.sourcePath("../../../src/assets")
+    }
+    module TextTemplateModule
+  }
+
+  handlers {
+    all AssetPipelineHandler
+    all {
+      render groovyTemplate('index.html')
+    }
+  }
+}
+----
+
+This will serve the compiled css and js to the browser as a single file.
+If you want to debug your code, this can pose a bit of a problem.
+The same asset pipeline when used with Grails does allow you to see individual files served in development mode.
+
+As of writing (ratpack 1.4.0 and asset-pipeline 2.6.4) there is no way to get this to work out of the box.
+The reason being that ratpack does not have a standard taglib that works across all template types.
+
+I'm going to assume we're using html templates, but this can be adopted to any template type.
+
+First off, we need to create a helper class that provides taglib like rendering support.
+
+[source,groovy]
+.src/main/groovy/com/example/AssetTag.groovy
+----
+package com.example
+
+import asset.pipeline.AssetPipeline
+import com.google.inject.Inject
+import ratpack.server.ServerConfig
+
+import java.util.function.Consumer
+
+/**
+ * Helps with calling out assets in Groovy Templates
+ */
+class AssetTag {
+  @Inject ServerConfig serverConfig
+
+  String javascript(String uri) {
+    if (serverConfig.isDevelopment()) {
+      StringBuilder tags = new StringBuilder()
+      dependencies(uri, 'js', 'application/javascript') {
+        tags.append("<script src=\"${it.path}?compile=false\"></script>")
+      }
+      tags.toString()
+    } else {
+      "<script src=\"${uri}\"></script>"
+    }
+  }
+
+  String stylesheet(String uri) {
+    if (serverConfig.isDevelopment()) {
+      StringBuilder tags = new StringBuilder()
+      dependencies(uri, 'css', 'text/css') {
+        tags.append("<link rel=\"stylesheet\" href=\"${it.path}?compile=false\"/>")
+      }
+      tags.toString()
+    } else {
+      "<link rel=\"stylesheet\" href=\"${uri}\"/>"
+    }
+  }
+
+  private void dependencies(String src, String ext, String contentType, Consumer<Map> callback) {
+
+    final int lastDotIndex = src.lastIndexOf('.')
+    final def uri
+    final def extension
+    if (lastDotIndex >= 0) {
+      uri = src.substring(0, lastDotIndex)
+      extension = src.substring(lastDotIndex + 1)
+    } else {
+      uri = src
+      extension = ext
+    }
+
+    AssetPipeline.getDependencyList(uri, contentType, extension).each {
+      callback.accept(it as Map)
+    }
+  }
+}
+----
+
+Next up, we bind that into our Ratpack application
+
+[source,groovy]
+.ratpack.groovy
+----
+import asset.pipeline.ratpack.AssetPipelineHandler
+import asset.pipeline.ratpack.AssetPipelineModule
+import com.example.AssetTag
+import ratpack.groovy.template.TextTemplateModule
+import ratpack.server.ServerConfig
+
+import static ratpack.groovy.Groovy.groovyTemplate
+import static ratpack.groovy.Groovy.ratpack
+import static ratpack.jackson.Jackson.json
+
+ratpack {
+
+  bindings {
+    module(AssetPipelineModule) {
+      it.url("/")
+      it.sourcePath("../../../src/assets")
+    }
+    module TextTemplateModule
+    bind(AssetTag)
+  }
+
+  handlers {
+    all AssetPipelineHandler
+    all { AssetTag asset ->
+      render groovyTemplate('index.html', asset: asset)
+    }
+  }
+}
+----
+
+Finally, we use it in the html template.
+
+[source,html]
+.index.html
+----
+<!DOCTYPE html>
+<html>
+  <head>
+    ${model.asset.stylesheet('/app.css')}
+  </head>
+  <body>
+    ${model.asset.javascript('/app.js')}
+  </body>
+</html>
+----
+
+Now, when you develop, you'll see individual files in your browser.
+And when you package your app for deployment, you'll still have your optimized version.
+
+''''
+
+Thanks to https://twitter.com/davydotcom[@davydotcom] for creating the awesome asset pipeline library and pointing me in this direction when I first ran into the problem.
