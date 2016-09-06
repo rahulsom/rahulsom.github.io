@@ -6,9 +6,163 @@
     <atom:link href="http://rahulsom.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Fri, 2 Sep 2016 22:38:40 +0000</pubDate>
-    <lastBuildDate>Fri, 2 Sep 2016 22:38:40 +0000</lastBuildDate>
+    <pubDate>Tue, 6 Sep 2016 18:24:06 +0000</pubDate>
+    <lastBuildDate>Tue, 6 Sep 2016 18:24:06 +0000</lastBuildDate>
 
+    <item>
+      <title>Ratpack with Non-Blocking CXF Webservices and RxJava</title>
+      <link>http://rahulsom.github.io/blog/2016/ratpack-with-nonblocking-cxf.html</link>
+      <pubDate>Tue, 6 Sep 2016 00:00:00 +0000</pubDate>
+      <guid isPermaLink="false">blog/2016/ratpack-with-nonblocking-cxf.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this post we&amp;#8217;re going to look at what you can do to use a CXF client in a non-blocking manner inside of Ratpack.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;By default CXF offers a blocking client called the HTTP Transport.
+If you were to use CXF that way, you could wrap CXF calls inside a &lt;a href=&quot;https://ratpack.io/manual/current/api/ratpack/exec/Blocking.html&quot;&gt;&lt;code&gt;Blocking&lt;/code&gt;&lt;/a&gt; promise.
+While that does the job, it does limit your application in some way.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Since 3.0.0, CXF also offers &lt;a href=&quot;https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-transports-http-netty-client&quot;&gt;rt-transports-http-netty-client&lt;/a&gt;.
+This uses Netty, and can be used in a non-blocking manner.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I&amp;#8217;m going to take &lt;a href=&quot;https://github.com/rahulsom/ihe-iti&quot;&gt;ihe-iti&lt;/a&gt; as an example of a SOAP Library.
+Up until version 0.3, it only supported the synchronous APIs.
+So if you took a wsdl like &lt;a href=&quot;https://github.com/rahulsom/ihe-iti/blob/develop/src/main/resources/iti/wsdl/PIXConsumer.wsdl&quot;&gt;PIXConsumer&lt;/a&gt;, this is what your generated &lt;code&gt;PortType&lt;/code&gt; would look like&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;PIXConsumerPortType.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;@WebService(name = &quot;PIXConsumer_PortType&quot;, targetNamespace = &quot;urn:ihe:iti:pixv3:2007&quot;)
+@SOAPBinding(parameterStyle = ParameterStyle.BARE)
+@XmlSeeAlso({ObjectFactory.class})
+public interface PIXConsumerPortType {
+    @WebMethod(operationName = &quot;PIXConsumer_PRPA_IN201302UV02&quot;,
+            action = &quot;urn:hl7-org:v3:PRPA_IN201302UV02&quot;)
+    @WebResult(name = &quot;MCCI_IN000002UV01&quot;, targetNamespace = &quot;urn:hl7-org:v3&quot;,
+            partName = &quot;Body&quot;)
+    MCCIIN000002UV01 pixConsumerPRPAIN201302UV02(
+            @WebParam(name = &quot;PRPA_IN201302UV02&quot;, targetNamespace = &quot;urn:hl7-org:v3&quot;,
+                    partName = &quot;Body&quot;) PRPAIN201302UV02 var1);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you told &lt;code&gt;wsdl2java&lt;/code&gt; to generated the async APIs as well, you&amp;#8217;ll get something like this&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;PIXConsumerPortType.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;@WebService(name = &quot;PIXConsumer_PortType&quot;, targetNamespace = &quot;urn:ihe:iti:pixv3:2007&quot;)
+@SOAPBinding(parameterStyle = ParameterStyle.BARE)
+@XmlSeeAlso({ObjectFactory.class})
+public interface PIXConsumerPortType {
+    @WebMethod(operationName = &quot;PIXConsumer_PRPA_IN201302UV02&quot;,
+            action = &quot;urn:hl7-org:v3:PRPA_IN201302UV02&quot;)
+    Response&amp;lt;MCCIIN000002UV01&amp;gt; pixConsumerPRPAIN201302UV02Async(
+            @WebParam(name = &quot;PRPA_IN201302UV02&quot;, targetNamespace = &quot;urn:hl7-org:v3&quot;,
+                    partName = &quot;Body&quot;) PRPAIN201302UV02 var1);
+
+    @WebMethod(operationName = &quot;PIXConsumer_PRPA_IN201302UV02&quot;,
+            action = &quot;urn:hl7-org:v3:PRPA_IN201302UV02&quot;)
+    Future&amp;lt;?&amp;gt; pixConsumerPRPAIN201302UV02Async(
+            @WebParam(name = &quot;PRPA_IN201302UV02&quot;, targetNamespace = &quot;urn:hl7-org:v3&quot;,
+                    partName = &quot;Body&quot;) PRPAIN201302UV02 var1,
+            @WebParam(name = &quot;PIXConsumer_PRPA_IN201302UV02Response&quot;, targetNamespace = &quot;&quot;,
+                    partName = &quot;asyncHandler&quot;) AsyncHandler&amp;lt;MCCIIN000002UV01&amp;gt; var2);
+
+    @WebMethod(operationName = &quot;PIXConsumer_PRPA_IN201302UV02&quot;,
+            action = &quot;urn:hl7-org:v3:PRPA_IN201302UV02&quot;)
+    @WebResult(name = &quot;MCCI_IN000002UV01&quot;, targetNamespace = &quot;urn:hl7-org:v3&quot;, partName = &quot;Body&quot;)
+    MCCIIN000002UV01 pixConsumerPRPAIN201302UV02(
+            @WebParam(name = &quot;PRPA_IN201302UV02&quot;, targetNamespace = &quot;urn:hl7-org:v3&quot;,
+                    partName = &quot;Body&quot;) PRPAIN201302UV02 var1);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is tempting to use RxJava and wrap this method into an Observable.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;Response&amp;lt;MCCIIN000002UV01&amp;gt; pixConsumerPRPAIN201302UV02Async(PRPAIN201302UV02 var1);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;After all, RxJava has a method with the signature&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;public static &amp;lt;T&amp;gt; Observable&amp;lt;T&amp;gt; from(Future&amp;lt;? extends T&amp;gt; future)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;And &lt;code&gt;javax.xml.ws.Response&amp;lt;T&amp;gt;&lt;/code&gt; extends &lt;code&gt;java.util.concurrent.Future&amp;lt;T&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Unfortunately, that will not work as intended.
+You will be able to call your webservice, and get data, but all your operations will be limited by the number of threads.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To get it to work correctly, you&amp;#8217;ll have to use the other asynchronous method, i.e.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;Future&amp;lt;?&amp;gt; pixConsumerPRPAIN201302UV02Async(
+        PRPAIN201302UV02 var1, AsyncHandler&amp;lt;MCCIIN000002UV01&amp;gt; var2);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You&amp;#8217;ll have to turn the response into a Ratpack Promise first, before turning it into an Observable.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is a how you turn the response into a Promise&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;import groovy.transform.TupleConstructor
+import ratpack.exec.Downstream
+
+import javax.xml.ws.AsyncHandler
+import javax.xml.ws.Response
+
+/**
+ * Bridges SOAP&apos;s AsyncHandler to Ratpack&apos;s Promise.
+ */
+@SuppressWarnings(&apos;CatchThrowable&apos;)
+@TupleConstructor
+class PromiseAsyncHandlerBridge&amp;lt;T&amp;gt; implements AsyncHandler&amp;lt;T&amp;gt; {
+  Downstream&amp;lt;T&amp;gt; downstream
+
+  @Override
+  void handleResponse(Response&amp;lt;T&amp;gt; res) {
+    try {
+      downstream.success(res.get())
+    } catch (Throwable t) {
+      downstream.error(t)
+    }
+  }
+
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Then to call your webservice and get an observable, you can do this&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;Observable&amp;lt;PRPAIN201310UV02&amp;gt; pixResponse =
+    observe(async { Downstream down -&amp;gt;
+        servicePort.pixConsumerPRPAIN201302UV02Async(
+                request, new PromiseAsyncHandlerBridge&amp;lt;MCCIIN000002UV01&amp;gt;(down)
+        )
+    })&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+	</description>
+    </item>
     <item>
       <title>Ratpack Assets in Development</title>
       <link>http://rahulsom.github.io/blog/2016/ratpack-assets-in-development.html</link>
