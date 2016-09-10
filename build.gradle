@@ -27,6 +27,7 @@ dependencies {
 
 jbake {
   clearCache = true
+  asciidoctorjVersion = '1.5.4.1'
 }
 
 githubPages {

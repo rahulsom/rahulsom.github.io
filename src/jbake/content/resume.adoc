@@ -1,6 +1,6 @@
 = Rahul Somasunderam
-rahul.som@gmail.com ~ 510-449-3467 ~ San Jose, CA
-2016-08-31
+rahul.som@gmail.com ~ +1-510-449-3467 ~ San Jose, CA, USA
+2016-09-03
 :sectnums!:
 :notoc:
 :nofooter:
@@ -14,7 +14,8 @@ Passionate about Functional Programming and Open Source.
 
 === Transcend Insights
 
-_(formerly Certify Data Systems)_ Campbell, CA --
+_formerly Certify Data Systems_ --
+Campbell, CA --
 Senior Engineer --
 Jul 11 - Present
 
@@ -29,7 +30,8 @@ Jul 11 - Present
 
 === Certify Data Systems
 
-_Employee of Intelliswift Software Inc_ (San Jose CA) --
+_Employee of Intelliswift Software Inc_ --
+San Jose CA --
 Java Developer --
 Apr 08 - Jul 11
 
@@ -39,12 +41,13 @@ Apr 08 - Jul 11
 
 === PRI Network
 
-_Employee of Intelliswift Software Inc_ (Warrendale PA) --
+_Employee of Intelliswift Software Inc_ --
+Warrendale PA  --
 Java Developer --
 Feb 08 - Apr 08
 
 * Implemented several reports for customers to access audits
-* Developed script to move data across databases with all dependencies
+* Developed a tool to move data across databases with all dependencies
 
 === Infosys Technologies Ltd
 
@@ -52,9 +55,9 @@ Bangalore INDIA --
 Software Engineer --
 Nov 05 - Jan 08
 
+* Developed reports for compliance and auditing
 * Developed a COBOL module to let the Business Analysts merge their test data along with the data from several systems into the complex plumbing of modules on the Mainframe
 * Developed a tool to help in static analysis of COBOL code
-* Developed a tool to parse COBOL code and convert it to data
 
 == Technology
 
