@@ -1,6 +1,5 @@
 = About
 Rahul Somasunderam
-2016-08-30
 :jbake-type: page
 :jbake-status: published
 
@@ -16,3 +15,5 @@ Gr8ConfUS 2015::
     Getting Groovy with iOS Development
 SpringOne2GX 2015::
     Better iOS Development with Groovy - https://www.infoq.com/presentations/groovy-ios[Video]
+JavaOne 2017::
+    Event Sourcing with JVM languages
