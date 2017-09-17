@@ -157,64 +157,11 @@ header {
   position:fixed;
 }
 
-/*header ul {
-  list-style:none;
-  height:40px;
-
-  padding:0;
-
-  background: #eee;
-  background: -moz-linear-gradient(top, #f8f8f8 0%, #dddddd 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#dddddd));
-  background: -webkit-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  background: -o-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  background: -ms-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  background: linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-
-  border-radius:5px;
-  border:1px solid #d2d2d2;
-  box-shadow:inset #fff 0 1px 0, inset rgba(0,0,0,0.03) 0 -1px 0;
-  width:270px;
-}
-
-header li {
-  width:89px;
-  float:left;
-  border-right:1px solid #d2d2d2;
-  height:40px;
-}
-
-header ul a {
-  line-height:1;
-  font-size:11px;
-  color:#999;
-  display:block;
-  text-align:center;
-  padding-top:6px;
-  height:40px;
-}*/
-
 strong {
   color:#222;
   font-weight:700;
 }
 
-/*header ul li + li {
-  width:88px;
-  border-left:1px solid #fff;
-}
-
-header ul li + li + li {
-  border-right:none;
-  width:89px;
-}
-
-header ul a strong {
-  font-size:14px;
-  display:block;
-  color:#222;
-}
-*/
 section {
   width:500px;
   float:right;
@@ -415,4 +362,37 @@ pre code {
 
 a > code {
   color: #39c;
+}
+
+ol > li p, ul > li p, ul dd, ol dd, .olist .olist, .ulist .ulist, .ulist .olist, .olist .ulist {
+  margin-bottom: 0;
+}
+
+.page-header p {
+  margin: 0;
+}
+
+ul.unstyled {
+  padding-left: 0;
+  margin-left: 0;
+}
+
+h3 {
+  margin-bottom: 0;
+}
+
+ul {
+  margin-top: -8px;
+  margin-bottom: 8px;
+}
+
+.page-header table {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.page-header table td {
+  padding: 0;
+  border: none;
 }
