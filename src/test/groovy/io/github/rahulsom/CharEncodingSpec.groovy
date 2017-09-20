@@ -1,3 +1,5 @@
+package io.github.rahulsom
+
 import groovy.ui.SystemOutputInterceptor
 import org.apache.commons.lang3.text.WordUtils
 import spock.lang.Specification

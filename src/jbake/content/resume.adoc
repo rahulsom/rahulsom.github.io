@@ -1,6 +1,6 @@
 = Rahul Somasunderam
 rahul.som@gmail.com ~ +1-510-449-3467 ~ San Jose, CA, USA
-2016-09-03
+2017-09-17
 :sectnums!:
 :notoc:
 :nofooter:
@@ -20,12 +20,12 @@ Senior Engineer --
 Jul 11 - Present
 
 * Architected _HealthLogix_, the platform for Health Information Exchange
-* Built a reverse push mechanism for last mile connectivity
-* Started and maintained build system
-* Automated the setup machines using boxen & puppet
-* Dockerized deployment and testing of products
-* Created DSLs for authoring content in complex data formats
-* Collaborated with several partner services for building software that worked with each other
+* Built and managed Jenkins Build System and Tools surrounding it
+* Simplified deployments for 30+ applications by building out and managing a Kubernetes Cluster
+* Sped up onboarding for new developers by automating machine setup using boxen and dotfiles
+* Improved test data quality by developing DSLs for authoring content in complex data formats
+* Created DSLs for testing intricate workflows, improving test coverage
+* Collaborated with partner services for building software that worked with each other
 * Developed pre interview assignments for javascript and groovy to make hiring smoother
 
 === Certify Data Systems
@@ -35,9 +35,8 @@ San Jose CA --
 Java Developer --
 Apr 08 - Jul 11
 
-* Built the Certify Gateway and Certify HealthDock products
-* Created a Jython API for runtime customization of inbound messages
-* Built a JNLP-Swing client to integrate with Electronic Medical Record (EMR) vendors who needed filesystem based IO
+* Developed the Certify Gateway and Certify HealthDock products
+* Improved turnaround time for new interfaces by developing Jython API for customization of inbound and outbound messages
 
 === PRI Network
 
@@ -47,7 +46,7 @@ Java Developer --
 Feb 08 - Apr 08
 
 * Implemented several reports for customers to access audits
-* Developed a tool to move data across databases with all dependencies
+* Developed a tool to move data across databases with all relational dependencies
 
 === Infosys Technologies Ltd
 
@@ -56,23 +55,29 @@ Software Engineer --
 Nov 05 - Jan 08
 
 * Developed reports for compliance and auditing
-* Developed a COBOL module to let the Business Analysts merge their test data along with the data from several systems into the complex plumbing of modules on the Mainframe
-* Developed a tool to help in static analysis of COBOL code
+* Developed COBOL module to let the Business Analysts merge their test data along with the data from several systems into the complex plumbing of modules on the Mainframe
+* Developed Java tool to help in static analysis of COBOL code
 
 == Technology
 
 I have been programming since I was 12, starting with trivial programs on logo and basic, and eventually working on several larger applications and some serious, some fun languages
 
-Java & the JVM::
-  Java, Groovy, Grails, Spring, Hibernate, Gradle
-Testing::
-  Spock, Geb, JUnit
-Databases::
-  Oracle, MySQL, PostgreSQL, Cassandra
-Frontend::
-  Javascript, Objective C, Swift
-Other::
-  Jenkins, Puppet, Docker, Asciidoctor
+[unstyled]
+* **Java & the JVM** - Java, Groovy, Kotlin, Grails, Spring, Hibernate, Gradle
+* **Testing** - Spock, Geb, JUnit
+* **Databases** - Oracle, MySQL, PostgreSQL, Cassandra
+* **Frontend** - Javascript, Objective C, Swift
+* **Other** - Asciidoctor, Jenkins, Docker, Kubernetes, Puppet
+
+== Open Source
+
+I frequently contribute to open source projects that I use. I also maintain a few projects of my own.
+
+[unstyled]
+* **grooves** - Event Sourcing toolkit for JVM Languages
+* **swaggydoc** - Grails 2 Plugin that adds Swagger support to Grails Controllers
+* **ihe-iti** - Library for dealing with _Integrating Healthcare in Enterprise_'s IT Infrastructure profiles
+* **muval** - Library version of NIST's Meaningful Use validator for Clinical Document Architecture
 
 == Education
 
