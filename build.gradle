@@ -4,7 +4,7 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.github.jbake-org:jbake-gradle-plugin:1c20c305cb'
+        classpath 'com.github.jbake-org:jbake-gradle-plugin:5.0.0'
     }
 }
 
