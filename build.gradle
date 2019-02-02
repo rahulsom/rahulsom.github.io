@@ -2,7 +2,7 @@ plugins {
     id "com.gradle.build-scan" version "2.1"
     id "me.champeau.buildscan-recipes" version "0.2.3"
     id 'org.jbake.site' version '5.0.0'
-    id "org.ajoberstar.github-pages" version "1.7.2"
+    id "org.ajoberstar.git-publish" version "2.0.0"
     id "groovy"
 }
 
@@ -21,24 +21,24 @@ jbake {
     asciidoctorjVersion = '1.5.4.1'
 }
 
-githubPages {
+gitPublish {
     repoUri = 'https://github.com/rahulsom/rahulsom.github.io.git'
-    targetBranch = 'master'
-    pages {
+    branch = 'master'
+    contents {
         from(file('build/jbake')) {
             into '.'
         }
     }
-    credentials {
-        username = System.getenv('GH_TOKEN')
-        password = '\n'
-    }
+    // credentials {
+    //     username = System.getenv('GH_TOKEN')
+    //     password = '\n'
+    // }
 }
 
-publishGhPages.dependsOn bake
+gitPublishCopy.dependsOn bake
 bake.dependsOn 'test'
 
-task publish(dependsOn: publishGhPages, group: 'render',
+task publish(dependsOn: gitPublishPush, group: 'render',
         description: "Publishes buildDir to Github Pages on 'master' branch")
 
 task createPost {
