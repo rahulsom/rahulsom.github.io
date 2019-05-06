@@ -6,8 +6,8 @@
     <atom:link href="http://rahulsom.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Sat, 4 May 2019 12:02:20 +0000</pubDate>
-    <lastBuildDate>Sat, 4 May 2019 12:02:20 +0000</lastBuildDate>
+    <pubDate>Mon, 6 May 2019 13:15:52 +0000</pubDate>
+    <lastBuildDate>Mon, 6 May 2019 13:15:52 +0000</lastBuildDate>
 
     <item>
       <title>Ratpack with Non-Blocking CXF Webservices and RxJava</title>
