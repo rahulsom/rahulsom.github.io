@@ -47,3 +47,5 @@ fabric.properties
 /.project
 /.settings
 /bin/
+
+/.vscode/
