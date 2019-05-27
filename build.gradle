@@ -18,7 +18,7 @@ dependencies {
 
 jbake {
     clearCache = true
-    asciidoctorjVersion = '1.5.4.1'
+    asciidoctorjVersion = '1.5.8.1'
 }
 
 gitPublish {
@@ -29,10 +29,6 @@ gitPublish {
             into '.'
         }
     }
-    // credentials {
-    //     username = System.getenv('GH_TOKEN')
-    //     password = '\n'
-    // }
 }
 
 gitPublishCopy.dependsOn bake
