@@ -11,9 +11,9 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.+'
-    compile 'org.apache.commons:commons-lang3:+'
-    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    implementation 'org.codehaus.groovy:groovy-all:2.4.+'
+    implementation 'org.apache.commons:commons-lang3:+'
+    testImplementation 'org.spockframework:spock-core:1.0-groovy-2.4'
 }
 
 jbake {
