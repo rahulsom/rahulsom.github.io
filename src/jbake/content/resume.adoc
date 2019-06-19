@@ -7,8 +7,8 @@ rahul.som@gmail.com ~ +1-510-449-3467 ~ San Jose, CA, USA
 :jbake-type: page
 :jbake-status: published
 
-Developer with lots of experience in Java and Groovy.
-Passionate about Functional Programming and Open Source.
+Developer with lots of experience in Java, Groovy and Kotlin.
+Passionate about Functional Programming, Open Source, and Productivity Engineering.
 
 == Experience
 
@@ -16,8 +16,8 @@ Passionate about Functional Programming and Open Source.
 
 _formerly Certify Data Systems_ --
 Campbell, CA --
-Senior Engineer --
-Jul 11 - Present
+Senior Engineer
+[.period]#Jul '11 - Mar '18#
 
 * Architected _HealthLogix_, the platform for Health Information Exchange
 * Built and managed Jenkins Build System and Tools surrounding it
@@ -32,8 +32,8 @@ Jul 11 - Present
 
 _Employee of Intelliswift Software Inc_ --
 San Jose CA --
-Java Developer --
-Apr 08 - Jul 11
+Java Developer
+[.period]#Apr '08 - Jul '11#
 
 * Developed the Certify Gateway and Certify HealthDock products
 * Improved turnaround time for new interfaces by developing Jython API for customization of inbound and outbound messages
@@ -42,8 +42,8 @@ Apr 08 - Jul 11
 
 _Employee of Intelliswift Software Inc_ --
 Warrendale PA  --
-Java Developer --
-Feb 08 - Apr 08
+Java Developer
+[.period]#Feb '08 - Apr '08#
 
 * Implemented several reports for customers to access audits
 * Developed a tool to move data across databases with all relational dependencies
@@ -51,8 +51,8 @@ Feb 08 - Apr 08
 === Infosys Technologies Ltd
 
 Bangalore INDIA --
-Software Engineer --
-Nov 05 - Jan 08
+Software Engineer
+[.period]#Nov '05 - Jan '08#
 
 * Developed reports for compliance and auditing
 * Developed COBOL module to let the Business Analysts merge their test data along with the data from several systems into the complex plumbing of modules on the Mainframe
@@ -83,5 +83,5 @@ I frequently contribute to open source projects that I use. I also maintain a fe
 
 === Bachelor of Technology (Electronics and Communications Engineering)
 
-Pondicherry Engineering College, Pondicherry University, INDIA --
-Aug 01 - Apr 05
+Pondicherry Engineering College, Pondicherry University, INDIA
+[.period]#Aug '01 - Apr '05#
