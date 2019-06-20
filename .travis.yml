@@ -7,8 +7,8 @@ cache:
   - "$HOME/.gradle/wrapper"
   - "$HOME/.gradle/caches/modules-2/files-2.1"
 script: |
-  if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
-    if [[ "$TRAVIS_BRANCH" = "source" ]]; then
+  if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
+    if [ "$TRAVIS_BRANCH" = "source" ]; then
       ./gradlew publish;
     else
       ./gradlew bake
