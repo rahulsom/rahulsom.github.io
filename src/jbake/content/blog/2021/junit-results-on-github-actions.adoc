@@ -1,0 +1,146 @@
+= JUnit Results on Github Actions
+Rahul Somasunderam
+2021-08-16
+:jbake-type: post
+:jbake-status: published
+:jbake-tags: gradle, github
+:idprefix:
+:icons: font
+
+Github Actions is a very accessible CI solution for OSS projects.
+One shortcoming of most OSS-accessible CI systems is: accessing test results is difficult.
+Compare just about any of those to Jenkins' JUnit results view.
+With a little effort, you can get something close enough.
+
+I tend to use Gradle for most of my Java projects.
+This guide uses Gradle.
+It depends on a feature called https://docs.gradle.com/enterprise/gradle-plugin/[Gradle Build Scans].
+
+First, let's enable Gradle Build scans on your build by adding this to your `settings.gradle`
+
+[source,groovy]
+----
+plugins {
+  id "com.gradle.enterprise" version "3.6.3"
+}
+
+gradleEnterprise {
+  buildScan {
+    termsOfServiceUrl = "https://gradle.com/terms-of-service"
+    termsOfServiceAgree = "yes"
+    publishAlwaysIf(System.getenv("CI")) // <1>
+  }
+}
+----
+
+<1> This will publish the build scan only for CI. You can replace it `publishAlways()` if you want to always publish build scans.
+
+If you now run a gradle build, your build will emit the build url to the console
+
+[source,bash]
+----
+# ./gradlew build
+
+...
+...
+BUILD SUCCESSFUL in 1m 0s
+17 actionable tasks: 17 executed
+
+Publishing build scan...
+https://gradle.com/s/j67twx3r5jzqm #<1>
+----
+
+<1> This is the URL that contains a lot of information on the build, including the JUnit results.
+
+Getting to these is a bit of a problem from a Github Pull Request.
+So let's extract this to a file first.
+
+[source,groovy]
+----
+import com.gradle.scan.plugin.PublishedBuildScan
+
+gradleEnterprise {
+  buildScan {
+    // ... previous configuration
+    buildScanPublished { PublishedBuildScan scan ->
+      file("build/gradle-scan.md").text = // <1>
+          """Gradle Build Scan - [`${scan.buildScanId}`](${scan.buildScanUri})"""
+    }
+  }
+}
+----
+
+<1> This will write some markdown to a file which we can then use as a comment on the pull request.
+
+Now when you run the same command, you'll find a file in the `build` directory called `gradle-scan.md` that looks like this
+
+[source]
+----
+Gradle Build Scan - [`mor6ne7ktkgwy`](https://gradle.com/s/mor6ne7ktkgwy)
+----
+
+Now, let's get Github Actions to process with it.
+
+I'll assume that you have a file called `.github/workflows/build-pr.yml` that looks like this
+
+[source,yaml]
+----
+name: Build PR
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Other things
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+          distribution: zulu
+
+      - name: Build with Gradle
+        run: ./gradlew check build --stacktrace --parallel
+----
+
+Let's add 3 more steps to it
+
+[source,yaml]
+----
+      - id: get-comment-body #<1>
+        run: |
+          body=$(cat build/gradle-scan.md)
+          body="${body//'%'/'%25'}"
+          body="${body//$'\n'/'%0A'}"
+          body="${body//$'\r'/'%0D'}"
+          echo ::set-output name=body::$body
+
+      - name: Find Comment
+        uses: peter-evans/find-comment@v1
+        id: fc #<2>
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Gradle Build Scan
+
+      - name: Create or update comment #<3>
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: ${{ steps.get-comment-body.outputs.body }}
+          edit-mode: replace
+----
+
+<1> The first step extracts reads the content of the file and converts it to something that can be sent as the body of an HTTP request.
+
+<2> The second step finds if there is a previous comment we've made on the PR. If there is one, it captures the id of the comment so we can update it.
+
+<3> This step uses the comment and the comment id (if available), and then upserts a comment to the Pull Request.
