@@ -47,7 +47,7 @@
                       <p>Programmer, Cyclist, Trivia Junkie.</p>
 
                       <h1>
-                          <a href="http://github.com/rahulsom"><i class="icon-github" aria-hidden="true" alt="Github"></i></a>
+                          <a href="http://github.com/rahulsom"><i class="icon-github" aria-hidden="true" alt="GitHub"></i></a>
                           <a href="http://twitter.com/rahulsom"><i class="icon-twitter" aria-hidden="true" alt="Twitter"></i></a>
                           <a href="http://linkedin.com/in/rahulsom"><i class="icon-linkedin" aria-hidden="true" alt="LinkedIn"></i></a>
                           <a href="http://stackoverflow.com/users/586134/rahul"><i class="icon-stack-overflow" aria-hidden="true" alt="Stack Overflow"></i></a>

@@ -35,7 +35,7 @@ gitPublishCopy.dependsOn bake
 bake.dependsOn 'test'
 
 task publish(dependsOn: gitPublishPush, group: 'render',
-        description: "Publishes buildDir to Github Pages on 'master' branch")
+        description: "Publishes buildDir to GitHub Pages on 'master' branch")
 
 task createPost {
     doLast {

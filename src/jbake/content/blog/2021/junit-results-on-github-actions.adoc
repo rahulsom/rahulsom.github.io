@@ -1,4 +1,4 @@
-= JUnit Results on Github Actions
+= JUnit Results on GitHub Actions
 Rahul Somasunderam
 2021-08-16
 :jbake-type: post
@@ -7,10 +7,12 @@ Rahul Somasunderam
 :idprefix:
 :icons: font
 
-Github Actions is a very accessible CI solution for OSS projects.
+GitHub Actions is a very accessible CI solution for OSS projects.
 One shortcoming of most OSS-accessible CI systems is: accessing test results is difficult.
 Compare just about any of those to Jenkins' JUnit results view.
 With a little effort, you can get something close enough.
+
+== Using Build Scans
 
 I tend to use Gradle for most of my Java projects.
 This guide uses Gradle.
@@ -52,7 +54,7 @@ https://gradle.com/s/j67twx3r5jzqm #<1>
 
 <1> This is the URL that contains a lot of information on the build, including the JUnit results.
 
-Getting to these is a bit of a problem from a Github Pull Request.
+Getting to these is a bit of a problem from a GitHub Pull Request.
 So let's extract this to a file first.
 
 [source,groovy]
@@ -74,12 +76,12 @@ gradleEnterprise {
 
 Now when you run the same command, you'll find a file in the `build` directory called `gradle-scan.md` that looks like this
 
-[source]
+[source,markdown]
 ----
 Gradle Build Scan - [`mor6ne7ktkgwy`](https://gradle.com/s/mor6ne7ktkgwy)
 ----
 
-Now, let's get Github Actions to process with it.
+Now, let's get GitHub Actions to process with it.
 
 I'll assume that you have a file called `.github/workflows/build-pr.yml` that looks like this
 
@@ -115,6 +117,7 @@ Let's add 3 more steps to it
 [source,yaml]
 ----
       - id: get-comment-body #<1>
+        if: always()
         run: |
           body=$(cat build/gradle-scan.md)
           body="${body//'%'/'%25'}"
@@ -124,6 +127,7 @@ Let's add 3 more steps to it
 
       - name: Find Comment
         uses: peter-evans/find-comment@v1
+        if: always()
         id: fc #<2>
         with:
           issue-number: ${{ github.event.pull_request.number }}
@@ -132,6 +136,7 @@ Let's add 3 more steps to it
 
       - name: Create or update comment #<3>
         uses: peter-evans/create-or-update-comment@v1
+        if: always()
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
@@ -144,3 +149,25 @@ Let's add 3 more steps to it
 <2> The second step finds if there is a previous comment we've made on the PR. If there is one, it captures the id of the comment so we can update it.
 
 <3> This step uses the comment and the comment id (if available), and then upserts a comment to the Pull Request.
+
+== Using GitHub Checks
+
+This approach uses GitHub checks to achieve the same effect.
+The nice thing is: it annotates your Pull Request with the results of failed tests.
+
+[source,yaml]
+----
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v2 # <1>
+        if: always()
+        with:
+          report_paths: '**/build/test-results/test/TEST-*.xml'
+----
+
+== Comparison
+
+Using GitHub checks is nice - it puts things right in your Pull Request.
+However, it doesn't give you access to all the information you expect to see from a JUnit report - STDOUT, STDERR and the stacktrace.
+
+Gradle Build scans gives you access to that information.
+You still have to navigate one site away to get that.
