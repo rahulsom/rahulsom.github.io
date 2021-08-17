@@ -171,3 +171,5 @@ However, it doesn't give you access to all the information you expect to see fro
 
 Gradle Build scans gives you access to that information.
 You still have to navigate one site away to get that.
+
+The good news is you can use both at the same time.
