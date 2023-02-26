@@ -37,4 +37,4 @@ jobs:
       - name: Build with Gradle
         env:
           GRGIT_USER: ${{secrets.GITHUB_TOKEN}}
-        run: ./gradlew publish
+        run: ./gradlew publish --scan --stacktrace
