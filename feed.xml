@@ -6,13 +6,13 @@
     <atom:link href="http://rahulsom.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Mon, 27 Feb 2023 04:17:30 +0000</pubDate>
-    <lastBuildDate>Mon, 27 Feb 2023 04:17:30 +0000</lastBuildDate>
+    <pubDate>Sun, 26 Feb 2023 21:24:40 -0800</pubDate>
+    <lastBuildDate>Sun, 26 Feb 2023 21:24:40 -0800</lastBuildDate>
 
     <item>
       <title>JUnit Results on GitHub Actions</title>
       <link>http://rahulsom.github.io/blog/2021/junit-results-on-github-actions.html</link>
-      <pubDate>Mon, 16 Aug 2021 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 16 Aug 2021 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/2021/junit-results-on-github-actions.html</guid>
       	<description>
 	&lt;div id=&quot;preamble&quot;&gt;
@@ -241,7 +241,7 @@ You still have to navigate one site away to get that.&lt;/p&gt;
     <item>
       <title>Ratpack with Non-Blocking CXF Webservices and RxJava</title>
       <link>http://rahulsom.github.io/blog/2016/ratpack-with-nonblocking-cxf.html</link>
-      <pubDate>Tue, 6 Sep 2016 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 6 Sep 2016 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/2016/ratpack-with-nonblocking-cxf.html</guid>
       	<description>
 	&lt;div class=&quot;paragraph&quot;&gt;
@@ -395,7 +395,7 @@ class PromiseAsyncHandlerBridge&amp;lt;T&amp;gt; implements AsyncHandler&amp;lt;
     <item>
       <title>Ratpack Assets in Development</title>
       <link>http://rahulsom.github.io/blog/2016/ratpack-assets-in-development.html</link>
-      <pubDate>Fri, 2 Sep 2016 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 2 Sep 2016 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/2016/ratpack-assets-in-development.html</guid>
       	<description>
 	&lt;div class=&quot;paragraph&quot;&gt;
@@ -624,7 +624,7 @@ And when you package your app for deployment, you&amp;#8217;ll still have your o
     <item>
       <title>Gradle Equivalent of Maven Mirror</title>
       <link>http://rahulsom.github.io/blog/2016/gradle-equivalent-of-maven-mirror.html</link>
-      <pubDate>Wed, 31 Aug 2016 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 31 Aug 2016 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/2016/gradle-equivalent-of-maven-mirror.html</guid>
       	<description>
 	&lt;div class=&quot;paragraph&quot;&gt;
@@ -701,7 +701,7 @@ You might want to do this for numerous reasons.&lt;/p&gt;
     <item>
       <title>NexusMonitor</title>
       <link>http://rahulsom.github.io/blog/2015/nexusmonitor.html</link>
-      <pubDate>Mon, 16 Mar 2015 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 16 Mar 2015 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/2015/nexusmonitor.html</guid>
       	<description>
 	&lt;div id=&quot;preamble&quot;&gt;
@@ -847,7 +847,7 @@ You could create a file called &lt;code&gt;repo1.html&lt;/code&gt; and that woul
     <item>
       <title>Character Encodings</title>
       <link>http://rahulsom.github.io/blog/2014/character-encodings.html</link>
-      <pubDate>Wed, 15 Jan 2014 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 15 Jan 2014 00:00:00 -0800</pubDate>
       <guid isPermaLink="false">blog/2014/character-encodings.html</guid>
       	<description>
 	&lt;div id=&quot;preamble&quot;&gt;
@@ -1036,7 +1036,7 @@ x-windows-949, x-windows-950, x-windows-iso2022jp&lt;/pre&gt;
     <item>
       <title>Blue Shirt, White Shirt</title>
       <link>http://rahulsom.github.io/blog/2013/blue-shirt-white-shirt.html</link>
-      <pubDate>Tue, 17 Sep 2013 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 17 Sep 2013 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/2013/blue-shirt-white-shirt.html</guid>
       	<description>
 	&lt;div class=&quot;paragraph&quot;&gt;
@@ -1137,7 +1137,7 @@ Perhaps it might have been simpler to find out why Bob&amp;#8217;s car does not 
     <item>
       <title>Jenkins, Email Ext and Gmail Grimace</title>
       <link>http://rahulsom.github.io/blog/2013/jenkins-email-ext-and-gmail-grimace.html</link>
-      <pubDate>Wed, 20 Mar 2013 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 20 Mar 2013 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/2013/jenkins-email-ext-and-gmail-grimace.html</guid>
       	<description>
 	&lt;div class=&quot;paragraph&quot;&gt;
@@ -1204,7 +1204,7 @@ This makes GMail happy.&lt;/p&gt;
     <item>
       <title>Functional Programming in Scala</title>
       <link>http://rahulsom.github.io/blog/2013/functional-programming-in-scala.html</link>
-      <pubDate>Tue, 8 Jan 2013 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 8 Jan 2013 00:00:00 -0800</pubDate>
       <guid isPermaLink="false">blog/2013/functional-programming-in-scala.html</guid>
       	<description>
 	&lt;div class=&quot;paragraph&quot;&gt;
@@ -1241,7 +1241,7 @@ If for no other reason, then just because &lt;em&gt;it&amp;#8217;s free&lt;/em&g
     <item>
       <title>The year in fitness</title>
       <link>http://rahulsom.github.io/blog/2013/the-year-in-fitness.html</link>
-      <pubDate>Sat, 5 Jan 2013 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 5 Jan 2013 00:00:00 -0800</pubDate>
       <guid isPermaLink="false">blog/2013/the-year-in-fitness.html</guid>
       	<description>
 	&lt;div id=&quot;preamble&quot;&gt;
@@ -1310,7 +1310,7 @@ As a first hurdle, I seem to have screwed up my wrist, &lt;em&gt;again&lt;/em&gt
     <item>
       <title>What happens at IHE &amp;#8230;&amp;#8203;</title>
       <link>http://rahulsom.github.io/blog/2012/what-happens-at-ihe.html</link>
-      <pubDate>Sat, 13 Oct 2012 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 13 Oct 2012 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/2012/what-happens-at-ihe.html</guid>
       	<description>
 	&lt;div class=&quot;paragraph&quot;&gt;
@@ -1331,7 +1331,7 @@ And if I may add, it&amp;#8217;ll be easy to find us.&lt;/p&gt;
     <item>
       <title>Fitness Trackers</title>
       <link>http://rahulsom.github.io/blog/2012/fitness-trackers.html</link>
-      <pubDate>Mon, 25 Jun 2012 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 25 Jun 2012 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/2012/fitness-trackers.html</guid>
       	<description>
 	&lt;div id=&quot;preamble&quot;&gt;
