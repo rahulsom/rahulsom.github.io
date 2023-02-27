@@ -1,6 +1,7 @@
 plugins {
     id("org.jbake.site").version("5.5.0")
     id("org.ajoberstar.git-publish").version("3.0.1")
+    id("org.ajoberstar.grgit").version("5.0.0")
     id("groovy")
 }
 
@@ -20,8 +21,8 @@ jbake {
 }
 
 gitPublish {
-    repoUri = 'https://github.com/rahulsom/rahulsom.github.io.git'
-    branch = 'master'
+    repoUri = grgit.remote.list().url.first()
+    branch = 'gh-pages'
     contents {
         from(file('build/jbake')) {
             into '.'
