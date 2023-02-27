@@ -1,0 +1,1454 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JBake</title>
+    <link>http://rahulsom.github.io</link>
+    <atom:link href="http://rahulsom.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <description>JBake Bootstrap Template</description>
+    <language>en-gb</language>
+    <pubDate>Sun, 26 Feb 2023 19:33:52 -0800</pubDate>
+    <lastBuildDate>Sun, 26 Feb 2023 19:33:52 -0800</lastBuildDate>
+
+    <item>
+      <title>JUnit Results on GitHub Actions</title>
+      <link>http://rahulsom.github.io/blog/2021/junit-results-on-github-actions.html</link>
+      <pubDate>Mon, 16 Aug 2021 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/2021/junit-results-on-github-actions.html</guid>
+      	<description>
+	&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;GitHub Actions is a very accessible CI solution for OSS projects.
+One shortcoming of most OSS-accessible CI systems is: accessing test results is difficult.
+Compare just about any of those to Jenkins&apos; JUnit results view.
+With a little effort, you can get something close enough.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;using_build_scans&quot;&gt;Using Build Scans&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I tend to use Gradle for most of my Java projects.
+This guide uses Gradle.
+It depends on a feature called &lt;a href=&quot;https://docs.gradle.com/enterprise/gradle-plugin/&quot;&gt;Gradle Build Scans&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;First, let&amp;#8217;s enable Gradle Build scans on your build by adding this to your &lt;code&gt;settings.gradle.kts&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;plugins {
+  id &quot;com.gradle.enterprise&quot; version &quot;3.6.3&quot;
+}
+
+gradleEnterprise {
+  buildScan {
+    termsOfServiceUrl = &quot;https://gradle.com/terms-of-service&quot;
+    termsOfServiceAgree = &quot;yes&quot;
+    publishAlwaysIf(System.getenv(&quot;CI&quot;)) &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;This will publish the build scan only for CI. You can replace it &lt;code&gt;publishAlways()&lt;/code&gt; if you want to always publish build scans.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you now run a gradle build, your build will emit the build url to the console&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;bash&quot;&gt;# ./gradlew build
+
+...
+...
+BUILD SUCCESSFUL in 1m 0s
+17 actionable tasks: 17 executed
+
+Publishing build scan...
+https://gradle.com/s/j67twx3r5jzqm &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;This is the URL that contains a lot of information on the build, including the JUnit results.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Getting to these is a bit of a problem from a GitHub Pull Request.
+So let&amp;#8217;s extract this to a file first.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;import com.gradle.scan.plugin.PublishedBuildScan
+
+gradleEnterprise {
+  buildScan {
+    // ... previous configuration
+    buildScanPublished { PublishedBuildScan scan -&amp;gt;
+      file(&quot;build/gradle-scan.md&quot;).text = &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+          &quot;&quot;&quot;Gradle Build Scan - [`${scan.buildScanId}`](${scan.buildScanUri})&quot;&quot;&quot;
+    }
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;This will write some markdown to a file which we can then use as a comment on the pull request.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Now when you run the same command, you&amp;#8217;ll find a file in the &lt;code&gt;build&lt;/code&gt; directory called &lt;code&gt;gradle-scan.md&lt;/code&gt; that looks like this&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;markdown&quot;&gt;Gradle Build Scan - [`mor6ne7ktkgwy`](https://gradle.com/s/mor6ne7ktkgwy)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Now, let&amp;#8217;s get GitHub Actions to process with it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I&amp;#8217;ll assume that you have a file called &lt;code&gt;.github/workflows/build-pr.yml&lt;/code&gt; that looks like this&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;yaml&quot;&gt;name: Build PR
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Other things
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+          distribution: zulu
+
+      - name: Build with Gradle
+        run: ./gradlew check build --stacktrace --parallel&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s add 3 more steps to it&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;yaml&quot;&gt;      - id: get-comment-body &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+        if: always()
+        run: |
+          body=$(cat build/gradle-scan.md)
+          body=&quot;${body//&apos;%&apos;/&apos;%25&apos;}&quot;
+          body=&quot;${body//$&apos;\n&apos;/&apos;%0A&apos;}&quot;
+          body=&quot;${body//$&apos;\r&apos;/&apos;%0D&apos;}&quot;
+          echo ::set-output name=body::$body
+
+      - name: Find Comment
+        uses: peter-evans/find-comment@v1
+        if: always()
+        id: fc &lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;(2)&lt;/b&gt;
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: &apos;github-actions[bot]&apos;
+          body-includes: Gradle Build Scan
+
+      - name: Create or update comment &lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;(3)&lt;/b&gt;
+        uses: peter-evans/create-or-update-comment@v1
+        if: always()
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: ${{ steps.get-comment-body.outputs.body }}
+          edit-mode: replace&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;The first step extracts reads the content of the file and converts it to something that can be sent as the body of an HTTP request.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;2&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;The second step finds if there is a previous comment we&amp;#8217;ve made on the PR. If there is one, it captures the id of the comment so we can update it.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;3&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;This step uses the comment and the comment id (if available), and then upserts a comment to the Pull Request.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;using_github_checks&quot;&gt;Using GitHub Checks&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This approach uses GitHub checks to achieve the same effect.
+The nice thing is: it annotates your Pull Request with the results of failed tests.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;yaml&quot;&gt;      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v2 &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+        if: always()
+        with:
+          report_paths: &apos;**/build/test-results/test/TEST-*.xml&apos;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;comparison&quot;&gt;Comparison&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Using GitHub checks is nice - it puts things right in your Pull Request.
+However, it doesn&amp;#8217;t give you access to all the information you expect to see from a JUnit report - STDOUT, STDERR and the stacktrace.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Gradle Build scans gives you access to that information.
+You still have to navigate one site away to get that.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The good news is you can use both at the same time.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>Ratpack with Non-Blocking CXF Webservices and RxJava</title>
+      <link>http://rahulsom.github.io/blog/2016/ratpack-with-nonblocking-cxf.html</link>
+      <pubDate>Tue, 6 Sep 2016 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/2016/ratpack-with-nonblocking-cxf.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this post we&amp;#8217;re going to look at what you can do to use a CXF client in a non-blocking manner inside of Ratpack.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;By default CXF offers a blocking client called the HTTP Transport.
+If you were to use CXF that way, you could wrap CXF calls inside a &lt;a href=&quot;https://ratpack.io/manual/current/api/ratpack/exec/Blocking.html&quot;&gt;&lt;code&gt;Blocking&lt;/code&gt;&lt;/a&gt; promise.
+While that does the job, it does limit your application in some way.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Since 3.0.0, CXF also offers &lt;a href=&quot;https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-transports-http-netty-client&quot;&gt;rt-transports-http-netty-client&lt;/a&gt;.
+This uses Netty, and can be used in a non-blocking manner.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I&amp;#8217;m going to take &lt;a href=&quot;https://github.com/rahulsom/ihe-iti&quot;&gt;ihe-iti&lt;/a&gt; as an example of a SOAP Library.
+Up until version 0.3, it only supported the synchronous APIs.
+So if you took a wsdl like &lt;a href=&quot;https://github.com/rahulsom/ihe-iti/blob/develop/src/main/resources/iti/wsdl/PIXConsumer.wsdl&quot;&gt;PIXConsumer&lt;/a&gt;, this is what your generated &lt;code&gt;PortType&lt;/code&gt; would look like&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;PIXConsumerPortType.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;@WebService(name = &quot;PIXConsumer_PortType&quot;, targetNamespace = &quot;urn:ihe:iti:pixv3:2007&quot;)
+@SOAPBinding(parameterStyle = ParameterStyle.BARE)
+@XmlSeeAlso({ObjectFactory.class})
+public interface PIXConsumerPortType {
+    @WebMethod(operationName = &quot;PIXConsumer_PRPA_IN201302UV02&quot;,
+            action = &quot;urn:hl7-org:v3:PRPA_IN201302UV02&quot;)
+    @WebResult(name = &quot;MCCI_IN000002UV01&quot;, targetNamespace = &quot;urn:hl7-org:v3&quot;,
+            partName = &quot;Body&quot;)
+    MCCIIN000002UV01 pixConsumerPRPAIN201302UV02(
+            @WebParam(name = &quot;PRPA_IN201302UV02&quot;, targetNamespace = &quot;urn:hl7-org:v3&quot;,
+                    partName = &quot;Body&quot;) PRPAIN201302UV02 var1);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you told &lt;code&gt;wsdl2java&lt;/code&gt; to generated the async APIs as well, you&amp;#8217;ll get something like this&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;PIXConsumerPortType.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;@WebService(name = &quot;PIXConsumer_PortType&quot;, targetNamespace = &quot;urn:ihe:iti:pixv3:2007&quot;)
+@SOAPBinding(parameterStyle = ParameterStyle.BARE)
+@XmlSeeAlso({ObjectFactory.class})
+public interface PIXConsumerPortType {
+    @WebMethod(operationName = &quot;PIXConsumer_PRPA_IN201302UV02&quot;,
+            action = &quot;urn:hl7-org:v3:PRPA_IN201302UV02&quot;)
+    Response&amp;lt;MCCIIN000002UV01&amp;gt; pixConsumerPRPAIN201302UV02Async(
+            @WebParam(name = &quot;PRPA_IN201302UV02&quot;, targetNamespace = &quot;urn:hl7-org:v3&quot;,
+                    partName = &quot;Body&quot;) PRPAIN201302UV02 var1);
+
+    @WebMethod(operationName = &quot;PIXConsumer_PRPA_IN201302UV02&quot;,
+            action = &quot;urn:hl7-org:v3:PRPA_IN201302UV02&quot;)
+    Future&amp;lt;?&amp;gt; pixConsumerPRPAIN201302UV02Async(
+            @WebParam(name = &quot;PRPA_IN201302UV02&quot;, targetNamespace = &quot;urn:hl7-org:v3&quot;,
+                    partName = &quot;Body&quot;) PRPAIN201302UV02 var1,
+            @WebParam(name = &quot;PIXConsumer_PRPA_IN201302UV02Response&quot;, targetNamespace = &quot;&quot;,
+                    partName = &quot;asyncHandler&quot;) AsyncHandler&amp;lt;MCCIIN000002UV01&amp;gt; var2);
+
+    @WebMethod(operationName = &quot;PIXConsumer_PRPA_IN201302UV02&quot;,
+            action = &quot;urn:hl7-org:v3:PRPA_IN201302UV02&quot;)
+    @WebResult(name = &quot;MCCI_IN000002UV01&quot;, targetNamespace = &quot;urn:hl7-org:v3&quot;, partName = &quot;Body&quot;)
+    MCCIIN000002UV01 pixConsumerPRPAIN201302UV02(
+            @WebParam(name = &quot;PRPA_IN201302UV02&quot;, targetNamespace = &quot;urn:hl7-org:v3&quot;,
+                    partName = &quot;Body&quot;) PRPAIN201302UV02 var1);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is tempting to use RxJava and wrap this method into an Observable.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;Response&amp;lt;MCCIIN000002UV01&amp;gt; pixConsumerPRPAIN201302UV02Async(PRPAIN201302UV02 var1);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;After all, RxJava has a method with the signature&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;public static &amp;lt;T&amp;gt; Observable&amp;lt;T&amp;gt; from(Future&amp;lt;? extends T&amp;gt; future)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;And &lt;code&gt;javax.xml.ws.Response&amp;lt;T&amp;gt;&lt;/code&gt; extends &lt;code&gt;java.util.concurrent.Future&amp;lt;T&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Unfortunately, that will not work as intended.
+You will be able to call your webservice, and get data, but all your operations will be limited by the number of threads.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To get it to work correctly, you&amp;#8217;ll have to use the other asynchronous method, i.e.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;Future&amp;lt;?&amp;gt; pixConsumerPRPAIN201302UV02Async(
+        PRPAIN201302UV02 var1, AsyncHandler&amp;lt;MCCIIN000002UV01&amp;gt; var2);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You&amp;#8217;ll have to turn the response into a Ratpack Promise first, before turning it into an Observable.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is a how you turn the response into a Promise&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;import groovy.transform.TupleConstructor
+import ratpack.exec.Downstream
+
+import javax.xml.ws.AsyncHandler
+import javax.xml.ws.Response
+
+/**
+ * Bridges SOAP&apos;s AsyncHandler to Ratpack&apos;s Promise.
+ */
+@SuppressWarnings(&apos;CatchThrowable&apos;)
+@TupleConstructor
+class PromiseAsyncHandlerBridge&amp;lt;T&amp;gt; implements AsyncHandler&amp;lt;T&amp;gt; {
+  Downstream&amp;lt;T&amp;gt; downstream
+
+  @Override
+  void handleResponse(Response&amp;lt;T&amp;gt; res) {
+    try {
+      downstream.success(res.get())
+    } catch (Throwable t) {
+      downstream.error(t)
+    }
+  }
+
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Then to call your webservice and get an observable, you can do this&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;Observable&amp;lt;PRPAIN201310UV02&amp;gt; pixResponse =
+    observe(async { Downstream down -&amp;gt;
+        servicePort.pixConsumerPRPAIN201302UV02Async(
+                request, new PromiseAsyncHandlerBridge&amp;lt;MCCIIN000002UV01&amp;gt;(down)
+        )
+    })&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>Ratpack Assets in Development</title>
+      <link>http://rahulsom.github.io/blog/2016/ratpack-assets-in-development.html</link>
+      <pubDate>Fri, 2 Sep 2016 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/2016/ratpack-assets-in-development.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This post details how to achieve productivity with ratpack when you&amp;#8217;re doing front-end development.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The asset pipeline has a nice integration with Ratpack that enables you to optimize your front-end resources for production mode.
+However, while you&amp;#8217;re developing, this make debugging harder.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If your front end code has a lot of scripts and stylesheets, then you would want to use the asset-pipeline to optimize delivery in production.
+e.g. You would have an &lt;code&gt;app.css&lt;/code&gt; and an &lt;code&gt;app.js&lt;/code&gt; that look like this:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;app.js&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;javascript&quot;&gt;//= require /main
+//= require /util
+//= require /group1/module1
+//= require /group1/module2
+//= require /group2/module1&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;app.css&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;css&quot;&gt;/*
+*= require /bower_components/bootstrap/less/bootstrap
+*= require /bower_components/font-awesome/less/font-awesome
+*= require /base
+*= require /module1
+*= require /module2
+*/&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Now in your html, you can include just these two assets like this (assuming you&amp;#8217;re using html templates).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;index.html&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;html&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+  &amp;lt;head&amp;gt;
+    &amp;lt;link rel=&quot;stylesheet&quot; href=&quot;/app.css&quot; /&amp;gt;
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;script src=&quot;/app.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For completeness, here&amp;#8217;s the &lt;code&gt;ratpack.groovy&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;ratpack.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;import asset.pipeline.ratpack.AssetPipelineHandler
+import asset.pipeline.ratpack.AssetPipelineModule
+import ratpack.groovy.template.TextTemplateModule
+import ratpack.server.ServerConfig
+
+import static ratpack.groovy.Groovy.groovyTemplate
+import static ratpack.groovy.Groovy.ratpack
+import static ratpack.jackson.Jackson.json
+
+ratpack {
+
+  bindings {
+    module(AssetPipelineModule) {
+      it.url(&quot;/&quot;)
+      it.sourcePath(&quot;../../../src/assets&quot;)
+    }
+    module TextTemplateModule
+  }
+
+  handlers {
+    all AssetPipelineHandler
+    all {
+      render groovyTemplate(&apos;index.html&apos;)
+    }
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This will serve the compiled css and js to the browser as a single file.
+If you want to debug your code, this can pose a bit of a problem.
+The same asset pipeline when used with Grails does allow you to see individual files served in development mode.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As of writing (ratpack 1.4.0 and asset-pipeline 2.6.4) there is no way to get this to work out of the box.
+The reason being that ratpack does not have a standard taglib that works across all template types.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I&amp;#8217;m going to assume we&amp;#8217;re using html templates, but this can be adopted to any template type.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;First off, we need to create a helper class that provides taglib like rendering support.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;src/main/groovy/com/example/AssetTag.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;package com.example
+
+import asset.pipeline.AssetPipeline
+import com.google.inject.Inject
+import ratpack.server.ServerConfig
+
+import java.util.function.Consumer
+
+/**
+ * Helps with calling out assets in Groovy Templates
+ */
+class AssetTag {
+  @Inject ServerConfig serverConfig
+
+  String javascript(String uri) {
+    if (serverConfig.isDevelopment()) {
+      StringBuilder tags = new StringBuilder()
+      dependencies(uri, &apos;js&apos;, &apos;application/javascript&apos;) {
+        tags.append(&quot;&amp;lt;script src=\&quot;${it.path}?compile=false\&quot;&amp;gt;&amp;lt;/script&amp;gt;&quot;)
+      }
+      tags.toString()
+    } else {
+      &quot;&amp;lt;script src=\&quot;${uri}\&quot;&amp;gt;&amp;lt;/script&amp;gt;&quot;
+    }
+  }
+
+  String stylesheet(String uri) {
+    if (serverConfig.isDevelopment()) {
+      StringBuilder tags = new StringBuilder()
+      dependencies(uri, &apos;css&apos;, &apos;text/css&apos;) {
+        tags.append(&quot;&amp;lt;link rel=\&quot;stylesheet\&quot; href=\&quot;${it.path}?compile=false\&quot;/&amp;gt;&quot;)
+      }
+      tags.toString()
+    } else {
+      &quot;&amp;lt;link rel=\&quot;stylesheet\&quot; href=\&quot;${uri}\&quot;/&amp;gt;&quot;
+    }
+  }
+
+  private void dependencies(String src, String ext, String contentType, Consumer&amp;lt;Map&amp;gt; callback) {
+
+    final int lastDotIndex = src.lastIndexOf(&apos;.&apos;)
+    final def uri
+    final def extension
+    if (lastDotIndex &amp;gt;= 0) {
+      uri = src.substring(0, lastDotIndex)
+      extension = src.substring(lastDotIndex + 1)
+    } else {
+      uri = src
+      extension = ext
+    }
+
+    AssetPipeline.getDependencyList(uri, contentType, extension).each {
+      callback.accept(it as Map)
+    }
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Next up, we bind that into our Ratpack application&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;ratpack.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;import asset.pipeline.ratpack.AssetPipelineHandler
+import asset.pipeline.ratpack.AssetPipelineModule
+import com.example.AssetTag
+import ratpack.groovy.template.TextTemplateModule
+import ratpack.server.ServerConfig
+
+import static ratpack.groovy.Groovy.groovyTemplate
+import static ratpack.groovy.Groovy.ratpack
+import static ratpack.jackson.Jackson.json
+
+ratpack {
+
+  bindings {
+    module(AssetPipelineModule) {
+      it.url(&quot;/&quot;)
+      it.sourcePath(&quot;../../../src/assets&quot;)
+    }
+    module TextTemplateModule
+    bind(AssetTag)
+  }
+
+  handlers {
+    all AssetPipelineHandler
+    all { AssetTag asset -&amp;gt;
+      render groovyTemplate(&apos;index.html&apos;, asset: asset)
+    }
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Finally, we use it in the html template.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;index.html&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;html&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+  &amp;lt;head&amp;gt;
+    ${model.asset.stylesheet(&apos;/app.css&apos;)}
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    ${model.asset.javascript(&apos;/app.js&apos;)}
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Now, when you develop, you&amp;#8217;ll see individual files in your browser.
+And when you package your app for deployment, you&amp;#8217;ll still have your optimized version.&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Thanks to &lt;a href=&quot;https://twitter.com/davydotcom&quot;&gt;@davydotcom&lt;/a&gt; for creating the awesome asset pipeline library and pointing me in this direction when I first ran into the problem.&lt;/p&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>Gradle Equivalent of Maven Mirror</title>
+      <link>http://rahulsom.github.io/blog/2016/gradle-equivalent-of-maven-mirror.html</link>
+      <pubDate>Wed, 31 Aug 2016 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/2016/gradle-equivalent-of-maven-mirror.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Maven has a way to configure mirrors in &lt;code&gt;settings.xml&lt;/code&gt;. Gradle doesn&amp;#8217;t have a direct analogue to it, but what it has is really nice. Also it&amp;#8217;s &lt;em&gt;under-documented&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s say you&amp;#8217;re using gradle at work, and you want to use your company&amp;#8217;s maven mirror.
+You might want to do this for numerous reasons.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The connection to the open internet is very slow&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The connection to the open internet protected by a proxy that prevents access to maven central&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;You want to audit what is being used in projects at work&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s say your maven mirror&amp;#8217;s url is &lt;code&gt;http://repo.internal.example.com/releases&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Just create a file called &lt;code&gt;init.gradle&lt;/code&gt; under &lt;code&gt;$USER_HOME/.gradle&lt;/code&gt; with this in it&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;allprojects { &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+  buildscript { &lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;(2)&lt;/b&gt;
+    repositories {
+      mavenLocal() &lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;(3)&lt;/b&gt;
+      maven { url &quot;http://repo.internal.example.com/releases&quot; } &lt;i class=&quot;conum&quot; data-value=&quot;4&quot;&gt;&lt;/i&gt;&lt;b&gt;(4)&lt;/b&gt;
+    }
+  }
+  repositories { &lt;i class=&quot;conum&quot; data-value=&quot;5&quot;&gt;&lt;/i&gt;&lt;b&gt;(5)&lt;/b&gt;
+    mavenLocal()
+    maven { url &quot;http://repo.internal.example.com/releases&quot; }
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;This says we want to apply to all projects on this machine.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;2&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;This says you want to modify the build script dependencies too. This will make gradle plugins and build dependencies also use your mirror.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;3&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;This says to look in maven local first. That&amp;#8217;s typically your &lt;code&gt;$USER_HOME/.m2/repository&lt;/code&gt; directory.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;4&quot;&gt;&lt;/i&gt;&lt;b&gt;4&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;This says to look at your maven mirror next if the artifact could not be found.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;5&quot;&gt;&lt;/i&gt;&lt;b&gt;5&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;This says to do the same set of changes for non-build dependencies of your gradle projects.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can find more information on what else you can do with init scripts &lt;a href=&quot;https://docs.gradle.org/current/userguide/init_scripts.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>NexusMonitor</title>
+      <link>http://rahulsom.github.io/blog/2015/nexusmonitor.html</link>
+      <pubDate>Mon, 16 Mar 2015 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/2015/nexusmonitor.html</guid>
+      	<description>
+	&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&amp;#160;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;At &lt;a href=&quot;https://twitter.com/CertifyData&quot;&gt;@CertifyData&lt;/a&gt;, we run a bunch of different build systems including maven, gradle and grails.
+All of them produce artifacts that can be uploaded to a maven repository.
+In fact we use a maven repository to deliver content to our end users.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A somewhat boring part of our release process, was waiting for Jenkins to finish its build and then copy the link from nexus and send it out to our deployment team.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Given how long some projects take to build with all their dependencies, sometimes a developer pushing the release button would forget to send out the email.
+Also capturing the link and details for the email was a repetitive process prone to occasional errors.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So I came up with &lt;a href=&quot;https://github.com/rahulsom/NexusMonitor&quot;&gt;NexusMonitor&lt;/a&gt;.
+It is a groovy/gradle app which can monitor a Nexus repository&amp;#8217;s RSS feed and send out emails based on a template.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;configuring&quot;&gt;Configuring&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s get to a sample usage.
+This describes what happens in our &lt;code&gt;NexusMonitorConfig.groovy&lt;/code&gt;.
+This is the groovy version of a properties file.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;First you need to configure your email settings.
+This is self explanatory.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;nexusmonitor {
+  from {
+    address = &apos;nexus@example.com&apos;
+    personal = &apos;Nexus&apos;
+  }
+  mail {
+    host = &apos;smtp.example.com&apos;
+    port = 587
+    username = &apos;user@example.com&apos;
+    password = &apos;password&apos;
+    javaMailProperties = [
+        &apos;mail.smtp.auth&apos; : true,
+        &apos;mail.smtp.starttls.enable&apos; : false
+    ]
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Next step, you need to configure feeds you&amp;#8217;re interested in monitoring.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;nexusmonitor.feeds = [
+    new Repository(
+        name: &apos;repo1&apos;,
+        feedUrl: &apos;http://domain/nexus/service/local/feeds/&apos;,
+        repoUrl: &apos;http://domain/nexus/content/repositories/public/&apos;,
+        recipients: [&apos;a@example.com&apos;, &apos;b@example.com&apos;]
+    ),
+    new Repository(
+        name: &apos;repo2&apos;,
+        feedUrl: &apos;http://otherdomain/nexus/service/local/feeds/&apos;,
+        repoUrl: &apos;http://otherdomain/nexus/content/repositories/public/&apos;,
+        recipients: [&apos;c@example.com&apos;, &apos;d@example.com&apos;]
+    )
+]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;running&quot;&gt;Running&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Now you can run &lt;code&gt;java -jar nexus-monitor.jar&lt;/code&gt; after you&amp;#8217;ve downloaded the jar file from &lt;a href=&quot;https://oss.sonatype.org/content/repositories/releases/com/github/rahulsom/nexus-monitor/1.0/nexus-monitor-1.0.jar&quot;&gt;Central&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Every time this runs, it records the last run of each repo on a json called &lt;code&gt;lastrun.json&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Running this manually can be boring, so I create a CRON job on the machine which runs this app.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;cron&quot;&gt; * * * * * java -jar /root/nexus-monitor-1.0.jar &amp;gt;&amp;gt; /root/NexusMonitor.log&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It runs every minute and scans the RSS feed of your repository.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;how_does_my_team_use_this&quot;&gt;How does my team use this?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We have an engineering team that is responsible for internally releasing applications, that will then be tested by our business analysts.
+You can think of that as a UAT phase.
+Once that is done, they want to make it available to our ops team which is responsible for installing these apps on customer machines.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When Engineering decides it&amp;#8217;s time to do a release, we use git flow to get a new release onto the master branch, and Jenkins starts turning code into artifacts and putting them in the right repository.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Once a new artifact is available in these scanned repositories, the feed is automatically updated by Nexus.
+Now NexusMonitor kicks in and sees the new artifact and sends out an email to the business analysts and engineers confirming the availability of the new release and instructions to download the build.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We have some scripts prepared for them to run when they are happy with the build, and that downloads the artifacts from one repository and uploads them to another repository.
+This second repository is also scanned by NexusMonitor, and this sends out an email to the ops team notifying them what they can do with the build.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;how_do_we_send_custom_instructions&quot;&gt;How do we send custom instructions?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;By default, there is a template embedded in the app called &lt;code&gt;basic.html&lt;/code&gt; which gets used for emails.
+However there is an attribute in our definition of repositories called &lt;code&gt;name&lt;/code&gt;.
+You could create a file called &lt;code&gt;repo1.html&lt;/code&gt; and that would get picked up if your repository name in the config was &lt;code&gt;repo1&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is a good starting point for your email templates - &lt;a href=&quot;https://github.com/rahulsom/NexusMonitor/blob/master/src/main/resources/basic.html&quot;&gt;basic.html&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Updates: Removed reference to snapshot in favor of running released code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>Character Encodings</title>
+      <link>http://rahulsom.github.io/blog/2014/character-encodings.html</link>
+      <pubDate>Wed, 15 Jan 2014 00:00:00 -0800</pubDate>
+      <guid isPermaLink="false">blog/2014/character-encodings.html</guid>
+      	<description>
+	&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I wrote this a while back in an office blog, and then realized that a lot of people run into this problem, and would benefit from reading this.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Character Encoding is what decides how Strings which are first class citizens in most modern programming languages, get converted into byte arrays.
+Byte arrays are what get sent over the wire, or get written to disk. In the reverse direction, they decide how a byte array must be converted to a String.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This program takes a string in 3 different languages and shows how each language is affected by different charsets.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;import java.nio.charset.Charset
+
+void reportOnText(String text) {
+  final encodings = [
+      &apos;ASCII&apos;, &apos;ISO-8859-1&apos;, &apos;windows-1251&apos;, &apos;UTF-8&apos;, &apos;UTF-16&apos;, &apos;UTF-32&apos;
+  ]
+  println &apos;&apos;
+  println text
+  println text.replaceAll(/./, &apos;=&apos;)
+  encodings.each { enc -&amp;gt;
+    def theBytes = text.getBytes(Charset.forName(enc))
+    def reparse = new String(theBytes, enc)
+    println &quot;${enc.padRight(12)}: ${theBytes.encodeHex()} --&amp;gt; ${reparse}&quot;
+  }
+}
+
+reportOnText(&apos;Happy New Year!&apos;)
+reportOnText(&apos;¡Feliz Año Nuevo!&apos;)
+reportOnText(&apos;新年あけましておめでとうございます！&apos;)
+reportOnText(&apos;KYPHON® Balloon Kyphoplasty&apos;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s look at the output before we dig into the explanation&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;Happy New Year!
+===============
+ASCII       : 4861707079204e6577205965617221 --&amp;gt; Happy New Year!
+ISO-8859-1  : 4861707079204e6577205965617221 --&amp;gt; Happy New Year!
+windows-1251: 4861707079204e6577205965617221 --&amp;gt; Happy New Year!
+UTF-8       : 4861707079204e6577205965617221 --&amp;gt; Happy New Year!
+UTF-16      : feff004800610070007000790020004e00650077002000590065006100720021 --&amp;gt; Happy New Year!
+UTF-32      : 0000004800000061000000700000007000000079000000200000004e0000006500000077000000200000005900000065000000610000007200000021 --&amp;gt; Happy New Year!
+
+¡Feliz Año Nuevo!
+=================
+ASCII       : 3f46656c697a20413f6f204e7565766f21 --&amp;gt; ?Feliz A?o Nuevo!
+ISO-8859-1  : a146656c697a2041f16f204e7565766f21 --&amp;gt; ¡Feliz Año Nuevo!
+windows-1251: 3f46656c697a20413f6f204e7565766f21 --&amp;gt; ?Feliz A?o Nuevo!
+UTF-8       : c2a146656c697a2041c3b16f204e7565766f21 --&amp;gt; ¡Feliz Año Nuevo!
+UTF-16      : feff00a100460065006c0069007a0020004100f1006f0020004e007500650076006f0021 --&amp;gt; ¡Feliz Año Nuevo!
+UTF-32      : 000000a100000046000000650000006c000000690000007a0000002000000041000000f10000006f000000200000004e0000007500000065000000760000006f00000021 --&amp;gt; ¡Feliz Año Nuevo!
+
+新年あけましておめでとうございます！
+==================
+ASCII       : 3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f --&amp;gt; ??????????????????
+ISO-8859-1  : 3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f --&amp;gt; ??????????????????
+windows-1251: 3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f --&amp;gt; ??????????????????
+UTF-8       : e696b0e5b9b4e38182e38191e381bee38197e381a6e3818ae38281e381a7e381a8e38186e38194e38196e38184e381bee38199efbc81 --&amp;gt; 新年あけましておめでとうございます！
+UTF-16      : feff65b05e7430423051307e30573066304a3081306730683046305430563044307e3059ff01 --&amp;gt; 新年あけましておめでとうございます！
+UTF-32      : 000065b000005e7400003042000030510000307e00003057000030660000304a000030810000306700003068000030460000305400003056000030440000307e000030590000ff01 --&amp;gt; 新年あけましておめでとうございます！
+
+KYPHON® Balloon Kyphoplasty
+===========================
+ASCII       : 4b5950484f4e3f2042616c6c6f6f6e204b7970686f706c61737479 --&amp;gt; KYPHON? Balloon Kyphoplasty
+ISO-8859-1  : 4b5950484f4eae2042616c6c6f6f6e204b7970686f706c61737479 --&amp;gt; KYPHON® Balloon Kyphoplasty
+windows-1251: 4b5950484f4eae2042616c6c6f6f6e204b7970686f706c61737479 --&amp;gt; KYPHON® Balloon Kyphoplasty
+UTF-8       : 4b5950484f4ec2ae2042616c6c6f6f6e204b7970686f706c61737479 --&amp;gt; KYPHON® Balloon Kyphoplasty
+UTF-16      : feff004b005900500048004f004e00ae002000420061006c006c006f006f006e0020004b007900700068006f0070006c0061007300740079 --&amp;gt; KYPHON® Balloon Kyphoplasty
+UTF-32      : 0000004b0000005900000050000000480000004f0000004e000000ae0000002000000042000000610000006c0000006c0000006f0000006f0000006e000000200000004b0000007900000070000000680000006f000000700000006c00000061000000730000007400000079 --&amp;gt; KYPHON® Balloon Kyphoplasty&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As you can see, all the encodings we use do a great job with plain English text.
+That&amp;#8217;s because all encodings have support for the characters in the English alphabet.
+As we start making the alphabet more and more complex, we start seeing the difference between the Universal Encodings and the regional Encodings.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;ASCII and windows-1521 have very limited support for anything other than English.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;ISO-8859-1 improves support for Spanish, but Japanese is still broken.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;All the UTF encodings are great for all languages.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Among the UTF charsets, UTF-32 takes 32 bits per character. UTF-16 takes a minimum of 16 bits. UTF-8 takes a minimum of 8 bits, but adds more bits to expand the character set.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;what_if_we_change_charsets_after_encoding&quot;&gt;What if we change charsets after encoding?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is precisely what happens when one system encodes a message in one charset and another tries to parse it using a different charset.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;import java.nio.charset.Charset
+void testWrongEncoding(String text) {
+  def theBytes = text.getBytes(Charset.forName(&apos;ISO-8859-1&apos;))
+  def reparse = new String(theBytes, &apos;UTF-8&apos;)
+  println &quot;${text}: ${theBytes.encodeHex()} --&amp;gt; ${reparse}&quot;
+}
+println &quot;Wrong Encoding&quot;
+println &quot;Wrong Encoding&quot;.replaceAll(/./,&apos;=&apos;)
+testWrongEncoding(&apos;Happy New Year!&apos;)
+testWrongEncoding(&apos;¡Feliz Año Nuevo!&apos;)
+testWrongEncoding(&apos;新年あけましておめでとうございます！&apos;)
+testWrongEncoding(&apos;KYPHON® Balloon Kyphoplasty&apos;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is the result&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;Wrong Encoding
+==============
+Happy New Year!: 4861707079204e6577205965617221 --&amp;gt; Happy New Year!
+¡Feliz Año Nuevo!: a146656c697a2041f16f204e7565766f21 --&amp;gt; �Feliz A�o Nuevo!
+新年あけましておめでとうございます！: 3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f --&amp;gt; ??????????????????
+KYPHON® Balloon Kyphoplasty: 4b5950484f4eae2042616c6c6f6f6e204b7970686f706c61737479 --&amp;gt; KYPHON� Balloon Kyphoplasty&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As you can see, there will be problems in parsing the string into UTF-8. This is what happens when another system uses a different encoding and we parse it using UTF-8.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;why_utf_8&quot;&gt;Why UTF-8&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You might already have guessed why we use UTF. It&amp;#8217;s because UTF can support all major characters we are likely to run into. But why UTF-8 in specific?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Because UTF-8 is the most compressed for the typical inputs we receive.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Other Charsets supported by the Java Runtime&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;Big5, Big5-HKSCS, CESU-8, EUC-JP, EUC-KR, GB18030, GB2312, GBK, IBM-Thai,
+IBM00858, IBM01140, IBM01141, IBM01142, IBM01143, IBM01144, IBM01145, IBM01146,
+IBM01147, IBM01148, IBM01149, IBM037, IBM1026, IBM1047, IBM273, IBM277, IBM278,
+IBM280, IBM284, IBM285, IBM290, IBM297, IBM420, IBM424, IBM437, IBM500, IBM775,
+IBM850, IBM852, IBM855, IBM857, IBM860, IBM861, IBM862, IBM863, IBM864, IBM865,
+IBM866, IBM868, IBM869, IBM870, IBM871, IBM918, ISO-2022-CN, ISO-2022-JP,
+ISO-2022-JP-2, ISO-2022-KR, ISO-8859-1, ISO-8859-13, ISO-8859-15, ISO-8859-16,
+ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7,
+ISO-8859-8, ISO-8859-9, JIS_X0201, JIS_X0212-1990, KOI8-R, KOI8-U, Shift_JIS,
+TIS-620, US-ASCII, UTF-16, UTF-16BE, UTF-16LE, UTF-32, UTF-32BE, UTF-32LE,
+UTF-8, windows-1250, windows-1251, windows-1252, windows-1253, windows-1254,
+windows-1255, windows-1256, windows-1257, windows-1258, windows-31j,
+x-Big5-HKSCS-2001, x-Big5-Solaris, x-euc-jp-linux, x-EUC-TW, x-eucJP-Open,
+x-IBM1006, x-IBM1025, x-IBM1046, x-IBM1097, x-IBM1098, x-IBM1112, x-IBM1122,
+x-IBM1123, x-IBM1124, x-IBM1129, x-IBM1166, x-IBM1364, x-IBM1381, x-IBM1383,
+x-IBM29626C, x-IBM300, x-IBM33722, x-IBM737, x-IBM833, x-IBM834, x-IBM856,
+x-IBM874, x-IBM875, x-IBM921, x-IBM922, x-IBM930, x-IBM933, x-IBM935, x-IBM937,
+x-IBM939, x-IBM942, x-IBM942C, x-IBM943, x-IBM943C, x-IBM948, x-IBM949,
+x-IBM949C, x-IBM950, x-IBM964, x-IBM970, x-ISCII91, x-ISO-2022-CN-CNS,
+x-ISO-2022-CN-GB, x-iso-8859-11, x-JIS0208, x-JISAutoDetect, x-Johab,
+x-MacArabic, x-MacCentralEurope, x-MacCroatian, x-MacCyrillic, x-MacDingbat,
+x-MacGreek, x-MacHebrew, x-MacIceland, x-MacRoman, x-MacRomania, x-MacSymbol,
+x-MacThai, x-MacTurkish, x-MacUkraine, x-MS932_0213, x-MS950-HKSCS,
+x-MS950-HKSCS-XP, x-mswin-936, x-PCK, x-SJIS_0213, x-UTF-16LE-BOM,
+X-UTF-32BE-BOM, X-UTF-32LE-BOM, x-windows-50220, x-windows-50221, x-windows-874,
+x-windows-949, x-windows-950, x-windows-iso2022jp&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>Blue Shirt, White Shirt</title>
+      <link>http://rahulsom.github.io/blog/2013/blue-shirt-white-shirt.html</link>
+      <pubDate>Tue, 17 Sep 2013 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/2013/blue-shirt-white-shirt.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Woman_in_white_Shirt_and_black_pants_and_Woman_in_blue_shirt_and_white_pants_jumping.jpg/800px-Woman_in_white_Shirt_and_black_pants_and_Woman_in_blue_shirt_and_white_pants_jumping.jpg&quot; alt=&quot;Blue Shirt White Shirt&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Image from &lt;a href=&quot;https://en.m.wikipedia.org/wiki/File:Woman_in_white_Shirt_and_black_pants_and_Woman_in_blue_shirt_and_white_pants_jumping.jpg&quot;&gt;Wikipedia&lt;/a&gt;.
+No! That is not Bob.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I call this the &lt;code&gt;Blue Shirt, White Shirt&lt;/code&gt; problem. It goes like this:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Your customer, &lt;em&gt;Bob&lt;/em&gt; comes to your garage and says&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;My car does not work.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;It&amp;#8217;s actually quite simple, and I figured out what makes it stop.
+When I wear a blue shirt, it works just fine.
+But when I wear a white shirt, it doesn&amp;#8217;t work.&lt;/em&gt;
+&apos;&apos;&apos;&apos;&apos;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you&amp;#8217;re a mechanic, you know there&amp;#8217;s some serious shit going on there, but  your customer has a hypothesis and you don&amp;#8217;t.
+Let&amp;#8217;s start looking into this problem deeper.&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;I woke up last morning and wore a blue shirt. Then I got to work.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Then I came home. The car was still working. You with me?&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;I had to go to my buddy&amp;#8217;s place. So I quickly changed to a white shirt, and tried starting my car. It just wouldn&amp;#8217;t.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;So I said &quot;let&amp;#8217;s go back to my blue shirt&quot;. So I went back in, and changed. I got a call from Mom, and minutes later I start the car, and it works just  fine.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;But I wanted to make sure I&amp;#8217;m right so I also took my white shirt with me to his place, and told him about this problem. He doubted me too. So I put on the white shirt and tried starting it, and it wouldn&amp;#8217;t start.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Then we went out for dinner in his car, and I spilled some of that Thai Curry  on my white shirt. So I had to change back to my blue shirt, because, well anyways  my car wouldn&amp;#8217;t start with the white shirt.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Now I started the car, and came back home. But to be sure, I put on another white  shirt and tried starting the car. It just wouldn&amp;#8217;t.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;So this morning, I put on this green shirt, and drove to work. Everything was great.  I quickly changed to my white shirt, to show my coworker the problem, and as expected  the car wouldn&amp;#8217;t start.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;I decided to bring my car in around my lunch break.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Let me quickly put on my white shirt and show you that I&amp;#8217;m not making things up.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Now &lt;em&gt;Bob&lt;/em&gt; has done an amazing analysis of the problem, and it&amp;#8217;s a great story.
+The only problem with it is &lt;strong&gt;it&amp;#8217;s all wrong&lt;/strong&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;While having a diploma in car repair would help you trust my judgement of this analysis,  you probably know that any way.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A lot of customer problems in Software Development get reported this way.
+And by the time they get to the developer who needs to fix the problem, this is what it looks like&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;CAR-1034: Car does not start when customer is wearing white shirts.
+
+Severity: Blocker
+Type: Bug&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What would have helped move things around is&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;CAR-1034: Investigate intermittent starting trouble on Bob&apos;s car.
+
+Severity: Blocker
+Type: Support Task&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The amount of time wasted by development and QA in reproducing Bob&amp;#8217;s &quot;problem&quot; is huge.
+Perhaps it might have been simpler to find out why Bob&amp;#8217;s car does not start when the  engine is already warm.&lt;/p&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>Jenkins, Email Ext and Gmail Grimace</title>
+      <link>http://rahulsom.github.io/blog/2013/jenkins-email-ext-and-gmail-grimace.html</link>
+      <pubDate>Wed, 20 Mar 2013 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/2013/jenkins-email-ext-and-gmail-grimace.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you&amp;#8217;re working on any project that involves more than one developer and  weeks or possibly months of work, you should be using some sort of Continuous Integration.
+The most common system to use is &lt;a href=&quot;http://jenkins-ci.org/&quot;&gt;Jenkins&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you start using Jenkins and start committing code often, you&amp;#8217;ll realize you need email notifications on build status on each commit.
+The default emails from Jenkins are to put it mildly, &lt;em&gt;a bit lacking&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The solution is, the  &lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin&quot;&gt;Email-ext&lt;/a&gt;  plugin.
+This lets you customize your emails.
+They have some decent templates  in their code.
+However you&amp;#8217;ll want to customize your emails further.
+I took  the approach of taking their template and making it prettier with  &lt;a href=&quot;http://www.zurb.com/playground/responsive-email-templates&quot;&gt;Zurb&amp;#8217;s responsive email&lt;/a&gt;  templates.
+I use Mail.app on the Mac and the Mail app on my iPhone.
+Things  were going great until I committed something to github with my gmail id.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;That&amp;#8217;s when I learnt about &lt;a href=&quot;http://www.flickr.com/groups/project-gmail-grimace/&quot;&gt;GMail Grimace&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Rewriting all my templates to not use style tags was not an option.
+Changing the appearance of an html element using css classes that are variables in your template is super easy.
+Doing that using if conditions in your template, is a pain in the ass.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Then I ran into this &lt;a href=&quot;http://stackoverflow.com/questions/4521557/automatically-convert-style-sheets-to-inline-style&quot;&gt;SO&lt;/a&gt;.
+So I decided to use this information and create a &lt;code&gt;pre-send&lt;/code&gt; script for the Email-ext plugin.
+However I learnt that &lt;a href=&quot;https://groups.google.com/forum/?fromgroups=#!topic/jenkinsci-users/Avme-hTCeDs&quot;&gt;there were some problems&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So I decided to &lt;a href=&quot;https://github.com/jenkinsci/email-ext-plugin/pull/60&quot;&gt;hack the plugin&lt;/a&gt; to do what I want.
+It&amp;#8217;s now part of v2.28.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;All you need to do is create a &lt;code&gt;style&lt;/code&gt; tag in your email with an additional attribute &lt;code&gt;data-inline&lt;/code&gt; and value &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code data-lang=&quot;html&quot;&gt;&amp;lt;style type=&quot;text/css&quot; data-inline=&quot;true&quot;&amp;gt;
+  div.good {
+  	background-color: blue;
+  }
+  div.bad {
+  	background-color: red;
+  }
+&amp;lt;/style&amp;gt;
+&amp;lt;style type=&quot;text/css&quot;&amp;gt;
+  ... more styles ...
+&amp;lt;/style&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The plugin now will take this css and apply it inline to all elements.
+This makes GMail happy.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Here&amp;#8217;s my &lt;a href=&quot;https://gist.github.com/rahulsom/5125421&quot;&gt;Jelly Template&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>Functional Programming in Scala</title>
+      <link>http://rahulsom.github.io/blog/2013/functional-programming-in-scala.html</link>
+      <pubDate>Tue, 8 Jan 2013 00:00:00 -0800</pubDate>
+      <guid isPermaLink="false">blog/2013/functional-programming-in-scala.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A couple of months back I took the &lt;a href=&quot;https://class.coursera.org/progfun-2012-001/class/index&quot;&gt;Functional Programming Principles in Scala&lt;/a&gt; course at Coursera.
+It&amp;#8217;s a beautiful course offered by EPFL, specifically &lt;a href=&quot;https://twitter.com/odersky&quot;&gt;Martin Odersky&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Personally I&amp;#8217;ve been working on Java for several years, and at work use Groovy and Grails.
+At one point I have used scala in small side projects at work.
+And all these things have impacted one another.
+Things I learn in one language change the way I write code in another language.
+However there is the imperative programmers burden.
+As a programmer you&amp;#8217;ve been taught by C, C++ and then Java to think in terms of steps.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Learning Groovy as part of an offering from SpringSource did bring in several closures that let you write &lt;em&gt;slightly more functional&lt;/em&gt; code.
+There were the closures you could pass to functions in collections and get cleaner code, i.e.
+it was easier to write functional code.
+However it was just as easy to write bad functional code or imperative code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Scala, for one makes it incredibly hard to use mutable lists.
+Which means the likelihood of a developer being tempted to write bad functional code goes down significantly.
+Immutability is the default behavior in Scala.
+So much so that you have a &lt;code&gt;val&lt;/code&gt; declaration in addition to the &lt;code&gt;var&lt;/code&gt; declaration to make sure you think twice before writing mutable code.
+And this has changed how I think of my code back in Groovy and Java.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you&amp;#8217;re a Java programmer, whether or not you plan to use Scala in one of your projects, I recommend you take this course.
+If for no other reason, then just because &lt;em&gt;it&amp;#8217;s free&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>The year in fitness</title>
+      <link>http://rahulsom.github.io/blog/2013/the-year-in-fitness.html</link>
+      <pubDate>Sat, 5 Jan 2013 00:00:00 -0800</pubDate>
+      <guid isPermaLink="false">blog/2013/the-year-in-fitness.html</guid>
+      	<description>
+	&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;2012 had been a fairly successful year in some aspects. In some, it was terrible.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;cycling&quot;&gt;Cycling&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I had set a target of 1500 miles and was possibly very very short of this target.
+A lot of things caused this - mostly my laziness.
+However the good news was that I was able to get back to biking after my rather long hiatus after an accident.
+Also I never did many 50 miles rides.
+There was just one 50 mile ride.
+Most rides were shorter, though they included some rides to Palomares.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The best thing however was, I got closer to my ideal weight.
+I got better average speeds.
+I expanded my territory, i.e. got into mountain biking.
+I did some rides in Skyline but several rides at Mission Peak.
+Also my climb speed has improved a lot.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For 2013, I want to revive my goal from 2012, i.e. 1500 miles on my road bike.
+I have signed up for an 80 miler in May.
+Also I want to pack in a few mountain rides.
+And I want to buy my own mountain bike.
+I&amp;#8217;m looking at the &lt;a href=&quot;http://reviews.mtbr.com/2013-specialized-camber&quot;&gt;&apos;13 Specialized Camber 29&lt;/a&gt;.
+Any suggestions are welcome.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;running&quot;&gt;Running&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I was able to manage to start running.
+It took a lot of effort, but I got comfortable with running ~10K.
+The speed isn&amp;#8217;t great, but it&amp;#8217;s still something.
+For 2013, I&amp;#8217;m thinking of getting to do a half marathon.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;otherwise&quot;&gt;Otherwise&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I took help from a personal trainer to get my shit straight.
+And that was helpful.
+If you need help with your fitness goals, do consider consulting a personal trainer.
+You might think you don&amp;#8217;t want to hulk up, and that&amp;#8217;s fine, but having a trainer who knows what the hell they&amp;#8217;re doing advise you is better than you trying to figure out how to reach your goals.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For 2013, my goal keep this going.
+As a first hurdle, I seem to have screwed up my wrist, &lt;em&gt;again&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>What happens at IHE &amp;#8230;&amp;#8203;</title>
+      <link>http://rahulsom.github.io/blog/2012/what-happens-at-ihe.html</link>
+      <pubDate>Sat, 13 Oct 2012 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/2012/what-happens-at-ihe.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;At the crux of Healthcare IT, is a body called Integrating Healthcare Enterprise &lt;a href=&quot;http://www.ihe.net/&quot;&gt;(IHE)&lt;/a&gt;. They are one of the standards bodies in healthcare.
+They organize this little thing in Chicago every winter called &lt;a href=&quot;http://www.ihe.net/connectathon/&quot;&gt;Connectathon&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is no secret that my opinion of healthcare technology is very bad.
+However &lt;a href=&quot;http://ihememes.tumblr.com/&quot;&gt;I am not alone&lt;/a&gt;.
+Keep calm and carry on!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you are into healthcare and want to talk to the nice folks from &lt;a href=&quot;https://twitter.com/CertifyData&quot;&gt;@CertifyData&lt;/a&gt;, we&amp;#8217;ll be there.
+And if I may add, it&amp;#8217;ll be easy to find us.&lt;/p&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>Fitness Trackers</title>
+      <link>http://rahulsom.github.io/blog/2012/fitness-trackers.html</link>
+      <pubDate>Mon, 25 Jun 2012 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/2012/fitness-trackers.html</guid>
+      	<description>
+	&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&amp;#160;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The first thing you&amp;#8217;re taught when you start learning physics is&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you can&amp;#8217;t measure it, you can&amp;#8217;t do anything about it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;when_cycling&quot;&gt;When cycling&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I applied that approach to cycling - I bought a &lt;a href=&quot;http://amzn.to/Rk2yTx&quot;&gt;Schwinn&lt;/a&gt; computer and then a &lt;a href=&quot;http://amzn.to/Rk2KSG&quot;&gt;Cateye&lt;/a&gt; and this made me understand my biking better.
+I knew how fast I could go, what my speed was on flats, climbs and descents.
+With Schwinn, I had an understanding of how many calories I burnt.
+With Cateye, I started looking at my cadence.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;when_not_cycling&quot;&gt;When not cycling&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However seasonal allergies brought my biking to a halt.
+And my fitness started declining again.
+So I decided to sign up for a gym membership - I hate using treadmills and stationary bikes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If I&amp;#8217;m walking or biking for 5 minutes, I expect to be farther away from where I started.
+If I&amp;#8217;m not, I get bored.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However I&amp;#8217;ve come to terms with the fact that, the gym is the only way I can get back to being fit if I can&amp;#8217;t get my miles when pollen is high.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As part of a goodie bag at a race &lt;a href=&quot;http://www.active.com/cycling/yountville-ca/napa-valley-tour-de-cure-2012&quot;&gt;ride&lt;/a&gt; I attended this year, I got a pedometer from the good folks at Walgreens.
+It&amp;#8217;s terrible in terms of accuracy and discreetness.
+One day, I did nothing more than driving to work and returning home; and it said I&amp;#8217;d walked 5 miles.
+And it&amp;#8217;s noisy; my colleagues thought I was tin-foil carrying a Geiger Counter with me.
+Also pedometers don&amp;#8217;t account for other activity I do.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;the_choices&quot;&gt;The choices&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I saw my trainer at the gym wearing one of those &lt;a href=&quot;http://www.bodybugg.com/&quot;&gt;Bodybuggs&lt;/a&gt; &lt;a href=&quot;http://amzn.to/TkthyG&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt;.
+That seemed like a good idea.
+Except that you require a subscription to get the best out of it.
+So I&amp;#8217;ve started looking at other alternatives&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.fitbit.com/product&quot;&gt;Fitbit&lt;/a&gt; &lt;a href=&quot;http://amzn.to/WYwUOY&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt; seems to do away with the subscription, but it&amp;#8217;s just a 3D accelerometer; &lt;em&gt;that&amp;#8217;s like a fancy pedometer&lt;/em&gt;.
+It&amp;#8217;s great in that it has an &lt;a href=&quot;http://dev.fitbit.com/&quot;&gt;API&lt;/a&gt;, and apparently a thriving ecosystem.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Then there&amp;#8217;s Nike&amp;#8217;s &lt;a href=&quot;http://www.nike.com/fuelband/&quot;&gt;Fuelband&lt;/a&gt; &lt;a href=&quot;http://amzn.to/VXo1XY&quot;&gt;&lt;span class=&quot;image&quot;&gt;&lt;img src=&quot;https://www.amazon.com/favicon.ico&quot; alt=&quot;image&quot; width=&quot;18&quot; height=&quot;18&quot;&gt;&lt;/span&gt;&lt;/a&gt; which looks great, but then doesn&amp;#8217;t give any meaningful metrics other than it&amp;#8217;s own fake currency.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The third contender is &lt;a href=&quot;https://mybasis.com/&quot;&gt;Basis&lt;/a&gt; which so far seems to be vaporware, in that we don&amp;#8217;t know much about it except for that it will cost $199.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Here&amp;#8217;s what I&amp;#8217;m looking for in the device:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Either has either an API or a means to download data to my computer.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Measures my activity and gives meaningful metrics.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Lets me look at data in fine grained durations so I can compare past performance.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;what_does_it_mean_to_have_an_api&quot;&gt;What does it mean to have an API?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It means that I do not have to pay money to someone so they can gather up my data, and sell it to someone else.
+My fitness data is my Protected Health Information.
+I don&amp;#8217;t want to pay someone $10 a month so they know when I&amp;#8217;ve been pumping iron and have my information sent to the makers of &lt;a href=&quot;http://www.cytosport.com/products/muscle-milk&quot;&gt;Muscle Milk&lt;/a&gt; and when I&amp;#8217;m sleeping on my couch for 3 days in a row, send it to &lt;a href=&quot;http://www.nutrisystem.com/jsps_hmr/home/index.jsp?_requestid=594177&quot;&gt;Nutrisystem&lt;/a&gt;.
+I would love something like good old Nike+ which merely synced with your iPod and if you chose to, shared it on their website.
+However it looks like everyone is taking the cloud seriously and there aren&amp;#8217;t any products in this category that work that way.
+I may be wrong here, but that&amp;#8217;s what everyone&amp;#8217;s advertising looks like.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Do you have any fitness trackers? What do you like about them? How have they helped you? Tweet me at &lt;a href=&quot;http://twitter.com/rahulsom&quot;&gt;@rahulsom&lt;/a&gt; or get me on &lt;a href=&quot;http://www.quora.com/Fitness/I-want-a-fitness-health-tracking-device-Whats-my-best-bet&quot;&gt;Quora&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+
+  </channel> 
+</rss>

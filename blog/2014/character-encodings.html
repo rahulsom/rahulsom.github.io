@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Character Encodings « R4S11</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/asciidoctor.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/prettify.css" rel="stylesheet">
+    <link href="../../css/print.css" rel="stylesheet" media="print">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+            href="../../ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114"
+            href="../../ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"
+            href="../../ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed"
+            href="../../ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="../../favicon.ico">
+
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for petefreitag.com" href="/feed.xml" />
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <header>
+                      <a class="brand" href="../../index.html">
+                        <h1>Rahul Somasunderam</h1>
+                      </a>
+
+                      <p>Programmer, Cyclist, Trivia Junkie.</p>
+
+                      <h1>
+                          <a href="http://github.com/rahulsom"><i class="icon-github" aria-hidden="true" alt="GitHub"></i></a>
+                          <a href="http://twitter.com/rahulsom"><i class="icon-twitter" aria-hidden="true" alt="Twitter"></i></a>
+                          <a href="http://linkedin.com/in/rahulsom"><i class="icon-linkedin" aria-hidden="true" alt="LinkedIn"></i></a>
+                          <a href="http://stackoverflow.com/users/586134/rahul"><i class="icon-stack-overflow" aria-hidden="true" alt="Stack Overflow"></i></a>
+
+                      </h1>
+                      <br>
+                      <p></p>
+
+                      <ul class="pages">
+                        <li><a href="../../about.html">About</a></li>
+                        <li><a href="../../archive.html">Archive</a></li>
+                        <li><a href="../../feed.xml">Subscribe</a></li>
+                        <!-- <li><a href="/resume.html">Resume</a></li> -->
+                      </ul>
+                    </header>
+                </div>
+                <div class="col-md-9">
+	
+	
+	<div class="page-header">
+		<h1>Character Encodings</h1>
+	</div>
+
+	<p><em>15 January 2014</em></p>
+
+	<p><div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>I wrote this a while back in an office blog, and then realized that a lot of people run into this problem, and would benefit from reading this.</p>
+</div>
+<div class="paragraph">
+<p>Character Encoding is what decides how Strings which are first class citizens in most modern programming languages, get converted into byte arrays.
+Byte arrays are what get sent over the wire, or get written to disk. In the reverse direction, they decide how a byte array must be converted to a String.</p>
+</div>
+<div class="paragraph">
+<p>This program takes a string in 3 different languages and shows how each language is affected by different charsets.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">import java.nio.charset.Charset
+
+void reportOnText(String text) {
+  final encodings = [
+      'ASCII', 'ISO-8859-1', 'windows-1251', 'UTF-8', 'UTF-16', 'UTF-32'
+  ]
+  println ''
+  println text
+  println text.replaceAll(/./, '=')
+  encodings.each { enc -&gt;
+    def theBytes = text.getBytes(Charset.forName(enc))
+    def reparse = new String(theBytes, enc)
+    println "${enc.padRight(12)}: ${theBytes.encodeHex()} --&gt; ${reparse}"
+  }
+}
+
+reportOnText('Happy New Year!')
+reportOnText('¡Feliz Año Nuevo!')
+reportOnText('新年あけましておめでとうございます！')
+reportOnText('KYPHON® Balloon Kyphoplasty')</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s look at the output before we dig into the explanation</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Happy New Year!
+===============
+ASCII       : 4861707079204e6577205965617221 --&gt; Happy New Year!
+ISO-8859-1  : 4861707079204e6577205965617221 --&gt; Happy New Year!
+windows-1251: 4861707079204e6577205965617221 --&gt; Happy New Year!
+UTF-8       : 4861707079204e6577205965617221 --&gt; Happy New Year!
+UTF-16      : feff004800610070007000790020004e00650077002000590065006100720021 --&gt; Happy New Year!
+UTF-32      : 0000004800000061000000700000007000000079000000200000004e0000006500000077000000200000005900000065000000610000007200000021 --&gt; Happy New Year!
+
+¡Feliz Año Nuevo!
+=================
+ASCII       : 3f46656c697a20413f6f204e7565766f21 --&gt; ?Feliz A?o Nuevo!
+ISO-8859-1  : a146656c697a2041f16f204e7565766f21 --&gt; ¡Feliz Año Nuevo!
+windows-1251: 3f46656c697a20413f6f204e7565766f21 --&gt; ?Feliz A?o Nuevo!
+UTF-8       : c2a146656c697a2041c3b16f204e7565766f21 --&gt; ¡Feliz Año Nuevo!
+UTF-16      : feff00a100460065006c0069007a0020004100f1006f0020004e007500650076006f0021 --&gt; ¡Feliz Año Nuevo!
+UTF-32      : 000000a100000046000000650000006c000000690000007a0000002000000041000000f10000006f000000200000004e0000007500000065000000760000006f00000021 --&gt; ¡Feliz Año Nuevo!
+
+新年あけましておめでとうございます！
+==================
+ASCII       : 3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f --&gt; ??????????????????
+ISO-8859-1  : 3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f --&gt; ??????????????????
+windows-1251: 3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f --&gt; ??????????????????
+UTF-8       : e696b0e5b9b4e38182e38191e381bee38197e381a6e3818ae38281e381a7e381a8e38186e38194e38196e38184e381bee38199efbc81 --&gt; 新年あけましておめでとうございます！
+UTF-16      : feff65b05e7430423051307e30573066304a3081306730683046305430563044307e3059ff01 --&gt; 新年あけましておめでとうございます！
+UTF-32      : 000065b000005e7400003042000030510000307e00003057000030660000304a000030810000306700003068000030460000305400003056000030440000307e000030590000ff01 --&gt; 新年あけましておめでとうございます！
+
+KYPHON® Balloon Kyphoplasty
+===========================
+ASCII       : 4b5950484f4e3f2042616c6c6f6f6e204b7970686f706c61737479 --&gt; KYPHON? Balloon Kyphoplasty
+ISO-8859-1  : 4b5950484f4eae2042616c6c6f6f6e204b7970686f706c61737479 --&gt; KYPHON® Balloon Kyphoplasty
+windows-1251: 4b5950484f4eae2042616c6c6f6f6e204b7970686f706c61737479 --&gt; KYPHON® Balloon Kyphoplasty
+UTF-8       : 4b5950484f4ec2ae2042616c6c6f6f6e204b7970686f706c61737479 --&gt; KYPHON® Balloon Kyphoplasty
+UTF-16      : feff004b005900500048004f004e00ae002000420061006c006c006f006f006e0020004b007900700068006f0070006c0061007300740079 --&gt; KYPHON® Balloon Kyphoplasty
+UTF-32      : 0000004b0000005900000050000000480000004f0000004e000000ae0000002000000042000000610000006c0000006c0000006f0000006f0000006e000000200000004b0000007900000070000000680000006f000000700000006c00000061000000730000007400000079 --&gt; KYPHON® Balloon Kyphoplasty</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see, all the encodings we use do a great job with plain English text.
+That&#8217;s because all encodings have support for the characters in the English alphabet.
+As we start making the alphabet more and more complex, we start seeing the difference between the Universal Encodings and the regional Encodings.</p>
+</div>
+<div class="paragraph">
+<p>ASCII and windows-1521 have very limited support for anything other than English.</p>
+</div>
+<div class="paragraph">
+<p>ISO-8859-1 improves support for Spanish, but Japanese is still broken.</p>
+</div>
+<div class="paragraph">
+<p>All the UTF encodings are great for all languages.</p>
+</div>
+<div class="paragraph">
+<p>Among the UTF charsets, UTF-32 takes 32 bits per character. UTF-16 takes a minimum of 16 bits. UTF-8 takes a minimum of 8 bits, but adds more bits to expand the character set.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="what_if_we_change_charsets_after_encoding">What if we change charsets after encoding?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is precisely what happens when one system encodes a message in one charset and another tries to parse it using a different charset.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">import java.nio.charset.Charset
+void testWrongEncoding(String text) {
+  def theBytes = text.getBytes(Charset.forName('ISO-8859-1'))
+  def reparse = new String(theBytes, 'UTF-8')
+  println "${text}: ${theBytes.encodeHex()} --&gt; ${reparse}"
+}
+println "Wrong Encoding"
+println "Wrong Encoding".replaceAll(/./,'=')
+testWrongEncoding('Happy New Year!')
+testWrongEncoding('¡Feliz Año Nuevo!')
+testWrongEncoding('新年あけましておめでとうございます！')
+testWrongEncoding('KYPHON® Balloon Kyphoplasty')</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is the result</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Wrong Encoding
+==============
+Happy New Year!: 4861707079204e6577205965617221 --&gt; Happy New Year!
+¡Feliz Año Nuevo!: a146656c697a2041f16f204e7565766f21 --&gt; �Feliz A�o Nuevo!
+新年あけましておめでとうございます！: 3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f --&gt; ??????????????????
+KYPHON® Balloon Kyphoplasty: 4b5950484f4eae2042616c6c6f6f6e204b7970686f706c61737479 --&gt; KYPHON� Balloon Kyphoplasty</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see, there will be problems in parsing the string into UTF-8. This is what happens when another system uses a different encoding and we parse it using UTF-8.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="why_utf_8">Why UTF-8</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You might already have guessed why we use UTF. It&#8217;s because UTF can support all major characters we are likely to run into. But why UTF-8 in specific?</p>
+</div>
+<div class="paragraph">
+<p>Because UTF-8 is the most compressed for the typical inputs we receive.</p>
+</div>
+<div class="paragraph">
+<p>Other Charsets supported by the Java Runtime</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Big5, Big5-HKSCS, CESU-8, EUC-JP, EUC-KR, GB18030, GB2312, GBK, IBM-Thai,
+IBM00858, IBM01140, IBM01141, IBM01142, IBM01143, IBM01144, IBM01145, IBM01146,
+IBM01147, IBM01148, IBM01149, IBM037, IBM1026, IBM1047, IBM273, IBM277, IBM278,
+IBM280, IBM284, IBM285, IBM290, IBM297, IBM420, IBM424, IBM437, IBM500, IBM775,
+IBM850, IBM852, IBM855, IBM857, IBM860, IBM861, IBM862, IBM863, IBM864, IBM865,
+IBM866, IBM868, IBM869, IBM870, IBM871, IBM918, ISO-2022-CN, ISO-2022-JP,
+ISO-2022-JP-2, ISO-2022-KR, ISO-8859-1, ISO-8859-13, ISO-8859-15, ISO-8859-16,
+ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7,
+ISO-8859-8, ISO-8859-9, JIS_X0201, JIS_X0212-1990, KOI8-R, KOI8-U, Shift_JIS,
+TIS-620, US-ASCII, UTF-16, UTF-16BE, UTF-16LE, UTF-32, UTF-32BE, UTF-32LE,
+UTF-8, windows-1250, windows-1251, windows-1252, windows-1253, windows-1254,
+windows-1255, windows-1256, windows-1257, windows-1258, windows-31j,
+x-Big5-HKSCS-2001, x-Big5-Solaris, x-euc-jp-linux, x-EUC-TW, x-eucJP-Open,
+x-IBM1006, x-IBM1025, x-IBM1046, x-IBM1097, x-IBM1098, x-IBM1112, x-IBM1122,
+x-IBM1123, x-IBM1124, x-IBM1129, x-IBM1166, x-IBM1364, x-IBM1381, x-IBM1383,
+x-IBM29626C, x-IBM300, x-IBM33722, x-IBM737, x-IBM833, x-IBM834, x-IBM856,
+x-IBM874, x-IBM875, x-IBM921, x-IBM922, x-IBM930, x-IBM933, x-IBM935, x-IBM937,
+x-IBM939, x-IBM942, x-IBM942C, x-IBM943, x-IBM943C, x-IBM948, x-IBM949,
+x-IBM949C, x-IBM950, x-IBM964, x-IBM970, x-ISCII91, x-ISO-2022-CN-CNS,
+x-ISO-2022-CN-GB, x-iso-8859-11, x-JIS0208, x-JISAutoDetect, x-Johab,
+x-MacArabic, x-MacCentralEurope, x-MacCroatian, x-MacCyrillic, x-MacDingbat,
+x-MacGreek, x-MacHebrew, x-MacIceland, x-MacRoman, x-MacRomania, x-MacSymbol,
+x-MacThai, x-MacTurkish, x-MacUkraine, x-MS932_0213, x-MS950-HKSCS,
+x-MS950-HKSCS-XP, x-mswin-936, x-PCK, x-SJIS_0213, x-UTF-16LE-BOM,
+X-UTF-32BE-BOM, X-UTF-32LE-BOM, x-windows-50220, x-windows-50221, x-windows-874,
+x-windows-949, x-windows-950, x-windows-iso2022jp</pre>
+</div>
+</div>
+</div>
+</div></p>
+
+	<hr />
+	
+      </div>
+    </div>
+    <footer>
+      <p>&copy; Rahul Somasunderam 2012
+      </p>
+      <p><small>
+        With help from <a href="http://jbake.org" target="_blank" title="JBake">JBake</a>. <br>
+        Hosted on <a href="http://pages.github.com">GitHub Pages</a>. <br>
+      </small></p>
+    </footer>
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../js/jquery-1.11.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/prettify.js"></script>
+
+  </body>
+</html>

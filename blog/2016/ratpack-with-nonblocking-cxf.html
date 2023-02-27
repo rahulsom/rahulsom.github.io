@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Ratpack with Non-Blocking CXF Webservices and RxJava « R4S11</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/asciidoctor.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/prettify.css" rel="stylesheet">
+    <link href="../../css/print.css" rel="stylesheet" media="print">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+            href="../../ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114"
+            href="../../ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"
+            href="../../ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed"
+            href="../../ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="../../favicon.ico">
+
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for petefreitag.com" href="/feed.xml" />
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <header>
+                      <a class="brand" href="../../index.html">
+                        <h1>Rahul Somasunderam</h1>
+                      </a>
+
+                      <p>Programmer, Cyclist, Trivia Junkie.</p>
+
+                      <h1>
+                          <a href="http://github.com/rahulsom"><i class="icon-github" aria-hidden="true" alt="GitHub"></i></a>
+                          <a href="http://twitter.com/rahulsom"><i class="icon-twitter" aria-hidden="true" alt="Twitter"></i></a>
+                          <a href="http://linkedin.com/in/rahulsom"><i class="icon-linkedin" aria-hidden="true" alt="LinkedIn"></i></a>
+                          <a href="http://stackoverflow.com/users/586134/rahul"><i class="icon-stack-overflow" aria-hidden="true" alt="Stack Overflow"></i></a>
+
+                      </h1>
+                      <br>
+                      <p></p>
+
+                      <ul class="pages">
+                        <li><a href="../../about.html">About</a></li>
+                        <li><a href="../../archive.html">Archive</a></li>
+                        <li><a href="../../feed.xml">Subscribe</a></li>
+                        <!-- <li><a href="/resume.html">Resume</a></li> -->
+                      </ul>
+                    </header>
+                </div>
+                <div class="col-md-9">
+	
+	
+	<div class="page-header">
+		<h1>Ratpack with Non-Blocking CXF Webservices and RxJava</h1>
+	</div>
+
+	<p><em>06 September 2016</em></p>
+
+	<p><div class="paragraph">
+<p>In this post we&#8217;re going to look at what you can do to use a CXF client in a non-blocking manner inside of Ratpack.</p>
+</div>
+<div class="paragraph">
+<p>By default CXF offers a blocking client called the HTTP Transport.
+If you were to use CXF that way, you could wrap CXF calls inside a <a href="https://ratpack.io/manual/current/api/ratpack/exec/Blocking.html"><code>Blocking</code></a> promise.
+While that does the job, it does limit your application in some way.</p>
+</div>
+<div class="paragraph">
+<p>Since 3.0.0, CXF also offers <a href="https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-transports-http-netty-client">rt-transports-http-netty-client</a>.
+This uses Netty, and can be used in a non-blocking manner.</p>
+</div>
+<div class="paragraph">
+<p>I&#8217;m going to take <a href="https://github.com/rahulsom/ihe-iti">ihe-iti</a> as an example of a SOAP Library.
+Up until version 0.3, it only supported the synchronous APIs.
+So if you took a wsdl like <a href="https://github.com/rahulsom/ihe-iti/blob/develop/src/main/resources/iti/wsdl/PIXConsumer.wsdl">PIXConsumer</a>, this is what your generated <code>PortType</code> would look like</p>
+</div>
+<div class="listingblock">
+<div class="title">PIXConsumerPortType.java</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">@WebService(name = "PIXConsumer_PortType", targetNamespace = "urn:ihe:iti:pixv3:2007")
+@SOAPBinding(parameterStyle = ParameterStyle.BARE)
+@XmlSeeAlso({ObjectFactory.class})
+public interface PIXConsumerPortType {
+    @WebMethod(operationName = "PIXConsumer_PRPA_IN201302UV02",
+            action = "urn:hl7-org:v3:PRPA_IN201302UV02")
+    @WebResult(name = "MCCI_IN000002UV01", targetNamespace = "urn:hl7-org:v3",
+            partName = "Body")
+    MCCIIN000002UV01 pixConsumerPRPAIN201302UV02(
+            @WebParam(name = "PRPA_IN201302UV02", targetNamespace = "urn:hl7-org:v3",
+                    partName = "Body") PRPAIN201302UV02 var1);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you told <code>wsdl2java</code> to generated the async APIs as well, you&#8217;ll get something like this</p>
+</div>
+<div class="listingblock">
+<div class="title">PIXConsumerPortType.java</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">@WebService(name = "PIXConsumer_PortType", targetNamespace = "urn:ihe:iti:pixv3:2007")
+@SOAPBinding(parameterStyle = ParameterStyle.BARE)
+@XmlSeeAlso({ObjectFactory.class})
+public interface PIXConsumerPortType {
+    @WebMethod(operationName = "PIXConsumer_PRPA_IN201302UV02",
+            action = "urn:hl7-org:v3:PRPA_IN201302UV02")
+    Response&lt;MCCIIN000002UV01&gt; pixConsumerPRPAIN201302UV02Async(
+            @WebParam(name = "PRPA_IN201302UV02", targetNamespace = "urn:hl7-org:v3",
+                    partName = "Body") PRPAIN201302UV02 var1);
+
+    @WebMethod(operationName = "PIXConsumer_PRPA_IN201302UV02",
+            action = "urn:hl7-org:v3:PRPA_IN201302UV02")
+    Future&lt;?&gt; pixConsumerPRPAIN201302UV02Async(
+            @WebParam(name = "PRPA_IN201302UV02", targetNamespace = "urn:hl7-org:v3",
+                    partName = "Body") PRPAIN201302UV02 var1,
+            @WebParam(name = "PIXConsumer_PRPA_IN201302UV02Response", targetNamespace = "",
+                    partName = "asyncHandler") AsyncHandler&lt;MCCIIN000002UV01&gt; var2);
+
+    @WebMethod(operationName = "PIXConsumer_PRPA_IN201302UV02",
+            action = "urn:hl7-org:v3:PRPA_IN201302UV02")
+    @WebResult(name = "MCCI_IN000002UV01", targetNamespace = "urn:hl7-org:v3", partName = "Body")
+    MCCIIN000002UV01 pixConsumerPRPAIN201302UV02(
+            @WebParam(name = "PRPA_IN201302UV02", targetNamespace = "urn:hl7-org:v3",
+                    partName = "Body") PRPAIN201302UV02 var1);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It is tempting to use RxJava and wrap this method into an Observable.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">Response&lt;MCCIIN000002UV01&gt; pixConsumerPRPAIN201302UV02Async(PRPAIN201302UV02 var1);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After all, RxJava has a method with the signature</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public static &lt;T&gt; Observable&lt;T&gt; from(Future&lt;? extends T&gt; future)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And <code>javax.xml.ws.Response&lt;T&gt;</code> extends <code>java.util.concurrent.Future&lt;T&gt;</code></p>
+</div>
+<div class="paragraph">
+<p>Unfortunately, that will not work as intended.
+You will be able to call your webservice, and get data, but all your operations will be limited by the number of threads.</p>
+</div>
+<div class="paragraph">
+<p>To get it to work correctly, you&#8217;ll have to use the other asynchronous method, i.e.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">Future&lt;?&gt; pixConsumerPRPAIN201302UV02Async(
+        PRPAIN201302UV02 var1, AsyncHandler&lt;MCCIIN000002UV01&gt; var2);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll have to turn the response into a Ratpack Promise first, before turning it into an Observable.</p>
+</div>
+<div class="paragraph">
+<p>This is a how you turn the response into a Promise</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">import groovy.transform.TupleConstructor
+import ratpack.exec.Downstream
+
+import javax.xml.ws.AsyncHandler
+import javax.xml.ws.Response
+
+/**
+ * Bridges SOAP's AsyncHandler to Ratpack's Promise.
+ */
+@SuppressWarnings('CatchThrowable')
+@TupleConstructor
+class PromiseAsyncHandlerBridge&lt;T&gt; implements AsyncHandler&lt;T&gt; {
+  Downstream&lt;T&gt; downstream
+
+  @Override
+  void handleResponse(Response&lt;T&gt; res) {
+    try {
+      downstream.success(res.get())
+    } catch (Throwable t) {
+      downstream.error(t)
+    }
+  }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then to call your webservice and get an observable, you can do this</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">Observable&lt;PRPAIN201310UV02&gt; pixResponse =
+    observe(async { Downstream down -&gt;
+        servicePort.pixConsumerPRPAIN201302UV02Async(
+                request, new PromiseAsyncHandlerBridge&lt;MCCIIN000002UV01&gt;(down)
+        )
+    })</code></pre>
+</div>
+</div></p>
+
+	<hr />
+	
+      </div>
+    </div>
+    <footer>
+      <p>&copy; Rahul Somasunderam 2012
+      </p>
+      <p><small>
+        With help from <a href="http://jbake.org" target="_blank" title="JBake">JBake</a>. <br>
+        Hosted on <a href="http://pages.github.com">GitHub Pages</a>. <br>
+      </small></p>
+    </footer>
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../js/jquery-1.11.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/prettify.js"></script>
+
+  </body>
+</html>

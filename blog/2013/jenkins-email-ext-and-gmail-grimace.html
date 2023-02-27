@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Jenkins, Email Ext and Gmail Grimace « R4S11</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/asciidoctor.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/prettify.css" rel="stylesheet">
+    <link href="../../css/print.css" rel="stylesheet" media="print">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+            href="../../ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114"
+            href="../../ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"
+            href="../../ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed"
+            href="../../ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="../../favicon.ico">
+
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for petefreitag.com" href="/feed.xml" />
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <header>
+                      <a class="brand" href="../../index.html">
+                        <h1>Rahul Somasunderam</h1>
+                      </a>
+
+                      <p>Programmer, Cyclist, Trivia Junkie.</p>
+
+                      <h1>
+                          <a href="http://github.com/rahulsom"><i class="icon-github" aria-hidden="true" alt="GitHub"></i></a>
+                          <a href="http://twitter.com/rahulsom"><i class="icon-twitter" aria-hidden="true" alt="Twitter"></i></a>
+                          <a href="http://linkedin.com/in/rahulsom"><i class="icon-linkedin" aria-hidden="true" alt="LinkedIn"></i></a>
+                          <a href="http://stackoverflow.com/users/586134/rahul"><i class="icon-stack-overflow" aria-hidden="true" alt="Stack Overflow"></i></a>
+
+                      </h1>
+                      <br>
+                      <p></p>
+
+                      <ul class="pages">
+                        <li><a href="../../about.html">About</a></li>
+                        <li><a href="../../archive.html">Archive</a></li>
+                        <li><a href="../../feed.xml">Subscribe</a></li>
+                        <!-- <li><a href="/resume.html">Resume</a></li> -->
+                      </ul>
+                    </header>
+                </div>
+                <div class="col-md-9">
+	
+	
+	<div class="page-header">
+		<h1>Jenkins, Email Ext and Gmail Grimace</h1>
+	</div>
+
+	<p><em>20 March 2013</em></p>
+
+	<p><div class="paragraph">
+<p>If you&#8217;re working on any project that involves more than one developer and  weeks or possibly months of work, you should be using some sort of Continuous Integration.
+The most common system to use is <a href="http://jenkins-ci.org/">Jenkins</a>.</p>
+</div>
+<div class="paragraph">
+<p>If you start using Jenkins and start committing code often, you&#8217;ll realize you need email notifications on build status on each commit.
+The default emails from Jenkins are to put it mildly, <em>a bit lacking</em>.</p>
+</div>
+<div class="paragraph">
+<p>The solution is, the  <a href="https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin">Email-ext</a>  plugin.
+This lets you customize your emails.
+They have some decent templates  in their code.
+However you&#8217;ll want to customize your emails further.
+I took  the approach of taking their template and making it prettier with  <a href="http://www.zurb.com/playground/responsive-email-templates">Zurb&#8217;s responsive email</a>  templates.
+I use Mail.app on the Mac and the Mail app on my iPhone.
+Things  were going great until I committed something to github with my gmail id.</p>
+</div>
+<div class="paragraph">
+<p>That&#8217;s when I learnt about <a href="http://www.flickr.com/groups/project-gmail-grimace/">GMail Grimace</a>.</p>
+</div>
+<div class="paragraph">
+<p>Rewriting all my templates to not use style tags was not an option.
+Changing the appearance of an html element using css classes that are variables in your template is super easy.
+Doing that using if conditions in your template, is a pain in the ass.</p>
+</div>
+<div class="paragraph">
+<p>Then I ran into this <a href="http://stackoverflow.com/questions/4521557/automatically-convert-style-sheets-to-inline-style">SO</a>.
+So I decided to use this information and create a <code>pre-send</code> script for the Email-ext plugin.
+However I learnt that <a href="https://groups.google.com/forum/?fromgroups=#!topic/jenkinsci-users/Avme-hTCeDs">there were some problems</a>.</p>
+</div>
+<div class="paragraph">
+<p>So I decided to <a href="https://github.com/jenkinsci/email-ext-plugin/pull/60">hack the plugin</a> to do what I want.
+It&#8217;s now part of v2.28.</p>
+</div>
+<div class="paragraph">
+<p>All you need to do is create a <code>style</code> tag in your email with an additional attribute <code>data-inline</code> and value <code>true</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="html">&lt;style type="text/css" data-inline="true"&gt;
+  div.good {
+  	background-color: blue;
+  }
+  div.bad {
+  	background-color: red;
+  }
+&lt;/style&gt;
+&lt;style type="text/css"&gt;
+  ... more styles ...
+&lt;/style&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The plugin now will take this css and apply it inline to all elements.
+This makes GMail happy.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s my <a href="https://gist.github.com/rahulsom/5125421">Jelly Template</a>.</p>
+</div></p>
+
+	<hr />
+	
+      </div>
+    </div>
+    <footer>
+      <p>&copy; Rahul Somasunderam 2012
+      </p>
+      <p><small>
+        With help from <a href="http://jbake.org" target="_blank" title="JBake">JBake</a>. <br>
+        Hosted on <a href="http://pages.github.com">GitHub Pages</a>. <br>
+      </small></p>
+    </footer>
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../js/jquery-1.11.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/prettify.js"></script>
+
+  </body>
+</html>

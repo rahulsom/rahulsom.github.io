@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Gradle Equivalent of Maven Mirror « R4S11</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/asciidoctor.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/prettify.css" rel="stylesheet">
+    <link href="../../css/print.css" rel="stylesheet" media="print">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+            href="../../ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114"
+            href="../../ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"
+            href="../../ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed"
+            href="../../ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="../../favicon.ico">
+
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for petefreitag.com" href="/feed.xml" />
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <header>
+                      <a class="brand" href="../../index.html">
+                        <h1>Rahul Somasunderam</h1>
+                      </a>
+
+                      <p>Programmer, Cyclist, Trivia Junkie.</p>
+
+                      <h1>
+                          <a href="http://github.com/rahulsom"><i class="icon-github" aria-hidden="true" alt="GitHub"></i></a>
+                          <a href="http://twitter.com/rahulsom"><i class="icon-twitter" aria-hidden="true" alt="Twitter"></i></a>
+                          <a href="http://linkedin.com/in/rahulsom"><i class="icon-linkedin" aria-hidden="true" alt="LinkedIn"></i></a>
+                          <a href="http://stackoverflow.com/users/586134/rahul"><i class="icon-stack-overflow" aria-hidden="true" alt="Stack Overflow"></i></a>
+
+                      </h1>
+                      <br>
+                      <p></p>
+
+                      <ul class="pages">
+                        <li><a href="../../about.html">About</a></li>
+                        <li><a href="../../archive.html">Archive</a></li>
+                        <li><a href="../../feed.xml">Subscribe</a></li>
+                        <!-- <li><a href="/resume.html">Resume</a></li> -->
+                      </ul>
+                    </header>
+                </div>
+                <div class="col-md-9">
+	
+	
+	<div class="page-header">
+		<h1>Gradle Equivalent of Maven Mirror</h1>
+	</div>
+
+	<p><em>31 August 2016</em></p>
+
+	<p><div class="paragraph">
+<p>Maven has a way to configure mirrors in <code>settings.xml</code>. Gradle doesn&#8217;t have a direct analogue to it, but what it has is really nice. Also it&#8217;s <em>under-documented</em>.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s say you&#8217;re using gradle at work, and you want to use your company&#8217;s maven mirror.
+You might want to do this for numerous reasons.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The connection to the open internet is very slow</p>
+</li>
+<li>
+<p>The connection to the open internet protected by a proxy that prevents access to maven central</p>
+</li>
+<li>
+<p>You want to audit what is being used in projects at work</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s say your maven mirror&#8217;s url is <code>http://repo.internal.example.com/releases</code></p>
+</div>
+<div class="paragraph">
+<p>Just create a file called <code>init.gradle</code> under <code>$USER_HOME/.gradle</code> with this in it</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">allprojects { <i class="conum" data-value="1"></i><b>(1)</b>
+  buildscript { <i class="conum" data-value="2"></i><b>(2)</b>
+    repositories {
+      mavenLocal() <i class="conum" data-value="3"></i><b>(3)</b>
+      maven { url "http://repo.internal.example.com/releases" } <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+  }
+  repositories { <i class="conum" data-value="5"></i><b>(5)</b>
+    mavenLocal()
+    maven { url "http://repo.internal.example.com/releases" }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This says we want to apply to all projects on this machine.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>This says you want to modify the build script dependencies too. This will make gradle plugins and build dependencies also use your mirror.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>This says to look in maven local first. That&#8217;s typically your <code>$USER_HOME/.m2/repository</code> directory.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>This says to look at your maven mirror next if the artifact could not be found.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>This says to do the same set of changes for non-build dependencies of your gradle projects.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can find more information on what else you can do with init scripts <a href="https://docs.gradle.org/current/userguide/init_scripts.html">here</a>.</p>
+</div></p>
+
+	<hr />
+	
+      </div>
+    </div>
+    <footer>
+      <p>&copy; Rahul Somasunderam 2012
+      </p>
+      <p><small>
+        With help from <a href="http://jbake.org" target="_blank" title="JBake">JBake</a>. <br>
+        Hosted on <a href="http://pages.github.com">GitHub Pages</a>. <br>
+      </small></p>
+    </footer>
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../js/jquery-1.11.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/prettify.js"></script>
+
+  </body>
+</html>

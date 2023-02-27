@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Ratpack Assets in Development « R4S11</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/asciidoctor.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/prettify.css" rel="stylesheet">
+    <link href="../../css/print.css" rel="stylesheet" media="print">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+            href="../../ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114"
+            href="../../ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"
+            href="../../ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed"
+            href="../../ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="../../favicon.ico">
+
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for petefreitag.com" href="/feed.xml" />
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <header>
+                      <a class="brand" href="../../index.html">
+                        <h1>Rahul Somasunderam</h1>
+                      </a>
+
+                      <p>Programmer, Cyclist, Trivia Junkie.</p>
+
+                      <h1>
+                          <a href="http://github.com/rahulsom"><i class="icon-github" aria-hidden="true" alt="GitHub"></i></a>
+                          <a href="http://twitter.com/rahulsom"><i class="icon-twitter" aria-hidden="true" alt="Twitter"></i></a>
+                          <a href="http://linkedin.com/in/rahulsom"><i class="icon-linkedin" aria-hidden="true" alt="LinkedIn"></i></a>
+                          <a href="http://stackoverflow.com/users/586134/rahul"><i class="icon-stack-overflow" aria-hidden="true" alt="Stack Overflow"></i></a>
+
+                      </h1>
+                      <br>
+                      <p></p>
+
+                      <ul class="pages">
+                        <li><a href="../../about.html">About</a></li>
+                        <li><a href="../../archive.html">Archive</a></li>
+                        <li><a href="../../feed.xml">Subscribe</a></li>
+                        <!-- <li><a href="/resume.html">Resume</a></li> -->
+                      </ul>
+                    </header>
+                </div>
+                <div class="col-md-9">
+	
+	
+	<div class="page-header">
+		<h1>Ratpack Assets in Development</h1>
+	</div>
+
+	<p><em>02 September 2016</em></p>
+
+	<p><div class="paragraph">
+<p>This post details how to achieve productivity with ratpack when you&#8217;re doing front-end development.</p>
+</div>
+<div class="paragraph">
+<p>The asset pipeline has a nice integration with Ratpack that enables you to optimize your front-end resources for production mode.
+However, while you&#8217;re developing, this make debugging harder.</p>
+</div>
+<div class="paragraph">
+<p>If your front end code has a lot of scripts and stylesheets, then you would want to use the asset-pipeline to optimize delivery in production.
+e.g. You would have an <code>app.css</code> and an <code>app.js</code> that look like this:</p>
+</div>
+<div class="listingblock">
+<div class="title">app.js</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="javascript">//= require /main
+//= require /util
+//= require /group1/module1
+//= require /group1/module2
+//= require /group2/module1</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">app.css</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="css">/*
+*= require /bower_components/bootstrap/less/bootstrap
+*= require /bower_components/font-awesome/less/font-awesome
+*= require /base
+*= require /module1
+*= require /module2
+*/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now in your html, you can include just these two assets like this (assuming you&#8217;re using html templates).</p>
+</div>
+<div class="listingblock">
+<div class="title">index.html</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;link rel="stylesheet" href="/app.css" /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src="/app.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For completeness, here&#8217;s the <code>ratpack.groovy</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">ratpack.groovy</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">import asset.pipeline.ratpack.AssetPipelineHandler
+import asset.pipeline.ratpack.AssetPipelineModule
+import ratpack.groovy.template.TextTemplateModule
+import ratpack.server.ServerConfig
+
+import static ratpack.groovy.Groovy.groovyTemplate
+import static ratpack.groovy.Groovy.ratpack
+import static ratpack.jackson.Jackson.json
+
+ratpack {
+
+  bindings {
+    module(AssetPipelineModule) {
+      it.url("/")
+      it.sourcePath("../../../src/assets")
+    }
+    module TextTemplateModule
+  }
+
+  handlers {
+    all AssetPipelineHandler
+    all {
+      render groovyTemplate('index.html')
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will serve the compiled css and js to the browser as a single file.
+If you want to debug your code, this can pose a bit of a problem.
+The same asset pipeline when used with Grails does allow you to see individual files served in development mode.</p>
+</div>
+<div class="paragraph">
+<p>As of writing (ratpack 1.4.0 and asset-pipeline 2.6.4) there is no way to get this to work out of the box.
+The reason being that ratpack does not have a standard taglib that works across all template types.</p>
+</div>
+<div class="paragraph">
+<p>I&#8217;m going to assume we&#8217;re using html templates, but this can be adopted to any template type.</p>
+</div>
+<div class="paragraph">
+<p>First off, we need to create a helper class that provides taglib like rendering support.</p>
+</div>
+<div class="listingblock">
+<div class="title">src/main/groovy/com/example/AssetTag.groovy</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">package com.example
+
+import asset.pipeline.AssetPipeline
+import com.google.inject.Inject
+import ratpack.server.ServerConfig
+
+import java.util.function.Consumer
+
+/**
+ * Helps with calling out assets in Groovy Templates
+ */
+class AssetTag {
+  @Inject ServerConfig serverConfig
+
+  String javascript(String uri) {
+    if (serverConfig.isDevelopment()) {
+      StringBuilder tags = new StringBuilder()
+      dependencies(uri, 'js', 'application/javascript') {
+        tags.append("&lt;script src=\"${it.path}?compile=false\"&gt;&lt;/script&gt;")
+      }
+      tags.toString()
+    } else {
+      "&lt;script src=\"${uri}\"&gt;&lt;/script&gt;"
+    }
+  }
+
+  String stylesheet(String uri) {
+    if (serverConfig.isDevelopment()) {
+      StringBuilder tags = new StringBuilder()
+      dependencies(uri, 'css', 'text/css') {
+        tags.append("&lt;link rel=\"stylesheet\" href=\"${it.path}?compile=false\"/&gt;")
+      }
+      tags.toString()
+    } else {
+      "&lt;link rel=\"stylesheet\" href=\"${uri}\"/&gt;"
+    }
+  }
+
+  private void dependencies(String src, String ext, String contentType, Consumer&lt;Map&gt; callback) {
+
+    final int lastDotIndex = src.lastIndexOf('.')
+    final def uri
+    final def extension
+    if (lastDotIndex &gt;= 0) {
+      uri = src.substring(0, lastDotIndex)
+      extension = src.substring(lastDotIndex + 1)
+    } else {
+      uri = src
+      extension = ext
+    }
+
+    AssetPipeline.getDependencyList(uri, contentType, extension).each {
+      callback.accept(it as Map)
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Next up, we bind that into our Ratpack application</p>
+</div>
+<div class="listingblock">
+<div class="title">ratpack.groovy</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">import asset.pipeline.ratpack.AssetPipelineHandler
+import asset.pipeline.ratpack.AssetPipelineModule
+import com.example.AssetTag
+import ratpack.groovy.template.TextTemplateModule
+import ratpack.server.ServerConfig
+
+import static ratpack.groovy.Groovy.groovyTemplate
+import static ratpack.groovy.Groovy.ratpack
+import static ratpack.jackson.Jackson.json
+
+ratpack {
+
+  bindings {
+    module(AssetPipelineModule) {
+      it.url("/")
+      it.sourcePath("../../../src/assets")
+    }
+    module TextTemplateModule
+    bind(AssetTag)
+  }
+
+  handlers {
+    all AssetPipelineHandler
+    all { AssetTag asset -&gt;
+      render groovyTemplate('index.html', asset: asset)
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, we use it in the html template.</p>
+</div>
+<div class="listingblock">
+<div class="title">index.html</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    ${model.asset.stylesheet('/app.css')}
+  &lt;/head&gt;
+  &lt;body&gt;
+    ${model.asset.javascript('/app.js')}
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, when you develop, you&#8217;ll see individual files in your browser.
+And when you package your app for deployment, you&#8217;ll still have your optimized version.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p>Thanks to <a href="https://twitter.com/davydotcom">@davydotcom</a> for creating the awesome asset pipeline library and pointing me in this direction when I first ran into the problem.</p>
+</div></p>
+
+	<hr />
+	
+      </div>
+    </div>
+    <footer>
+      <p>&copy; Rahul Somasunderam 2012
+      </p>
+      <p><small>
+        With help from <a href="http://jbake.org" target="_blank" title="JBake">JBake</a>. <br>
+        Hosted on <a href="http://pages.github.com">GitHub Pages</a>. <br>
+      </small></p>
+    </footer>
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../js/jquery-1.11.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/prettify.js"></script>
+
+  </body>
+</html>
