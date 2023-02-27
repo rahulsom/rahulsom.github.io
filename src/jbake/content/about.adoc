@@ -17,3 +17,7 @@ SpringOne2GX 2015::
     Better iOS Development with Groovy - https://www.infoq.com/presentations/groovy-ios[Video]
 JavaOne 2017::
     Event Sourcing with JVM languages
+cdCon::
+    How Netflix Autoscales CI - https://www.youtube.com/watch?v=LU8wYBWev_0[Video]
+Build Meetup::
+    How Netflix Builds Code - https://www.youtube.com/watch?v=HnPz3CJEKaM[Video]
