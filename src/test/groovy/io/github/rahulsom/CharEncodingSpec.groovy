@@ -1,7 +1,7 @@
 package io.github.rahulsom
 
-import groovy.ui.SystemOutputInterceptor
-import org.apache.commons.lang3.text.WordUtils
+import groovy.console.ui.SystemOutputInterceptor
+import org.apache.commons.text.WordUtils
 import spock.lang.Specification
 
 import java.nio.charset.Charset
@@ -14,7 +14,7 @@ class CharEncodingSpec extends Specification {
     given:
     GroovyShell shell = new GroovyShell()
     def op = new StringBuilder()
-    def output = new SystemOutputInterceptor({a, b ->
+    def output = new SystemOutputInterceptor({ a, b ->
       op.append(b)
       false
     })
