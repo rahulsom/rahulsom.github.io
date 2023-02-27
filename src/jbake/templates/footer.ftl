@@ -6,6 +6,7 @@
       <p><small>
         With help from <a href="http://jbake.org" target="_blank" title="JBake">JBake</a>. <br>
         Hosted on <a href="http://pages.github.com">GitHub Pages</a>. <br>
+        Built at ${.now?string("yyyy-MM-dd HH:mm:ss")} <br>
       </small></p>
     </footer>
     <!-- Le javascript
