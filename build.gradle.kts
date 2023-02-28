@@ -18,11 +18,6 @@ dependencies {
     testImplementation("org.spockframework:spock-core:2.3-groovy-4.0")
 }
 
-jbake {
-    clearCache = true
-    asciidoctorjVersion = "1.5.8.1"
-}
-
 gitPublish {
     val grgit = Grgit.open(mapOf("currentDir" to project.rootDir))
     repoUri.set(grgit.remote.list().first().url)
