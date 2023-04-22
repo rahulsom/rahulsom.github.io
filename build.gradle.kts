@@ -3,7 +3,7 @@ import java.time.LocalDate
 
 plugins {
     id("org.jbake.site").version("5.5.0")
-    id("org.ajoberstar.git-publish").version("4.1.1")
+    id("org.ajoberstar.git-publish").version("4.2.0")
     id("org.ajoberstar.grgit").version("5.0.0")
     id("groovy")
 }
