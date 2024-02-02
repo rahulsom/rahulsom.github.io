@@ -6,8 +6,8 @@
     <atom:link href="http://rahulsom.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Tue, 30 Jan 2024 01:55:10 +0000</pubDate>
-    <lastBuildDate>Tue, 30 Jan 2024 01:55:10 +0000</lastBuildDate>
+    <pubDate>Fri, 2 Feb 2024 22:51:41 +0000</pubDate>
+    <lastBuildDate>Fri, 2 Feb 2024 22:51:41 +0000</lastBuildDate>
 
     <item>
       <title>JUnit Results on GitHub Actions</title>
