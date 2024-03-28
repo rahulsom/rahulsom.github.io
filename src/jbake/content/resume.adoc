@@ -13,7 +13,7 @@ Engineer with lots of experience with the JVM, and developer productivity.
 
 === Netflix
 
-Senior Software Engineer --
+Senior Software Engineer
 [.period]#Apr '18 - Present#
 
 * Maintained CI tooling infrastructure, Artifact Storage and Version Control
@@ -22,7 +22,7 @@ Senior Software Engineer --
 
 === Transcend Insights
 
-Senior Engineer --
+Senior Engineer
 [.period]#Jul '11 - Mar '18#
 
 * Architected their Health Information Exchange product
@@ -48,7 +48,7 @@ Java Developer
 
 === Infosys Technologies Ltd
 
-Software Engineer --
+Software Engineer
 [.period]#Nov '05 - Jan '08#
 
 * Developed reports for compliance and auditing
@@ -69,5 +69,5 @@ I have been programming since I was 12, starting with trivial programs on logo a
 
 === Bachelor of Technology (Electronics and Communications Engineering)
 
-Pondicherry Engineering College, Pondicherry University, INDIA
+Pondicherry Engineering College, INDIA
 [.period]#Aug '01 - Apr '05#
