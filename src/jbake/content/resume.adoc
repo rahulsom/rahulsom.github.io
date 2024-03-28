@@ -1,89 +1,70 @@
 = Rahul Somasunderam
 rahul.som@gmail.com ~ +1-510-449-3467 ~ San Jose, CA, USA
-2021-08-15
+2024-03-28
 :sectnums!:
 :notoc:
 :nofooter:
 :jbake-type: page
 :jbake-status: published
 
-Developer with lots of experience in Java, Groovy and Kotlin.
-Passionate about Functional Programming, Open Source, and Productivity Engineering.
+Engineer with lots of experience with the JVM, and developer productivity.
 
 == Experience
 
 === Netflix
 
-Los Gatos, CA --
-Senior Software Engineer
+Senior Software Engineer --
 [.period]#Apr '18 - Present#
 
-* Maintained Jenkins
-* Developed and supported Rocket - Netflix's CI system
+* Maintained CI tooling infrastructure, Artifact Storage and Version Control
 * Partnered with engineers on other teams to improve their CI experience
+* Managed multiple migrations
 
 === Transcend Insights
 
-Campbell, CA --
-Senior Engineer
+Senior Engineer --
 [.period]#Jul '11 - Mar '18#
 
-* Architected _HealthLogix_, the Health Information Exchange product
+* Architected their Health Information Exchange product
 * Built and managed CI/CD system based on Jenkins and Kubernetes
-* Developed pre interview assignments for javascript and groovy to make hiring smoother
-* Developed training programs targeted at developers with docs and videos
 * Worked with partner companies for building software that worked with each other
 
 === Certify Data Systems
 
 _Employee of Intelliswift Software Inc_ --
-San Jose CA --
 Java Developer
 [.period]#Apr '08 - Jul '11#
 
 * Developed the Certify Gateway and Certify HealthDock products
-* Improved turnaround time for new interfaces by developing Jython API for customization of inbound and outbound messages
 
 === PRI Network
 
 _Employee of Intelliswift Software Inc_ --
-Warrendale PA  --
 Java Developer
 [.period]#Feb '08 - Apr '08#
 
 * Implemented several reports for customers to access audits
-* Developed a tool to move data across databases with all relational dependencies
+* Developed a tool to move selective data across environments with all relational dependencies
 
 === Infosys Technologies Ltd
 
 Bangalore INDIA --
-Software Engineer
+Software Engineer --
 [.period]#Nov '05 - Jan '08#
 
 * Developed reports for compliance and auditing
-* Developed COBOL module to let the Business Analysts merge their test data along with the data from several systems into the complex plumbing of modules on the Mainframe
-* Developed Java tool to help in static analysis of COBOL code
+* Developed COBOL modules to let the Business Analysts merge their test data along with the data from several systems into the complex plumbing of modules on the Mainframe
+* Developed Java tool to help in static analysis of COBOL code to facilitate a migration to Java
 
 == Technology
 
 I have been programming since I was 12, starting with trivial programs on logo and basic, and eventually working on several larger applications and some serious, some fun languages
 
 [unstyled]
-* **Java & the JVM** - Java, Groovy, Kotlin, Grails, Spring, Hibernate, Gradle
+* **Java & the JVM** - Java, Groovy, Kotlin, Spring, Hibernate, Gradle
 * **Testing** - Spock, Geb, JUnit
 * **Databases** - Oracle, MySQL, PostgreSQL, Cassandra
 * **Frontend** - Javascript, Objective C, Swift
-* **Other** - Asciidoctor, Jenkins, Docker, Kubernetes, Puppet
-
-== Open Source
-
-I frequently contribute to open source projects that I use. I also maintain a few projects of my own.
-
-[unstyled]
-* **grooves** - Event Sourcing toolkit for JVM Languages
-* **swaggydoc** - Grails 2 Plugin that adds Swagger support to Grails Controllers
-* **ihe-iti** - Library for dealing with _Integrating Healthcare in Enterprise_'s IT Infrastructure profiles
-* **muval** - Library version of NIST's Meaningful Use validator for Clinical Document Architecture
 
 == Education
 
