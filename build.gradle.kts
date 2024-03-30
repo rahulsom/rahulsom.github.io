@@ -3,7 +3,6 @@ import org.jsoup.Jsoup
 import org.xhtmlrenderer.pdf.ITextRenderer
 import java.time.LocalDate
 
-
 buildscript {
     repositories {
         mavenCentral()
@@ -43,6 +42,9 @@ gitPublish {
 }
 
 tasks.register("pdf") {
+    dependsOn("bake")
+    inputs.file(File("${projectDir}/build/jbake/resume.html"))
+    outputs.file(File("${projectDir}/build/jbake/resume.pdf"))
     doLast {
         val html = File("${projectDir}/build/jbake/resume.html")
         val pdf = File("${projectDir}/build/jbake/resume.pdf")
@@ -64,7 +66,7 @@ tasks.register("pdf") {
     }
 }
 
-tasks.named("gitPublishCopy") { dependsOn("bake") }
+tasks.named("gitPublishCopy") { dependsOn("bake", "pdf") }
 tasks.named("bake") { dependsOn("test") }
 
 tasks.register("publish") { dependsOn("gitPublishPush") }
