@@ -1,5 +1,18 @@
 import org.ajoberstar.grgit.Grgit
+import org.jsoup.Jsoup
+import org.xhtmlrenderer.pdf.ITextRenderer
 import java.time.LocalDate
+
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.jsoup:jsoup:1.17.2")
+        classpath("org.xhtmlrenderer:flying-saucer-pdf:9.7.1")
+    }
+}
 
 plugins {
     id("org.jbake.site").version("5.5.0")
@@ -26,6 +39,28 @@ gitPublish {
         from(file("build/jbake")) {
             into(".")
         }
+    }
+}
+
+tasks.register("pdf") {
+    doLast {
+        val html = File("${projectDir}/build/jbake/resume.html")
+        val pdf = File("${projectDir}/build/jbake/resume.pdf")
+
+        val document = Jsoup.parse(html, "UTF-8").also {
+            it.outputSettings().syntax(org.jsoup.nodes.Document.OutputSettings.Syntax.xml)
+            it.setBaseUri(html.parentFile.toURI().toString())
+        }
+        val renderer = ITextRenderer()
+        renderer.sharedContext.also {
+            it.isPrint = true
+            it.isInteractive = false
+        }
+        val baseUri = html.parentFile.toURI().toString()
+        println("Base URI: $baseUri")
+        renderer.setDocumentFromString(document.html(), baseUri)
+        renderer.layout()
+        renderer.createPDF(pdf.outputStream())
     }
 }
 
