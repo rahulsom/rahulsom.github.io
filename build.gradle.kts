@@ -9,7 +9,7 @@ buildscript {
     }
     dependencies {
         classpath("org.jsoup:jsoup:1.19.1")
-        classpath("org.xhtmlrenderer:flying-saucer-pdf:9.11.4")
+        classpath("org.xhtmlrenderer:flying-saucer-pdf:9.11.5")
     }
 }
 
