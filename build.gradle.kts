@@ -26,7 +26,7 @@ repositories {
 
 dependencies {
     implementation("org.apache.groovy:groovy-all:4.+")
-    implementation("org.apache.commons:commons-text:1.13.0")
+    implementation("org.apache.commons:commons-text:1.13.1")
     testImplementation("org.spockframework:spock-core:2.3-groovy-4.0")
 }
 
