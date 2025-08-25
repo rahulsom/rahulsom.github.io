@@ -8,7 +8,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.jsoup:jsoup:1.21.1")
+        classpath("org.jsoup:jsoup:1.21.2")
         classpath("org.xhtmlrenderer:flying-saucer-pdf:9.13.3")
     }
 }
