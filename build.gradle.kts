@@ -15,7 +15,7 @@ buildscript {
 
 plugins {
     id("org.jbake.site").version("5.5.0")
-    id("org.ajoberstar.git-publish").version("5.1.2")
+    id("org.ajoberstar.git-publish").version("5.1.3")
     id("org.ajoberstar.grgit").version("5.3.2")
     id("groovy")
 }
