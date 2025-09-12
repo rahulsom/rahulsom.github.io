@@ -1,4 +1,3 @@
-import org.ajoberstar.grgit.Grgit
 import org.jsoup.Jsoup
 import org.xhtmlrenderer.pdf.ITextRenderer
 import java.time.LocalDate
@@ -15,8 +14,6 @@ buildscript {
 
 plugins {
     alias(libs.plugins.jbake)
-    alias(libs.plugins.git.publish)
-    alias(libs.plugins.grgit)
     alias(libs.plugins.groovy)
 }
 
@@ -31,16 +28,6 @@ dependencies {
     testImplementation(libs.junit.jupiter)
 }
 
-gitPublish {
-    val grgit = Grgit.open(mapOf("currentDir" to project.rootDir))
-    repoUri.set(grgit.remote.list().first().url)
-    branch.set("gh-pages")
-    contents {
-        from(file("build/jbake")) {
-            into(".")
-        }
-    }
-}
 
 tasks.register("pdf") {
     dependsOn("bake")
@@ -67,10 +54,8 @@ tasks.register("pdf") {
     }
 }
 
-tasks.named("gitPublishCopy") { dependsOn("bake", "pdf") }
 tasks.named("bake") { dependsOn("test") }
 
-tasks.register("publish") { dependsOn("gitPublishPush") }
 
 tasks.register("createPost") {
     doLast {
