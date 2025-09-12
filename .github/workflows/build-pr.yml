@@ -7,12 +7,10 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   build:
@@ -41,12 +39,11 @@ jobs:
         name: Setup Gradle
 
       - name: Build PR
-        if: github.ref_name != 'main'
-        run: ./gradlew check build bake --scan
+        run: ./gradlew check build bake pdf --scan
 
-      - name: Build Main
+      - name: Deploy to GitHub Pages
         if: github.ref_name == 'main'
-        env:
-          GRGIT_USER: rahul.som@gmail.com
-          GRGIT_PASS: ${{secrets.GITHUB_TOKEN}}
-        run: ./gradlew publish --scan
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/jbake
