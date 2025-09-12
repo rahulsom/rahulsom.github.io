@@ -1,15 +1,25 @@
-name: Build PR
+name: Build
 
 on:
+  push:
+    branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
       - uses: gradle/actions/wrapper-validation@v4
 
       - name: Set up JDK 21
@@ -17,9 +27,18 @@ jobs:
         with:
           java-version: 21
           distribution: zulu
+          cache: gradle
 
       - uses: gradle/actions/setup-gradle@v4
         name: Setup Gradle
 
-      - name: Build with Gradle
-        run: ./gradlew check build --stacktrace --parallel
+      - name: Build PR
+        if: github.ref_name != 'main'
+        run: ./gradlew check build --scan
+
+      - name: Build Main
+        if: github.ref_name == 'main'
+        env:
+          GRGIT_USER: ${{github.actor}}
+          GRGIT_PASS: ${{secrets.GITHUB_TOKEN}}
+        run: ./gradlew publish --scan
