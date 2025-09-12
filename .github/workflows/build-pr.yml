@@ -39,6 +39,6 @@ jobs:
       - name: Build Main
         if: github.ref_name == 'main'
         env:
-          GRGIT_USER: ${{github.actor}}
+          GRGIT_USER: rahul.som@gmail.com
           GRGIT_PASS: ${{secrets.GITHUB_TOKEN}}
         run: ./gradlew publish --scan
