@@ -27,7 +27,8 @@ repositories {
 dependencies {
     implementation("org.apache.groovy:groovy-all:4.+")
     implementation("org.apache.commons:commons-text:1.14.0")
-    testImplementation("org.spockframework:spock-core:2.3-groovy-4.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testImplementation("org.assertj:assertj-core:3.24.2")
 }
 
 gitPublish {
