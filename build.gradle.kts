@@ -8,16 +8,16 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.jsoup:jsoup:1.21.2")
-        classpath("org.xhtmlrenderer:flying-saucer-pdf:10.0.0")
+        classpath(libs.jsoup)
+        classpath(libs.flying.saucer.pdf)
     }
 }
 
 plugins {
-    id("org.jbake.site").version("5.5.0")
-    id("org.ajoberstar.git-publish").version("5.1.3")
-    id("org.ajoberstar.grgit").version("5.3.3")
-    id("groovy")
+    alias(libs.plugins.jbake)
+    alias(libs.plugins.git.publish)
+    alias(libs.plugins.grgit)
+    alias(libs.plugins.groovy)
 }
 
 repositories {
@@ -25,10 +25,10 @@ repositories {
 }
 
 dependencies {
-    implementation("org.apache.groovy:groovy-all:4.+")
-    implementation("org.apache.commons:commons-text:1.14.0")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
-    testImplementation("org.assertj:assertj-core:3.24.2")
+    implementation(libs.commons.text)
+    implementation(libs.groovy.all)
+    testImplementation(libs.assertj.core)
+    testImplementation(libs.junit.jupiter)
 }
 
 gitPublish {
