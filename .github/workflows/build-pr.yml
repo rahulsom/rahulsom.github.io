@@ -34,7 +34,7 @@ jobs:
 
       - name: Build PR
         if: github.ref_name != 'main'
-        run: ./gradlew check build --scan
+        run: ./gradlew check build bake --scan
 
       - name: Build Main
         if: github.ref_name == 'main'
