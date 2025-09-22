@@ -1,5 +1,5 @@
 [versions]
-assertj-core = "3.27.5"
+assertj-core = "3.27.6"
 commons-text = "1.14.0"
 flying-saucer-pdf = "10.0.0"
 groovy = "5.+"
