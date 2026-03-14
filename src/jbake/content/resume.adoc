@@ -55,16 +55,6 @@ Software Engineer
 * Developed COBOL modules to let the Business Analysts merge their test data along with the data from several systems into the complex plumbing of modules on the Mainframe
 * Developed Java tool to help in static analysis of COBOL code to facilitate a migration to Java
 
-== Technology
-
-I have been programming since I was 12, starting with trivial programs on logo and basic, and eventually working on several larger applications and some serious, some fun languages
-
-[unstyled]
-* **Java & the JVM** - Java, Groovy, Kotlin, Spring, Hibernate, Gradle
-* **Testing** - Spock, Geb, JUnit
-* **Databases** - Oracle, MySQL, PostgreSQL, Cassandra
-* **Frontend** - Javascript, Objective C, Swift
-
 == Education
 
 === Bachelor of Technology (Electronics and Communications Engineering)
