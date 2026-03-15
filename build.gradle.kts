@@ -33,6 +33,8 @@ tasks.register("pdf") {
     dependsOn("bake")
     inputs.file(File("${projectDir}/build/jbake/resume.html"))
     outputs.file(File("${projectDir}/build/jbake/resume.pdf"))
+    group = "jbake"
+    description = "Produce PDF of resume"
     doLast {
         val html = File("${projectDir}/build/jbake/resume.html")
         val pdf = File("${projectDir}/build/jbake/resume.pdf")
@@ -58,6 +60,8 @@ tasks.named("bake") { dependsOn("test") }
 
 
 tasks.register("createPost") {
+    group = "jbake"
+    description = "Create a new post"
     doLast {
         val filename = if (project.hasProperty("filename")) {
             project.property("filename") as String
@@ -91,4 +95,8 @@ tasks.register("createPost") {
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
+}
+
+jbake {
+    version = libs.versions.jbake.core.get()
 }
