@@ -93,6 +93,20 @@ tasks.register("createPost") {
     }
 }
 
+tasks.register<Exec>("dockerBake") {
+    group = "jbake"
+    description = "Runs jbake within docker"
+    commandLine(
+        "docker", "run",
+        "--rm",
+        "-v", "${System.getProperty("user.home")}/.gradle:/root/.gradle",
+        "-v", "${projectDir}:/workspace",
+        "-w", "/workspace",
+        "azul/zulu-openjdk:21-latest",
+        "./gradlew", "bake"
+    )
+}
+
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
