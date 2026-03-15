@@ -1,13 +1,14 @@
 = Rahul Somasunderam
 rahul.som@gmail.com ~ +1-510-449-3467 ~ Campbell, CA, USA
-2024-03-28
+2026-03-14
 :sectnums!:
 :notoc:
 :nofooter:
 :jbake-type: page
 :jbake-status: published
 
-Engineer with lots of experience with the JVM, and developer productivity.
+Senior Software Engineer specializing in Developer Productivity, CI/CD infrastructure, and the JVM ecosystem.
+Experienced in scaling high-performance build systems, managing large-scale migrations, and contributing to open-source software.
 
 == Experience
 
@@ -16,18 +17,19 @@ Engineer with lots of experience with the JVM, and developer productivity.
 Senior Software Engineer
 [.period]#Apr '18 - Present#
 
-* Maintained CI tooling infrastructure, Artifact Storage and Version Control
-* Partnered with engineers on other teams to improve their CI experience
-* Managed multiple migrations
+* Architected and maintained large-scale CI tooling infrastructure, focusing on developer productivity and build performance.
+* Led the implementation of CI autoscaling solutions to optimize resource utilization and reduce build latency.
+* Partnered with cross-functional teams to modernize CI/CD experiences and manage complex, organization-wide migrations.
+* Managed critical infrastructure for Artifact Storage and Version Control, ensuring high availability and reliability.
 
 === Transcend Insights
 
 Senior Engineer
 [.period]#Jul '11 - Mar '18#
 
-* Architected their Health Information Exchange product
-* Built and managed CI/CD system based on Jenkins and Kubernetes
-* Worked with partner companies for building software that worked with each other
+* Architected their Health Information Exchange product, enabling seamless data integration across healthcare providers.
+* Built and managed a robust CI/CD system based on Jenkins and Kubernetes, streamlining the delivery lifecycle.
+* Facilitated technical partnerships to build interoperable software solutions within the healthcare ecosystem.
 
 === Certify Data Systems
 
@@ -35,7 +37,7 @@ _Employee of Intelliswift Software Inc_ --
 Java Developer
 [.period]#Apr '08 - Jul '11#
 
-* Developed the Certify Gateway and Certify HealthDock products
+* Developed the Certify Gateway and Certify HealthDock products, focusing on secure healthcare data exchange.
 
 === PRI Network
 
@@ -43,17 +45,23 @@ _Employee of Intelliswift Software Inc_ --
 Java Developer
 [.period]#Feb '08 - Apr '08#
 
-* Implemented several reports for customers to access audits
-* Developed a tool to move selective data across environments with all relational dependencies
+* Implemented customer-facing audit reports and developed a custom data migration tool for complex relational dependencies.
 
 === Infosys Technologies Ltd
 
 Software Engineer
 [.period]#Nov '05 - Jan '08#
 
-* Developed reports for compliance and auditing
-* Developed COBOL modules to let the Business Analysts merge their test data along with the data from several systems into the complex plumbing of modules on the Mainframe
-* Developed Java tool to help in static analysis of COBOL code to facilitate a migration to Java
+* Developed compliance reporting systems and tools for complex data merging on Mainframe systems.
+* Created tooling to migrate COBOL code to Java.
+
+== Selected Talks
+
+* How Netflix Builds Code – Build Meetup 2021
+* How Netflix Autoscales CI – cdCon 2021
+* Event Sourcing with JVM languages – JavaOne 2017
+* Better iOS Development with Groovy – SpringOne2GX 2015
+* Getting Groovy with iOS Development – Gr8ConfUS 2015
 
 == Education
 
