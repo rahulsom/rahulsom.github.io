@@ -35,7 +35,7 @@ abstract class DockerBakeTask @Inject constructor(
                 "-v", "${layout.projectDirectory.asFile.canonicalPath}:/workspace",
                 "-w", "/workspace",
                 "azul/zulu-openjdk:21-latest",
-                "./gradlew", "bake"
+                "./gradlew", "bake", "--no-configuration-cache"
             )
         }
     }
