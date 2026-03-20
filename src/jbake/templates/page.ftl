@@ -13,7 +13,7 @@
 				</td>
 				<td>
 					<#if content.date??>
-                        <p class="right"><em>${content.date?string("dd MMMM yyyy")}</em></p>
+						<p class="right"><em>${content.date?string("yyyy-MM-dd")}</em></p>
 					</#if>
 				</td>
 			</tr>
