@@ -1,6 +1,6 @@
 = Rahul Somasunderam
-rahul.som@gmail.com ~ +1-510-449-3467 ~ Campbell, CA, USA
-2026-03-14
+rahul.som@gmail.com | +1-510-449-3467 | Campbell, CA, USA
+{date}
 :sectnums!:
 :notoc:
 :nofooter:
