@@ -63,6 +63,10 @@ Software Engineer
 * Better iOS Development with Groovy – SpringOne2GX 2015
 * Getting Groovy with iOS Development – Gr8ConfUS 2015
 
+== Patents
+
+* US11967427B2 - Electronic medical record exchange
+
 == Education
 
 === Bachelor of Technology (Electronics and Communications Engineering)
