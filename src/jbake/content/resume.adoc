@@ -15,7 +15,7 @@ Experienced in scaling high-performance build systems, managing large-scale migr
 === Netflix
 
 Senior Software Engineer
-[.period]#Apr '18 - Present#
+[.period]#2018-04 - Present#
 
 * Architected and maintained large-scale CI tooling infrastructure, focusing on developer productivity and build performance.
 * Led the implementation of CI autoscaling solutions to optimize resource utilization and reduce build latency.
@@ -25,7 +25,7 @@ Senior Software Engineer
 === Transcend Insights
 
 Senior Engineer
-[.period]#Jul '11 - Mar '18#
+[.period]#2011-07 - 2018-03#
 
 * Architected their Health Information Exchange product, enabling seamless data integration across healthcare providers.
 * Built and managed a robust CI/CD system based on Jenkins and Kubernetes, streamlining the delivery lifecycle.
@@ -35,7 +35,7 @@ Senior Engineer
 
 _Employee of Intelliswift Software Inc_ --
 Java Developer
-[.period]#Apr '08 - Jul '11#
+[.period]#2008-04 - 2011-07#
 
 * Developed the Certify Gateway and Certify HealthDock products, focusing on secure healthcare data exchange.
 
@@ -43,14 +43,14 @@ Java Developer
 
 _Employee of Intelliswift Software Inc_ --
 Java Developer
-[.period]#Feb '08 - Apr '08#
+[.period]#2008-02 - 2008-04#
 
 * Implemented customer-facing audit reports and developed a custom data migration tool for complex relational dependencies.
 
 === Infosys Technologies Ltd
 
 Software Engineer
-[.period]#Nov '05 - Jan '08#
+[.period]#2005-11 - 2008-01#
 
 * Developed compliance reporting systems and tools for complex data merging on Mainframe systems.
 * Created tooling to migrate COBOL code to Java.
@@ -68,4 +68,4 @@ Software Engineer
 === Bachelor of Technology (Electronics and Communications Engineering)
 
 Pondicherry Engineering College, INDIA
-[.period]#Aug '01 - Apr '05#
+[.period]#2001-08 - 2005-04#
