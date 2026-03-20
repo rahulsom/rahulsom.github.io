@@ -16,11 +16,14 @@ dependencies {
 }
 
 
-tasks.named("assemble") {
+tasks.named("assemble").configure {
     dependsOn("pdf")
 }
 
-tasks.named("bake") { dependsOn("test") }
+tasks.named("bake").configure {
+    dependsOn("test")
+    notCompatibleWithConfigurationCache("Is from a very old plugin")
+}
 
 
 tasks.withType<Test>().configureEach {
