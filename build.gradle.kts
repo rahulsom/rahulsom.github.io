@@ -1,20 +1,7 @@
-import org.jsoup.Jsoup
-import org.xhtmlrenderer.pdf.ITextRenderer
-import java.time.LocalDate
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath(libs.jsoup)
-        classpath(libs.flying.saucer.pdf)
-    }
-}
-
 plugins {
     alias(libs.plugins.jbake)
     alias(libs.plugins.groovy)
+    id("my.pdf")
 }
 
 repositories {
@@ -29,94 +16,12 @@ dependencies {
 }
 
 
-val isX86 = System.getProperty("os.arch").lowercase().let { 
-    it.contains("x86") || it.contains("i386") || it.contains("amd64")
-}
-
-tasks.register("pdf") {
-    dependsOn(if (isX86) "bake" else "dockerBake")
-    inputs.file(File("${projectDir}/build/jbake/resume.html"))
-    outputs.file(File("${projectDir}/build/jbake/resume.pdf"))
-    group = "jbake"
-    description = "Produce PDF of resume"
-    doLast {
-        val html = File("${projectDir}/build/jbake/resume.html")
-        val pdf = File("${projectDir}/build/jbake/resume.pdf")
-
-        val document = Jsoup.parse(html, "UTF-8").also {
-            it.outputSettings().syntax(org.jsoup.nodes.Document.OutputSettings.Syntax.xml)
-            it.setBaseUri(html.parentFile.toURI().toString())
-        }
-        val renderer = ITextRenderer()
-        renderer.sharedContext.also {
-            it.isPrint = true
-            it.isInteractive = false
-        }
-        val baseUri = html.parentFile.toURI().toString()
-        println("Base URI: $baseUri")
-        renderer.setDocumentFromString(document.html(), baseUri)
-        renderer.layout()
-        renderer.createPDF(pdf.outputStream())
-    }
-}
-
 tasks.named("assemble") {
     dependsOn("pdf")
 }
 
 tasks.named("bake") { dependsOn("test") }
 
-
-tasks.register("createPost") {
-    group = "jbake"
-    description = "Create a new post"
-    doLast {
-        val filename = if (project.hasProperty("filename")) {
-            project.property("filename") as String
-        } else {
-            "new-post"
-        }
-        val dir = "src/jbake/content/blog/${LocalDate.now().year}"
-        if (!File(dir).exists()) {
-            File(dir).mkdirs()
-        }
-        val path = "${dir}/${filename}.adoc"
-
-        File(path).writeText(
-            listOf(
-                "= $filename",
-                "Rahul Somasunderam",
-                "${LocalDate.now()}",
-                ":jbake-type: post",
-                ":jbake-status: published",
-                ":jbake-tags: fitness, tracker, bodybugg, fitbit, fuelband, basis",
-                ":idprefix:",
-                "",
-                "subtitle",
-                "",
-                "body"
-            ).joinToString("\n")
-        )
-        println(filename)
-    }
-}
-
-tasks.register<Exec>("dockerBake") {
-    group = "jbake"
-    description = "Runs jbake within docker"
-    inputs.dir("src")
-    inputs.files("build.gradle.kts", "gradle.properties", "settings.gradle.kts", "gradle/libs.versions.toml")
-    outputs.dir("build/jbake")
-    commandLine(
-        "docker", "run",
-        "--rm",
-        "-v", "${System.getProperty("user.home")}/.gradle:/root/.gradle",
-        "-v", "${projectDir}:/workspace",
-        "-w", "/workspace",
-        "azul/zulu-openjdk:21-latest",
-        "./gradlew", "bake"
-    )
-}
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
