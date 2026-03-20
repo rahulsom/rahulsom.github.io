@@ -8,6 +8,7 @@ import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.xhtmlrenderer.pdf.ITextRenderer
 import java.io.FileOutputStream
 
@@ -22,11 +23,15 @@ abstract class PdfTask : DefaultTask() {
 
     @TaskAction
     fun generatePdf() {
+        val conf = javaClass.getResource("/conf/xhtmlrenderer.conf")
+        if (conf != null) {
+            System.setProperty("xr.conf", conf.toExternalForm())
+        }
         val html = htmlFile.get().asFile
         val pdf = pdfFile.get().asFile
 
         val document = Jsoup.parse(html, "UTF-8").also {
-            it.outputSettings().syntax(org.jsoup.nodes.Document.OutputSettings.Syntax.xml)
+            it.outputSettings().syntax(Document.OutputSettings.Syntax.xml)
             it.setBaseUri(html.parentFile.toURI().toString())
         }
         val renderer = ITextRenderer()
