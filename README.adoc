@@ -18,13 +18,7 @@ If you're on arm64, and can't get jbake to run, you can use this to dockerize th
 
 [source,bash]
 ----
-docker run \
-    --rm \
-    -v $HOME/.gradle:/root/.gradle \
-    -v $PWD:/workspace \
-    -w /workspace \
-    azul/zulu-openjdk:21-latest \
-        ./gradlew bake
+./gradlew dockerBake
 ----
 
 In order to publish, run
