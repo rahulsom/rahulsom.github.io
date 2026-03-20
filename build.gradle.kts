@@ -29,8 +29,12 @@ dependencies {
 }
 
 
+val isX86 = System.getProperty("os.arch").lowercase().let { 
+    it.contains("x86") || it.contains("i386") || it.contains("amd64")
+}
+
 tasks.register("pdf") {
-    dependsOn("bake")
+    dependsOn(if (isX86) "bake" else "dockerBake")
     inputs.file(File("${projectDir}/build/jbake/resume.html"))
     outputs.file(File("${projectDir}/build/jbake/resume.pdf"))
     group = "jbake"
@@ -54,6 +58,10 @@ tasks.register("pdf") {
         renderer.layout()
         renderer.createPDF(pdf.outputStream())
     }
+}
+
+tasks.named("assemble") {
+    dependsOn("pdf")
 }
 
 tasks.named("bake") { dependsOn("test") }
@@ -96,6 +104,9 @@ tasks.register("createPost") {
 tasks.register<Exec>("dockerBake") {
     group = "jbake"
     description = "Runs jbake within docker"
+    inputs.dir("src")
+    inputs.files("build.gradle.kts", "gradle.properties", "settings.gradle.kts", "gradle/libs.versions.toml")
+    outputs.dir("build/jbake")
     commandLine(
         "docker", "run",
         "--rm",
