@@ -10,3 +10,5 @@ develocity {
 }
 
 rootProject.name = "rahulsom.github.io"
+
+includeBuild("gradle/build-plugin")
