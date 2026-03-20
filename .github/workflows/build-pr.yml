@@ -39,7 +39,7 @@ jobs:
         name: Setup Gradle
 
       - name: Build PR
-        run: ./gradlew check build bake pdf --scan
+        run: ./gradlew check build --scan --no-configuration-cache
 
       - name: Deploy to GitHub Pages
         if: github.ref_name == 'main'

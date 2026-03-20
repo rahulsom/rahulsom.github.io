@@ -1,3 +1,5 @@
+import java.time.LocalDate
+
 plugins {
     alias(libs.plugins.jbake)
     alias(libs.plugins.groovy)
@@ -25,11 +27,25 @@ tasks.named("bake").configure {
     notCompatibleWithConfigurationCache("Is from a very old plugin")
 }
 
-
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
 
+fun getResumeCommitDate(): String {
+    return try {
+        val process = ProcessBuilder("git", "log", "-1", "--format=%ci", "--", "src/jbake/content/resume.adoc")
+            .redirectErrorStream(true)
+            .start()
+        val output = process.inputStream.bufferedReader().readText().trim()
+        process.waitFor()
+        output.substringBefore(' ')
+    } catch (e: Exception) {
+        // Fallback to current date if git is not available (e.g., in Docker builds)
+        LocalDate.now().toString()
+    }
+}
+
 jbake {
     version = libs.versions.jbake.core.get()
+    configuration["date"] = getResumeCommitDate()
 }
