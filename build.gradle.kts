@@ -1,4 +1,4 @@
-import java.time.LocalDate
+import io.github.rahulsom.GitAdocCommitDatesSource
 
 plugins {
     alias(libs.plugins.jbake)
@@ -24,28 +24,19 @@ tasks.named("assemble").configure {
 
 tasks.named("bake").configure {
     dependsOn("test")
-    notCompatibleWithConfigurationCache("Is from a very old plugin")
 }
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
 
-fun getFileCommitDate(filename: String): String {
-    return try {
-        val process = ProcessBuilder("git", "log", "-1", "--format=%ci", "--", "src/jbake/content/${filename}")
-            .redirectErrorStream(true)
-            .start()
-        val output = process.inputStream.bufferedReader().readText().trim()
-        process.waitFor()
-        output.substringBefore(' ')
-    } catch (e: Exception) {
-        // Fallback to current date if git is not available (e.g., in Docker builds)
-        LocalDate.now().toString()
-    }
+val adocCommitDates = providers.of(GitAdocCommitDatesSource::class.java) {
+    parameters.contentRoot.set(layout.projectDirectory.dir("src/jbake/content"))
 }
 
 jbake {
     version = libs.versions.jbake.core.get()
-    configuration["date_resume"] = getFileCommitDate("resume.adoc")
+    adocCommitDates.get().forEach { (k, v) ->
+        configuration[k] = v
+    }
 }
