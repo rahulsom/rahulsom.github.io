@@ -31,9 +31,9 @@ tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
 
-fun getResumeCommitDate(): String {
+fun getFileCommitDate(filename: String): String {
     return try {
-        val process = ProcessBuilder("git", "log", "-1", "--format=%ci", "--", "src/jbake/content/resume.adoc")
+        val process = ProcessBuilder("git", "log", "-1", "--format=%ci", "--", "src/jbake/content/${filename}")
             .redirectErrorStream(true)
             .start()
         val output = process.inputStream.bufferedReader().readText().trim()
@@ -47,5 +47,5 @@ fun getResumeCommitDate(): String {
 
 jbake {
     version = libs.versions.jbake.core.get()
-    configuration["date"] = getResumeCommitDate()
+    configuration["date_resume"] = getFileCommitDate("resume.adoc")
 }
