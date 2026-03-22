@@ -37,7 +37,8 @@ _Employee of Intelliswift Software Inc_ --
 Java Developer
 [.period]#2008-04 - 2011-07#
 
-* Developed the Certify Gateway and Certify HealthDock products, focusing on secure healthcare data exchange.
+* Developed application-layer switching for Healthcare data.
+* Built Build/CI/CD infrastructure and on-device updates & monitoring capabilities.
 
 === PRI Network
 
@@ -45,7 +46,8 @@ _Employee of Intelliswift Software Inc_ --
 Java Developer
 [.period]#2008-02 - 2008-04#
 
-* Implemented customer-facing audit reports and developed a custom data migration tool for complex relational dependencies.
+* Built customer-facing audit reports.
+* Developed data migration tooling for complex relational dependencies.
 
 === Infosys Technologies Ltd
 
@@ -71,5 +73,5 @@ Software Engineer
 
 === Bachelor of Technology (Electronics and Communications Engineering)
 
-Pondicherry Engineering College, INDIA
+Pondicherry Engineering College, India
 [.period]#2001-08 - 2005-04#
