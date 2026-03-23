@@ -1,7 +1,7 @@
 [versions]
 assertj-core = "3.27.7"
 commons-text = "1.15.0"
-flying-saucer-pdf = "10.1.0"
+flying-saucer-pdf = "10.2.0"
 groovy = "5.+"
 jbake-core = "2.6.7"
 jbake-plugin = "5.5.0"
