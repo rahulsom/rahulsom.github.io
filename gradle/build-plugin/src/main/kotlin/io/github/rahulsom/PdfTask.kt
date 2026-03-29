@@ -7,10 +7,11 @@ import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import org.xhtmlrenderer.pdf.ITextRenderer
+import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.chrome.ChromeOptions
+import org.openqa.selenium.print.PrintOptions
 import java.io.FileOutputStream
+import java.util.Base64
 
 abstract class PdfTask : DefaultTask() {
 
@@ -23,28 +24,29 @@ abstract class PdfTask : DefaultTask() {
 
     @TaskAction
     fun generatePdf() {
-        val conf = javaClass.getResource("/conf/xhtmlrenderer.conf")
-        if (conf != null) {
-            System.setProperty("xr.conf", conf.toExternalForm())
-        }
         val html = htmlFile.get().asFile
         val pdf = pdfFile.get().asFile
 
-        val document = Jsoup.parse(html, "UTF-8").also {
-            it.outputSettings().syntax(Document.OutputSettings.Syntax.xml)
-            it.setBaseUri(html.parentFile.toURI().toString())
-        }
-        val renderer = ITextRenderer()
-        renderer.sharedContext.also {
-            it.isPrint = true
-            it.isInteractive = false
-        }
-        val baseUri = html.parentFile.toURI().toString()
-        println("Base URI: $baseUri")
-        renderer.setDocumentFromString(document.html(), baseUri)
-        renderer.layout()
-        FileOutputStream(pdf).use {
-            renderer.createPDF(it)
+        val options = ChromeOptions()
+        options.addArguments("--headless=new")
+
+        val driver = ChromeDriver(options)
+
+        try {
+            val baseUri = html.toURI().toString()
+            println("Base URI: $baseUri")
+            driver.get(baseUri)
+
+            val printOptions = PrintOptions()
+            printOptions.background = true
+            val pdfContent = driver.print(printOptions)
+
+            val pdfBytes = Base64.getDecoder().decode(pdfContent.content)
+            FileOutputStream(pdf).use {
+                it.write(pdfBytes)
+            }
+        } finally {
+            driver.quit()
         }
     }
 }
