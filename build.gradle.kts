@@ -35,7 +35,6 @@ val adocCommitDates = providers.of(GitAdocCommitDatesSource::class.java) {
 }
 
 jbake {
-    version = libs.versions.jbake.core.get()
     adocCommitDates.get().forEach { (k, v) ->
         configuration[k] = v
     }
