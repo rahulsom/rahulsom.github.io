@@ -4,7 +4,7 @@ commons-text = "1.15.0"
 groovy = "5.+"
 jbake-plugin = "5.5.0"
 junit-jupiter = "6.0.3"
-selenium = "4.42.0"
+selenium = "4.43.0"
 
 [libraries]
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-core" }
